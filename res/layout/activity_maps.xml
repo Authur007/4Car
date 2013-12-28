@@ -1,0 +1,100 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/maps_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".GoogleMapsActivity" >
+
+    <ta.car4rent.slidingup.SlidingUpPanelLayout
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/layoutContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@anim/transparent_bg" >
+
+                <ImageButton
+                    android:id="@+id/btnWarning"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/warning" />
+
+                <LinearLayout
+                    android:id="@+id/layoutDragArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/btnPostWarning"
+                    android:layout_toRightOf="@+id/btnWarning"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/txtTitleWarning"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Cảnh Báo 1" />
+
+                    <TextView
+                        android:id="@+id/txtContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Content here" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/btnPostWarning"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/upload" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutDetailContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/thum_url" >
+                </ImageView>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edtComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Comment here"
+                android:inputType="textMultiLine" >
+
+                <requestFocus />
+            </EditText>
+        </LinearLayout>
+    </ta.car4rent.slidingup.SlidingUpPanelLayout>
+
+</RelativeLayout>
