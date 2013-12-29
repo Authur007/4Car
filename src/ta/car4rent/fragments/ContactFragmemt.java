@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import ta.car4rent.BuildConfig;
 import ta.car4rent.R;
+import ta.car4rent.configures.ConfigureData;
+import ta.car4rent.utils.StaticFunction;
 import ta.car4rent.webservices.ServiceContact;
 import ta.car4rent.webservices.OnPostJsonListener;
 import android.os.Bundle;
@@ -72,6 +74,7 @@ public class ContactFragmemt extends Fragment implements OnPostJsonListener, OnC
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		StaticFunction.hideKeyboard(ConfigureData.activityMain);
 		if ("".equals(etName.getText().toString()) || "".equals(etEmail.getText().toString()) || "".equals(etContent.getText().toString())) {
 			Toast.makeText(this.getActivity(), this.getActivity().getString(R.string.warning_fill_full_text), 2000).show();
 		} else {
@@ -92,7 +95,14 @@ public class ContactFragmemt extends Fragment implements OnPostJsonListener, OnC
 				}
 			}
 		}
-
+		
 	}
 
+	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		StaticFunction.hideKeyboard(ConfigureData.activityMain);
+		super.onDestroy();
+	}
 }

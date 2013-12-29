@@ -223,6 +223,8 @@ public class PostWarningFragment extends Fragment implements OnClickListener,
 	 */
 	@Override
 	public void onClick(View view) {
+		StaticFunction.hideKeyboard(ConfigureData.activityGoogleMaps);
+
 		switch (view.getId()) {
 		case R.id.btnAttachPhoto:
 			// open gallery
@@ -230,83 +232,90 @@ public class PostWarningFragment extends Fragment implements OnClickListener,
 			dialog.show();
 			break;
 		case R.id.btnPostInFragmentPost:
-			
 			jsonObjectWarning = exportJsonObject();
 			if (jsonObjectWarning != null) {
 
-			
-			ServicePostNewReport servicePostNewReport = new ServicePostNewReport();
-			servicePostNewReport.postNewReport(jsonObjectWarning);
-			servicePostNewReport
-					.addOnPostJsonListener(new OnPostJsonListener() {
+				ServicePostNewReport servicePostNewReport = new ServicePostNewReport();
+				servicePostNewReport.postNewReport(jsonObjectWarning);
+				servicePostNewReport
+						.addOnPostJsonListener(new OnPostJsonListener() {
 
-						@Override
-						public void onPostJsonFail(String response) {
-							// TODO Auto-generated method stub
+							@Override
+							public void onPostJsonFail(String response) {
+								// TODO Auto-generated method stub
 
-						}
+							}
 
-						@Override
-						public void onPostJsonCompleted(String response) {
-							Log.e("POST REPORT RESPONESE", response);
-							try {
-								JSONObject responseJSON = new JSONObject(
-										response);
-								if (responseJSON.getBoolean("status")) {
-									// Upload completed
-									int id = responseJSON.getInt("id");
-									if (id != 0 && bitmap_image != null) {
-										ServiceUploadReportPhoto serviceUploadReportPhoto = new ServiceUploadReportPhoto();
-										serviceUploadReportPhoto.uploadReportPhoto(bitmap_image, id);
-										serviceUploadReportPhoto.addOnUploadBitmapListener(new OnUploadBitmapListener() {
+							@Override
+							public void onPostJsonCompleted(String response) {
+								Log.e("POST REPORT RESPONESE", response);
+								try {
+									JSONObject responseJSON = new JSONObject(
+											response);
+									if (responseJSON.getBoolean("status")) {
+										// Upload completed
+										int id = responseJSON.getInt("id");
+										if (id != 0 && bitmap_image != null) {
+											ServiceUploadReportPhoto serviceUploadReportPhoto = new ServiceUploadReportPhoto();
+											serviceUploadReportPhoto
+													.uploadReportPhoto(
+															bitmap_image, id);
+											serviceUploadReportPhoto
+													.addOnUploadBitmapListener(new OnUploadBitmapListener() {
 
-													@Override
-													public void onUploadImageBitmapFail(
-															String response) {
-														// TODO Auto-generated
-														Toast.makeText(ConfigureData.activityGoogleMaps,"thất cmn bại",0).show();
-
-													}
-
-													@Override
-													public void onUploadImageBitmapCompleted(
-															String response) {
-														try {
-															JSONObject responseJSON = new JSONObject(
-																	response);
-															if (responseJSON
-																	.getBoolean("status")) {
-																// Upload
-																// completed
-																Toast.makeText(
-																		getActivity(),
-																		"Nhấn back để quay lại.",
-																		0)
-																		.show();
-															}
-														} catch (JSONException e) {
+														@Override
+														public void onUploadImageBitmapFail(
+																String response) {
 															// TODO
 															// Auto-generated
-															// catch block
-															e.printStackTrace();
+															Toast.makeText(
+																	ConfigureData.activityGoogleMaps,
+																	"thất cmn bại",
+																	0).show();
+
 														}
-													}
-												});
 
+														@Override
+														public void onUploadImageBitmapCompleted(
+																String response) {
+															try {
+																JSONObject responseJSON = new JSONObject(
+																		response);
+																if (responseJSON
+																		.getBoolean("status")) {
+																	// Upload
+																	// completed
+																	Toast.makeText(
+																			getActivity(),
+																			"Nhấn back để quay lại.",
+																			0)
+																			.show();
+																}
+															} catch (JSONException e) {
+																// TODO
+																// Auto-generated
+																// catch block
+																e.printStackTrace();
+															}
+														}
+													});
+
+										}
+									} else {
+										Toast.makeText(
+												getActivity(),
+												responseJSON
+														.getString("message"),
+												Toast.LENGTH_SHORT).show();
 									}
-								} else {
-									Toast.makeText(getActivity(),
-											responseJSON.getString("message"),
-											Toast.LENGTH_SHORT).show();
-								}
-							} catch (JSONException e) {
+								} catch (JSONException e) {
 
-								e.printStackTrace();
-							} catch (NullPointerException e) {
-								e.printStackTrace();
+									e.printStackTrace();
+								} catch (NullPointerException e) {
+									e.printStackTrace();
+								}
 							}
-						}
-					});
+						});
 			}
 			break;
 		case R.id.layoutChooseType1:
@@ -449,8 +458,8 @@ public class PostWarningFragment extends Fragment implements OnClickListener,
 
 					matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2,
 							(float) bm.getHeight() / 2);
-					Bitmap.createBitmap(bm, 0, 0,
-							bounds.outWidth, bounds.outHeight, matrix, true);
+					Bitmap.createBitmap(bm, 0, 0, bounds.outWidth,
+							bounds.outHeight, matrix, true);
 
 				} catch (NullPointerException e) {
 					e.printStackTrace();
@@ -560,7 +569,7 @@ public class PostWarningFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onDestroyView() {
-		StaticFunction.hideKeyboard();
+		StaticFunction.hideKeyboard(ConfigureData.activityGoogleMaps);
 		super.onDestroyView();
 	}
 }

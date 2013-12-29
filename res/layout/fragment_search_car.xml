@@ -428,6 +428,7 @@
                 android:id="@+id/edtNote"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:background="@drawable/layout_border_nhat"
                 android:ems="13"
                 android:hint="Yêu cầu bổ sung"
                 android:inputType="textMultiLine"

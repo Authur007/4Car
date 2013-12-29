@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import ta.car4rent.BuildConfig;
 import ta.car4rent.R;
 import ta.car4rent.configures.ConfigureData;
+import ta.car4rent.utils.StaticFunction;
 import ta.car4rent.webservices.ServiceGetUserInfo;
 import ta.car4rent.webservices.OnGetJsonListener;
 import ta.car4rent.webservices.OnPostJsonListener;
@@ -108,8 +109,7 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 			etName.setText(ConfigureData.userAccount.getString("name"));
 			etEmail.setText(ConfigureData.userAccount.getString("email"));
 			etPhone.setText(ConfigureData.userAccount.getString("phone"));
-			etCity.setText(ConfigureData.userAccount
-					.getString("cityName"));
+			etCity.setText(ConfigureData.userAccount.getString("cityName"));
 			etDistrict.setText(ConfigureData.userAccount
 					.getString("districtName"));
 			etAddress.setText(ConfigureData.userAccount.getString("address"));
@@ -132,6 +132,7 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		// TODO UpdateInfo button Clicked
+		StaticFunction.hideKeyboard(ConfigureData.activityMain);
 		switch (v.getId()) {
 		case R.id.btnUpdateInfo:
 			progressBar.setVisibility(View.VISIBLE);
@@ -142,74 +143,80 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 
 				reloadUserAccount();
 				progressBar.setVisibility(View.VISIBLE);
-				
+
 				try {
 					int userId = ConfigureData.userAccount.getInt("id");
-					serviceUploadUserAvatar.uploadUserAvatar(((BitmapDrawable) ivAvatar.getDrawable())
-							.getBitmap(), userId);	
+					serviceUploadUserAvatar.uploadUserAvatar(
+							((BitmapDrawable) ivAvatar.getDrawable())
+									.getBitmap(), userId);
 				} catch (JSONException e) {
 					if (BuildConfig.DEBUG) {
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
 
 			ServiceUpdateUserInfo serviceUpdateUserInfo = new ServiceUpdateUserInfo();
-			serviceUpdateUserInfo.addOnPostJsonListener(new OnPostJsonListener() {
+			serviceUpdateUserInfo
+					.addOnPostJsonListener(new OnPostJsonListener() {
 
-				@Override
-				public void onPostJsonFail(String response) {
-					// TODO Auto-generated method stub
-					Toast.makeText(getActivity(), "Cập nhật thông tin thất bại, hãy kiểm tra kết nối mạng của bạn",
-							Toast.LENGTH_SHORT).show();
-					
-
-					progressBar.setVisibility(View.GONE);
-				}
-
-				@Override
-				public void onPostJsonCompleted(String response) {
-					// TODO Auto-generated method stub
-					reloadUserAccount();
-					Log.e("UPDATE USER INFO RESPONESE", response);
-					
-					try {
-						JSONObject responseJSON = new JSONObject(response);
-						if (responseJSON.getBoolean("status")) {
-							// Upload completed
-							Toast.makeText(getActivity(), responseJSON.getString("message"), Toast.LENGTH_SHORT).show();
-						} else {
-							Toast.makeText(getActivity(), responseJSON.getString("message"),
+						@Override
+						public void onPostJsonFail(String response) {
+							// TODO Auto-generated method stub
+							Toast.makeText(
+									getActivity(),
+									"Cập nhật thông tin thất bại, hãy kiểm tra kết nối mạng của bạn",
 									Toast.LENGTH_SHORT).show();
+
+							progressBar.setVisibility(View.GONE);
 						}
-					} catch (JSONException e) {
-						
-						e.printStackTrace();
-					}
-					
 
-					progressBar.setVisibility(View.GONE);
-				}
+						@Override
+						public void onPostJsonCompleted(String response) {
+							// TODO Auto-generated method stub
+							reloadUserAccount();
+							Log.e("UPDATE USER INFO RESPONESE", response);
 
-			});
+							try {
+								JSONObject responseJSON = new JSONObject(
+										response);
+								if (responseJSON.getBoolean("status")) {
+									// Upload completed
+									Toast.makeText(getActivity(),
+											responseJSON.getString("message"),
+											Toast.LENGTH_SHORT).show();
+								} else {
+									Toast.makeText(getActivity(),
+											responseJSON.getString("message"),
+											Toast.LENGTH_SHORT).show();
+								}
+							} catch (JSONException e) {
+
+								e.printStackTrace();
+							}
+
+							progressBar.setVisibility(View.GONE);
+						}
+
+					});
 
 			try {
-				
-//				The following is an example request userInfo Json body:
-//
-//				{
-//					"userId":2147483647,
-//					"userName":"String content",
-//					"password":"String content",
-//					"name":"String content",
-//					"email":"String content",
-//					"phone":"String content",
-//					"cityId":2147483647,
-//					"districtId":2147483647,
-//					"address":"String content"
-//				}
-				
+
+				// The following is an example request userInfo Json body:
+				//
+				// {
+				// "userId":2147483647,
+				// "userName":"String content",
+				// "password":"String content",
+				// "name":"String content",
+				// "email":"String content",
+				// "phone":"String content",
+				// "cityId":2147483647,
+				// "districtId":2147483647,
+				// "address":"String content"
+				// }
+
 				JSONObject userInfo = new JSONObject();
 				userInfo.put("userId", ConfigureData.userAccount.getInt("id"));
 				userInfo.put("userName", ConfigureData.userName);
@@ -224,7 +231,7 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 				progressBar.setVisibility(View.VISIBLE);
 				serviceUpdateUserInfo.updateUserInfo(userInfo);
 			} catch (JSONException e) {
-				
+
 			}
 			break;
 		case R.id.btnChangeAvatarImage:
@@ -242,26 +249,26 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 			ServiceGetUserInfo serviceGetUserInfo = new ServiceGetUserInfo();
 			serviceGetUserInfo.addOnGetJsonListener(new OnGetJsonListener() {
 
-						@Override
-						public void onGetJsonCompleted(String response) {
-							try {
-								JSONObject object = new JSONObject(response);
-								if (object.getBoolean("status")) {
-									ConfigureData.userAccount = object.getJSONObject("user");
-								}
-							} catch (JSONException e) {
-								if (BuildConfig.DEBUG) {
-									e.printStackTrace();
-								}
-							}
+				@Override
+				public void onGetJsonCompleted(String response) {
+					try {
+						JSONObject object = new JSONObject(response);
+						if (object.getBoolean("status")) {
+							ConfigureData.userAccount = object
+									.getJSONObject("user");
 						}
+					} catch (JSONException e) {
+						if (BuildConfig.DEBUG) {
+							e.printStackTrace();
+						}
+					}
+				}
 
-						@Override
-						public void onGetJsonFail(
-								String response) {
-						}
-					});
-			
+				@Override
+				public void onGetJsonFail(String response) {
+				}
+			});
+
 			String userId = ConfigureData.userAccount.getString("id");
 			serviceGetUserInfo.get(userId);
 		} catch (JSONException e) {
@@ -270,7 +277,7 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 			}
 		}
 	}
-	
+
 	public AlertDialog createSelectTakePhotoModeDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle("Lấy ảnh từ...");
@@ -302,7 +309,8 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 		URI = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
 
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, URI);
-		Toast.makeText(ConfigureData.activityMain,
+		Toast.makeText(
+				ConfigureData.activityMain,
 				"Xoay ngang màn hình để chụp cho hiển thị tốt nhất",
 				Toast.LENGTH_SHORT).show();
 		// start the image capture Intent
@@ -472,10 +480,13 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 			if (responseJSON.getBoolean("status")) {
 				// Upload completed
 
-				Toast.makeText(getActivity(), "Cập nhật ảnh đại diện thành công", Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(getActivity(), responseJSON.getString("message"),
+				Toast.makeText(getActivity(),
+						"Cập nhật ảnh đại diện thành công",
 						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getActivity(),
+						responseJSON.getString("message"), Toast.LENGTH_SHORT)
+						.show();
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -487,7 +498,9 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 
 	@Override
 	public void onUploadImageBitmapFail(String response) {
-		Toast.makeText(getActivity(), "Cập nhật avatar thất bại, hãy kiểm tra kết nối mạng của bạn",
+		Toast.makeText(
+				getActivity(),
+				"Cập nhật avatar thất bại, hãy kiểm tra kết nối mạng của bạn",
 				Toast.LENGTH_SHORT).show();
 		// TODO Auto-generated method stub
 		if (BuildConfig.DEBUG) {
@@ -495,4 +508,9 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 		}
 	}
 
+	@Override
+	public void onDestroy() {
+		StaticFunction.hideKeyboard(ConfigureData.activityMain);
+		super.onDestroy();
+	}
 }

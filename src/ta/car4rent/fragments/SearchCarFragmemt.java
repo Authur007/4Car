@@ -462,6 +462,45 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					}
 				});
 
+		// fill vitual data
+
+		post_fromDate = getDateFormated(0);
+		btnFromDate.setText(post_fromDate);
+		post_toDate = getDateFormated(1);
+		btnToDate.setText(post_toDate);
+
+	}
+
+	/**
+	 * 
+	 * @param add
+	 *            = 0
+	 * @return current date
+	 * @param add
+	 *            = 1
+	 * @return the next date
+	 */
+	public static String getDateFormated(int add) {
+		final Calendar c = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		c.add(Calendar.DAY_OF_YEAR, add);
+		return sdf.format(c.getTime());
+	}
+
+	private boolean checkValueVaild() {
+
+		if (post_id_numberSeat == 0) {
+			Toast.makeText(ConfigureData.activityMain,
+					getString(R.string.number_seat_null), 0).show();
+			return false;
+		}
+		if (post_id_FromCity == 0) {
+			Toast.makeText(ConfigureData.activityMain,
+					getString(R.string.from_city_null), 0).show();
+			return false;
+		}
+		return true;
+
 	}
 
 	/**
@@ -469,48 +508,57 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	 */
 	@Override
 	public void onClick(View view) {
+		StaticFunction.hideKeyboard(ConfigureData.activityMain);
 		switch (view.getId()) {
 		case R.id.btnSearch:
 			progressBar.setVisibility(View.VISIBLE);
-			
-			Fragment newContent = new ResultSeachFragmemt();
-			FragmentManager fm = getActivity().getSupportFragmentManager();
-			final FragmentTransaction ft = fm.beginTransaction();
-			ft.replace(R.id.content_frame, newContent);
-			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			// add to back track
-			ft.addToBackStack("Fragment Search");
-			// ft.commit();
+			if (checkValueVaild()) {
+				Fragment newContent = new ResultSeachFragmemt();
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				final FragmentTransaction ft = fm.beginTransaction();
+				ft.replace(R.id.content_frame, newContent);
+				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+				// add to back track
+				ft.addToBackStack("Fragment Search");
+				// just for test-> need to commit
+				ft.commit();
 
-			JSONObject jsonSearchObject = exportJsonObjectSearch();
+				JSONObject jsonSearchObject = exportJsonObjectSearch();
 
-			if (jsonSearchObject != null) {
-				ServiceSearch serviceSearch = new ServiceSearch();
-				serviceSearch.advanceSearch(jsonSearchObject);
-				serviceSearch.addOnPostJsonListener(new OnPostJsonListener() {
+				if (jsonSearchObject != null) {
+					ServiceSearch serviceSearch = new ServiceSearch();
+					serviceSearch.advanceSearch(jsonSearchObject);
+					serviceSearch
+							.addOnPostJsonListener(new OnPostJsonListener() {
 
-					@Override
-					public void onPostJsonFail(String response) {
-						// TODO Auto-generated method stub
+								@Override
+								public void onPostJsonFail(String response) {
+									// TODO Auto-generated method stub
 
-					}
+								}
 
-					@Override
-					public void onPostJsonCompleted(String response) {
-						try {
-							ConfigureData.jsonSearchResult = new JSONObject(response);
-							if (ConfigureData.jsonSearchResult.getBoolean("status")) {
-								// save data and swich fragment to result
-								progressBar.setVisibility(View.GONE);
-								ft.commit();
-							}
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+								@Override
+								public void onPostJsonCompleted(String response) {
+									try {
+										ConfigureData.jsonSearchResult = new JSONObject(
+												response);
+										if (ConfigureData.jsonSearchResult
+												.getBoolean("status")) {
+											// save data and swich fragment to
+											// result
+											progressBar
+													.setVisibility(View.GONE);
+											ft.commit();
+										}
+									} catch (JSONException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 
-					}
-				});
+								}
+							});
+				}
+
 			}
 
 			break;
@@ -524,7 +572,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				btnSearch.setVisibility(View.GONE);
 				layoutMore.setVisibility(View.VISIBLE);
 			} else {
-				StaticFunction.hideKeyboard();
+				StaticFunction.hideKeyboard(ConfigureData.activityMain);
 				Toast.makeText(ConfigureData.activityMain, "Post Success", 0)
 						.show();
 				// export JSon search new and send to serice here
@@ -567,31 +615,26 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			jsonSearchObject.put(KEY_JSON.KEY_POST_BRAND_ID, post_id_Brand);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_CAROWNER_ID,
 					post_id_ownerCar);
-			jsonSearchObject.put(KEY_JSON.KEY_POST_CITY_ID,
-					post_id_FromCity);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_CITY_ID, post_id_FromCity);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_CITY_ID_FROM,
 					post_id_FromCity);
-			jsonSearchObject.put(KEY_JSON.KEY_POST_CITY_ID_TO,
-					post_id_ToCity);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_CITY_ID_TO, post_id_ToCity);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_DISTRIC_ID,
 					post_id_FromDistric);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_DISTRIC_ID_FROM,
 					post_id_FromDistric);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_DISTRIC_ID_TO,
 					post_id_ToDistric);
-			jsonSearchObject.put(KEY_JSON.KEY_POST_END_DATE, post_toDate
-					+ "-" + toTime);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_END_DATE, post_toDate + "-"
+					+ toTime);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_FROM_PRICE,
 					post_id_FromPrice);
-			jsonSearchObject.put(KEY_JSON.KEY_POST_HAS_DRIVER,
-					post_hasDriver);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_HAS_DRIVER, post_hasDriver);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_MODEL_ID, post_id_Model);
-			jsonSearchObject.put(KEY_JSON.KEY_POST_SEAT_ID,
-					post_id_numberSeat);
-			jsonSearchObject.put(KEY_JSON.KEY_POST_STAR_TDATE,
-					post_fromDate + "-" + fromTime);
-			jsonSearchObject.put(KEY_JSON.KEY_POST_TO_PRICE,
-					post_id_ToPrice);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_SEAT_ID, post_id_numberSeat);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_STAR_TDATE, post_fromDate
+					+ "-" + fromTime);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_TO_PRICE, post_id_ToPrice);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_TRANSMISSION_ID,
 					post_id_Transmission);
 
@@ -626,14 +669,27 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			int rightMonth = month + 1;
 			if (flagTimeDateChoose == 1) {
 				post_fromDate = day + "/" + rightMonth + "/" + year;
-				btnFromDate.setText(post_fromDate);
+				try {
+					if (!checkValidDate(getDateFormated(0), post_fromDate)) {
+						Toast.makeText(ConfigureData.activityMain,
+								getString(R.string.fromdate_wrong), 0).show();
+						post_fromDate = getDateFormated(0);
+						btnFromDate.setText(post_fromDate);
+
+					} else {
+						btnFromDate.setText(post_fromDate);
+					}
+				} catch (ParseException e) {
+
+					e.printStackTrace();
+				}
 
 			} else {
 				post_toDate = day + "/" + rightMonth + "/" + year;
 				try {
 					if (!checkValidDate(post_fromDate, post_toDate)) {
 						Toast.makeText(ConfigureData.activityMain,
-								"Ngày trả xe phải sau ngày thuê xe", 0).show();
+								getString(R.string.todate_wrong), 0).show();
 						post_toDate = post_fromDate;
 						btnToDate.setText(post_toDate);
 					} else {
@@ -1027,7 +1083,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 							.getInt(KEY_JSON.TAG_ID);
 					if (post_id_ToPrice < post_id_FromPrice) {
 						Toast.makeText(ConfigureData.activityMain,
-								getString(R.string.gia_sai), 0).show();
+								getString(R.string.price_wrong), 0).show();
 						spinnerToPrice.setSelection(0);
 					}
 

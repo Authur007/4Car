@@ -7,6 +7,7 @@ import ta.car4rent.BuildConfig;
 import ta.car4rent.R;
 import ta.car4rent.R.id;
 import ta.car4rent.configures.ConfigureData;
+import ta.car4rent.utils.StaticFunction;
 import ta.car4rent.webservices.ServiceContact;
 import ta.car4rent.webservices.ServiceLogin;
 import ta.car4rent.webservices.OnPostJsonListener;
@@ -49,6 +50,7 @@ public class LoginFragmemt extends Fragment implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
+		StaticFunction.hideKeyboard(ConfigureData.activityMain);
 		if ("".equals(etUserName.getText().toString())
 				|| "".equals(etPassword.getText().toString())) {
 			Toast.makeText(
@@ -84,7 +86,9 @@ public class LoginFragmemt extends Fragment implements OnClickListener,
 		try {
 			JSONObject responseJSON = new JSONObject(response);
 			if (responseJSON.getBoolean("status")) {
-				Toast.makeText(getActivity().getApplicationContext(), getString(R.string.str_login_successfully), Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity().getApplicationContext(),
+						getString(R.string.str_login_successfully),
+						Toast.LENGTH_LONG).show();
 				ConfigureData.userAccount = responseJSON.getJSONObject("user");
 				ConfigureData.isLogged = true;
 				// Show the Account info Fragment
@@ -94,24 +98,32 @@ public class LoginFragmemt extends Fragment implements OnClickListener,
 						.getSupportFragmentManager();
 				fragmentManager.beginTransaction()
 						.replace(R.id.content_frame, fragment).commit();
-				
+
 			} else {
-				Toast.makeText(getActivity().getApplicationContext(),  getString(R.string.str_login_fail), Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity().getApplicationContext(),
+						getString(R.string.str_login_fail), Toast.LENGTH_LONG)
+						.show();
 			}
-			
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 		progressBar.setVisibility(View.GONE);
-		
+
 	}
 
 	@Override
 	public void onPostJsonFail(String response) {
-		Toast.makeText(getActivity().getApplicationContext(),  getString(R.string.str_login_fail), Toast.LENGTH_LONG).show();
+		Toast.makeText(getActivity().getApplicationContext(),
+				getString(R.string.str_login_fail), Toast.LENGTH_LONG).show();
 		progressBar.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onDestroy() {
+		StaticFunction.hideKeyboard(ConfigureData.activityMain);
+		super.onDestroy();
 	}
 }

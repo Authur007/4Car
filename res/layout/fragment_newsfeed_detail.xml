@@ -36,7 +36,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/layout_border"
+                    android:background="@drawable/layout_border_nhat"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -150,7 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" 
-                    android:background="@drawable/layout_border">
+                    android:background="@drawable/layout_border_nhat">
 
                     <TextView
                         android:id="@+id/txtContent"
@@ -171,7 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" 
-                    android:background="@drawable/layout_border">
+                    android:background="@drawable/layout_border_nhat">
 
                     <TextView
                         android:id="@+id/txtCondition"
