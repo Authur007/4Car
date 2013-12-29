@@ -80,7 +80,7 @@
      <string name="nghiem_trong">Nghiêm Trọng</string>
      <string name="giup_do">Giúp Đỡ</string>
      <string name="successful">Thành Công</string>
-    
+    <string name="gia_sai">Giá Đến Phải Lớn Hơn Giá Từ</string>
     
     <string name="str_login_successfully">Đăng nhập thành công</string>
     <string name="str_login_fail">Tên đăng nhập hoặc mật khẩu không đúng</string>

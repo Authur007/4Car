@@ -2,10 +2,8 @@ package ta.car4rent.fragments;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,16 +12,19 @@ import org.json.JSONObject;
 import ta.car4rent.R;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.utils.CustomTimePickerDialog;
+import ta.car4rent.utils.KEY_JSON;
+import ta.car4rent.utils.StaticFunction;
 import ta.car4rent.webservices.OnGetJsonListener;
+import ta.car4rent.webservices.OnPostJsonListener;
 import ta.car4rent.webservices.ServiceGetAdvanceSearchConditions;
+import ta.car4rent.webservices.ServiceGetDistrics;
+import ta.car4rent.webservices.ServiceGetModels;
+import ta.car4rent.webservices.ServiceSearch;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,15 +41,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TimePicker.OnTimeChangedListener;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class SearchCarFragmemt extends Fragment implements OnClickListener,
@@ -56,28 +56,6 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	// ======================================
 	// VARIABLES AND STATIC FLAGS
 	// ======================================
-
-	public static final String KEY_CITIES = "cities";
-	public static final String KEY_DRIVER = "drivers";
-	public static final String KEY_SEAT = "styles";
-	public static final String KEY_FROM_DATE = "";
-	public static final String KEY_TO_DATE = "";
-	public static final String KEY_DISTRICS = "districts";
-
-	public static final String KEY_BRANDS = "makes";
-	public static final String KEY_MODELS = "models";
-	public static final String KEY_CAR_OWNER = "carOwners";
-
-	public static final String KEY_FROM_PRICES = "fromPrices";
-	public static final String KEY_TO_PRICES = "toPrices";
-	public static final String KEY_TRANSMISSTIONS = "transmissions";
-
-	// key to get data from JsonObject
-	/*
-	 * { "selected" : false, "text" : "Tp. Đà Nẵng", "value" : 7
-	 */
-	public static final String TAG_ID = "value";
-	public static final String TAG_TEXT = "text";
 
 	// ---------------------------------------
 	private ProgressBar progressBar;
@@ -89,10 +67,10 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	Spinner spinnerToCity;
 	static Spinner spinnerFromDistric;
 
-	static Spinner spinnerToDictric;
+	static Spinner spinnerToDistric;
 	Spinner spinnerBrandCar;
-	Spinner spinnerTypeCar;
-	Spinner spinnerloaiSo;
+	Spinner spinnerModelCar;
+	Spinner spinnerTransmission;
 	Spinner spinnerOwnCar;
 
 	static Button btnFromDate;
@@ -109,27 +87,29 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 	EditText edtNote;
 
+	// ==========================================
+	// VARIABLES TO STORE POST VALUES
+	// ==========================================
+	int post_hasDriver = 0;
+	int post_id_FromCity = 0;
+	int post_id_FromDistric = 0;
+	int post_id_ToCity = 0;
+	int post_id_ToDistric = 0;
+	int post_id_Brand = 0;
+	int post_id_Model = 0;
+	int post_id_FromPrice = 0;
+	int post_id_ToPrice = 0;
+	int post_id_Transmission = 0;
+	int post_id_numberSeat = 0;
+	int post_id_ownerCar = 0;
 	// local variables to store values
-	protected static String fromDate = "30/12/1992";
-	protected static String toDate = "30/12/1992";
-	protected static String fromTime;
-	protected static String toTime;
+	protected static String post_fromDate = "30/12/1992";
+	protected static String post_toDate = "30/12/1992";
+	protected static String fromTime = "20 : 20";
+	protected static String toTime = "20 : 20";
 	public static int flagTimeDateChoose = 0;
-
-	// list data of spinner
-	HashMap<String, JSONObject> hashMapCities = new HashMap<String, JSONObject>();
-	String[] cities = null;
-	HashMap<String, JSONObject> hashMapDistrics = new HashMap<String, JSONObject>();
-	String[] districs = null;
-	HashMap<String, JSONObject> hashMapBrand = new HashMap<String, JSONObject>();
-	HashMap<String, JSONObject> hashMapModel = new HashMap<String, JSONObject>();
-	HashMap<String, JSONObject> hashMapSeat = new HashMap<String, JSONObject>();
-	HashMap<String, JSONObject> hashMapTransmission = new HashMap<String, JSONObject>();
-	HashMap<String, JSONObject> hashMapCarOwner = new HashMap<String, JSONObject>();
-	HashMap<String, JSONObject> hashMapPriceFrom = new HashMap<String, JSONObject>();
-	String[] pricesFrom = null;
-	HashMap<String, JSONObject> hashMapPriceTo = new HashMap<String, JSONObject>();
-	String[] pricesTo = null;
+	// other
+	int value_fromPrice = 0;
 
 	public SearchCarFragmemt() {
 
@@ -157,22 +137,36 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		super.onActivityCreated(savedInstanceState);
 		// init components and setOnClickListener
 		findViewById();
-		getDataFromServer();
+
+		// check data exit?
+		if (ConfigureData.hashMapCities.isEmpty()) {
+			ConfigureData.isNeedToReload = true;
+		} else {
+			ConfigureData.isNeedToReload = false;
+			progressBar.setVisibility(View.GONE);
+			FillDataToComponent();
+
+		}
+		if (ConfigureData.isNeedToReload) {
+			getDataFromServer();
+		}
 
 	}
 
-	private void cookDataFromJson() {
+	private void FillDataToComponent() {
+		// cities
 		ArrayAdapter<String> citiesAdapter = new ArrayAdapter<String>(
 				ConfigureData.activityMain,
-				android.R.layout.simple_spinner_item, cities);
+				android.R.layout.simple_spinner_item, ConfigureData.cities);
 		citiesAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerFromCity.setAdapter(citiesAdapter);
+		spinnerToCity.setAdapter(citiesAdapter);
 
 		// price from
 		ArrayAdapter<String> priceFromAdapter = new ArrayAdapter<String>(
 				ConfigureData.activityMain,
-				android.R.layout.simple_spinner_item, pricesFrom);
+				android.R.layout.simple_spinner_item, ConfigureData.pricesFrom);
 		priceFromAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerFromPrice.setAdapter(priceFromAdapter);
@@ -180,10 +174,43 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		// price To
 		ArrayAdapter<String> priceToAdapter = new ArrayAdapter<String>(
 				ConfigureData.activityMain,
-				android.R.layout.simple_spinner_item, pricesTo);
+				android.R.layout.simple_spinner_item, ConfigureData.pricesTo);
 		priceToAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerToPrice.setAdapter(priceToAdapter);
+
+		// seat
+		ArrayAdapter<String> seatsAdapter = new ArrayAdapter<String>(
+				ConfigureData.activityMain,
+				android.R.layout.simple_spinner_item, ConfigureData.seats);
+		seatsAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerNumberSeat.setAdapter(seatsAdapter);
+
+		// brand
+		ArrayAdapter<String> brandAdapter = new ArrayAdapter<String>(
+				ConfigureData.activityMain,
+				android.R.layout.simple_spinner_item, ConfigureData.brands);
+		brandAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerBrandCar.setAdapter(brandAdapter);
+
+		// transmission
+		ArrayAdapter<String> transmissionAdapter = new ArrayAdapter<String>(
+				ConfigureData.activityMain,
+				android.R.layout.simple_spinner_item,
+				ConfigureData.transmissions);
+		transmissionAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerTransmission.setAdapter(transmissionAdapter);
+
+		// own car
+		ArrayAdapter<String> carOwnerAdapter = new ArrayAdapter<String>(
+				ConfigureData.activityMain,
+				android.R.layout.simple_spinner_item, ConfigureData.carOwners);
+		carOwnerAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerOwnCar.setAdapter(carOwnerAdapter);
 
 	}
 
@@ -195,8 +222,6 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 					@Override
 					public void onGetJsonFail(String response) {
-						Toast.makeText(getActivity(), "Cannot connect service",
-								0).show();
 
 					}
 
@@ -209,37 +234,50 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 										.getJSONObject("data");
 
 								JSONArray citiesJsonArray = data
-										.getJSONArray(KEY_CITIES);
-								cities = new String[citiesJsonArray.length()];
-
-								JSONArray driverJsonArray = data
-										.getJSONArray(KEY_DRIVER);
+										.getJSONArray(KEY_JSON.KEY_CITIES);
+								ConfigureData.cities = new String[citiesJsonArray
+										.length()];
 
 								JSONArray priceFromJsonArray = data
-										.getJSONArray(KEY_FROM_PRICES);
-								pricesFrom = new String[priceFromJsonArray
+										.getJSONArray(KEY_JSON.KEY_FROM_PRICES);
+								ConfigureData.pricesFrom = new String[priceFromJsonArray
 										.length()];
 
 								JSONArray priceToJsonArray = data
-										.getJSONArray(KEY_TO_PRICES);
-								pricesTo = new String[priceToJsonArray.length()];
+										.getJSONArray(KEY_JSON.KEY_TO_PRICES);
+								ConfigureData.pricesTo = new String[priceToJsonArray
+										.length()];
 
 								JSONArray brandJsonArray = data
-										.getJSONArray(KEY_BRANDS);
+										.getJSONArray(KEY_JSON.KEY_BRANDS);
+								ConfigureData.brands = new String[brandJsonArray
+										.length()];
 
 								JSONArray seatJsonArray = data
-										.getJSONArray(KEY_SEAT);
+										.getJSONArray(KEY_JSON.KEY_SEAT);
+								ConfigureData.seats = new String[seatJsonArray
+										.length()];
 
-								// fill to hashMap
+								JSONArray carOwnerJsonArray = data
+										.getJSONArray(KEY_JSON.KEY_CAR_OWNER);
+								ConfigureData.carOwners = new String[carOwnerJsonArray
+										.length()];
 
+								JSONArray transmissionsJsonArray = data
+										.getJSONArray(KEY_JSON.KEY_TRANSMISSTIONS);
+								ConfigureData.transmissions = new String[transmissionsJsonArray
+										.length()];
+
+								// cities
 								for (int i = 0; i < citiesJsonArray.length(); i++) {
 									JSONObject c = citiesJsonArray
 											.getJSONObject(i);
 
 									// Storing each json item in variable
-									String text = c.getString(TAG_TEXT);
-									cities[i] = text;
-									hashMapCities.put(text, c);
+									String text = c
+											.getString(KEY_JSON.TAG_TEXT);
+									ConfigureData.cities[i] = text;
+									ConfigureData.hashMapCities.put(text, c);
 								}
 								// from price
 
@@ -248,9 +286,10 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 											.getJSONObject(i);
 
 									// Storing each json item in variable
-									String text = c.getString(TAG_TEXT);
-									pricesFrom[i] = text;
-									hashMapPriceFrom.put(text, c);
+									String text = c
+											.getString(KEY_JSON.TAG_TEXT);
+									ConfigureData.pricesFrom[i] = text;
+									ConfigureData.hashMapPriceFrom.put(text, c);
 								}
 								// to price
 
@@ -259,39 +298,73 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 											.getJSONObject(i);
 
 									// Storing each json item in variable
-									String text = c.getString(TAG_TEXT);
-									pricesTo[i] = text;
-									hashMapPriceTo.put(text, c);
+									String text = c
+											.getString(KEY_JSON.TAG_TEXT);
+									ConfigureData.pricesTo[i] = text;
+									ConfigureData.hashMapPriceTo.put(text, c);
 								}
 
+								// seat
+
+								for (int i = 0; i < seatJsonArray.length(); i++) {
+									JSONObject c = seatJsonArray
+											.getJSONObject(i);
+
+									// Storing each json item in variable
+									String text = c
+											.getString(KEY_JSON.TAG_TEXT);
+									ConfigureData.seats[i] = text;
+									ConfigureData.hashMapSeat.put(text, c);
+								}
+
+								// brand
+								for (int i = 0; i < brandJsonArray.length(); i++) {
+									JSONObject c = brandJsonArray
+											.getJSONObject(i);
+
+									// Storing each json item in variable
+									String text = c
+											.getString(KEY_JSON.TAG_TEXT);
+									ConfigureData.brands[i] = text;
+									ConfigureData.hashMapBrand.put(text, c);
+								}
+
+								// car owner
+								for (int i = 0; i < carOwnerJsonArray.length(); i++) {
+									JSONObject c = carOwnerJsonArray
+											.getJSONObject(i);
+
+									// Storing each json item in variable
+									String text = c
+											.getString(KEY_JSON.TAG_TEXT);
+									ConfigureData.carOwners[i] = text;
+									ConfigureData.hashMapCarOwner.put(text, c);
+								}
+
+								// transmission
+								for (int i = 0; i < transmissionsJsonArray
+										.length(); i++) {
+									JSONObject c = transmissionsJsonArray
+											.getJSONObject(i);
+
+									// Storing each json item in variable
+									String text = c
+											.getString(KEY_JSON.TAG_TEXT);
+									ConfigureData.transmissions[i] = text;
+									ConfigureData.hashMapTransmission.put(text,
+											c);
+								}
+								// load main key done
+								progressBar.setVisibility(View.GONE);
 							}
 
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
+
 							e.printStackTrace();
 						}
-						cookDataFromJson();
+						FillDataToComponent();
 					}
 				});
-
-		/*
-		 * String[] Months = new String[] { "Data1", "Data2" };
-		 * ArrayAdapter<String> adapter = new
-		 * ArrayAdapter<String>(getActivity(),
-		 * android.R.layout.simple_spinner_item, Months);
-		 * adapter.setDropDownViewResource
-		 * (android.R.layout.simple_spinner_dropdown_item);
-		 * spinnerBrandCar.setAdapter(adapter);
-		 * spinnerFromCity.setAdapter(adapter);
-		 * spinnerFromDistric.setAdapter(adapter);
-		 * spinnerFromPrice.setAdapter(adapter);
-		 * spinnerloaiSo.setAdapter(adapter);
-		 * spinnerNumberSeat.setAdapter(adapter);
-		 * spinnerOwnCar.setAdapter(adapter); spinnerToCity.setAdapter(adapter);
-		 * spinnerToDictric.setAdapter(adapter);
-		 * spinnerToPrice.setAdapter(adapter);
-		 * spinnerTypeCar.setAdapter(adapter);
-		 */
 
 	}
 
@@ -336,15 +409,17 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				R.id.spinnerFromDistric);
 		spinnerFromPrice = (Spinner) getView().findViewById(
 				R.id.spinnerFromPrice);
-		spinnerloaiSo = (Spinner) getView().findViewById(R.id.spinnerLoaiSo);
+		spinnerTransmission = (Spinner) getView().findViewById(
+				R.id.spinnerTransmission);
 		spinnerNumberSeat = (Spinner) getView().findViewById(
 				R.id.spinnerNumberSeat);
 		spinnerOwnCar = (Spinner) getView().findViewById(R.id.spinnerOwnCar);
 		spinnerToCity = (Spinner) getView().findViewById(R.id.spinnerToCity);
-		spinnerToDictric = (Spinner) getView().findViewById(
+		spinnerToDistric = (Spinner) getView().findViewById(
 				R.id.spinnerToDistric);
 		spinnerToPrice = (Spinner) getView().findViewById(R.id.spinnerToPrice);
-		spinnerTypeCar = (Spinner) getView().findViewById(R.id.spinnerTypeCar);
+		spinnerModelCar = (Spinner) getView()
+				.findViewById(R.id.spinnerModelCar);
 
 		// set onClick Listioner
 		btnSearch.setOnClickListener(this);
@@ -359,13 +434,13 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		spinnerFromCity.setOnItemSelectedListener(this);
 		spinnerFromDistric.setOnItemSelectedListener(this);
 		spinnerFromPrice.setOnItemSelectedListener(this);
-		spinnerloaiSo.setOnItemSelectedListener(this);
+		spinnerTransmission.setOnItemSelectedListener(this);
 		spinnerNumberSeat.setOnItemSelectedListener(this);
 		spinnerOwnCar.setOnItemSelectedListener(this);
 		spinnerToCity.setOnItemSelectedListener(this);
-		spinnerToDictric.setOnItemSelectedListener(this);
+		spinnerToDistric.setOnItemSelectedListener(this);
 		spinnerToPrice.setOnItemSelectedListener(this);
-		spinnerTypeCar.setOnItemSelectedListener(this);
+		spinnerModelCar.setOnItemSelectedListener(this);
 
 		// checkbox Driver
 		checkBoxDriver
@@ -375,12 +450,14 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					public void onCheckedChanged(CompoundButton arg0,
 							boolean flag) {
 						if (flag) {
-							spinnerloaiSo.setVisibility(View.GONE);
+							post_hasDriver = 1;
+							spinnerTransmission.setVisibility(View.GONE);
 							layoutPlaceTo.setVisibility(View.VISIBLE);
 
 						} else {
+							post_hasDriver = 0;
 							layoutPlaceTo.setVisibility(View.GONE);
-							spinnerloaiSo.setVisibility(View.VISIBLE);
+							spinnerTransmission.setVisibility(View.VISIBLE);
 						}
 					}
 				});
@@ -394,14 +471,47 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.btnSearch:
+			progressBar.setVisibility(View.VISIBLE);
+			
 			Fragment newContent = new ResultSeachFragmemt();
 			FragmentManager fm = getActivity().getSupportFragmentManager();
-			FragmentTransaction ft = fm.beginTransaction();
+			final FragmentTransaction ft = fm.beginTransaction();
 			ft.replace(R.id.content_frame, newContent);
 			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			// add to back track
 			ft.addToBackStack("Fragment Search");
-			ft.commit();
+			// ft.commit();
+
+			JSONObject jsonSearchObject = exportJsonObjectSearch();
+
+			if (jsonSearchObject != null) {
+				ServiceSearch serviceSearch = new ServiceSearch();
+				serviceSearch.advanceSearch(jsonSearchObject);
+				serviceSearch.addOnPostJsonListener(new OnPostJsonListener() {
+
+					@Override
+					public void onPostJsonFail(String response) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onPostJsonCompleted(String response) {
+						try {
+							ConfigureData.jsonSearchResult = new JSONObject(response);
+							if (ConfigureData.jsonSearchResult.getBoolean("status")) {
+								// save data and swich fragment to result
+								progressBar.setVisibility(View.GONE);
+								ft.commit();
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				});
+			}
 
 			break;
 		case R.id.btnPostNews:
@@ -414,6 +524,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				btnSearch.setVisibility(View.GONE);
 				layoutMore.setVisibility(View.VISIBLE);
 			} else {
+				StaticFunction.hideKeyboard();
 				Toast.makeText(ConfigureData.activityMain, "Post Success", 0)
 						.show();
 				// export JSon search new and send to serice here
@@ -450,6 +561,48 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 	}
 
+	public JSONObject exportJsonObjectSearch() {
+		JSONObject jsonSearchObject = new JSONObject();
+		try {
+			jsonSearchObject.put(KEY_JSON.KEY_POST_BRAND_ID, post_id_Brand);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_CAROWNER_ID,
+					post_id_ownerCar);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_CITY_ID,
+					post_id_FromCity);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_CITY_ID_FROM,
+					post_id_FromCity);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_CITY_ID_TO,
+					post_id_ToCity);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_DISTRIC_ID,
+					post_id_FromDistric);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_DISTRIC_ID_FROM,
+					post_id_FromDistric);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_DISTRIC_ID_TO,
+					post_id_ToDistric);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_END_DATE, post_toDate
+					+ "-" + toTime);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_FROM_PRICE,
+					post_id_FromPrice);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_HAS_DRIVER,
+					post_hasDriver);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_MODEL_ID, post_id_Model);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_SEAT_ID,
+					post_id_numberSeat);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_STAR_TDATE,
+					post_fromDate + "-" + fromTime);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_TO_PRICE,
+					post_id_ToPrice);
+			jsonSearchObject.put(KEY_JSON.KEY_POST_TRANSMISSION_ID,
+					post_id_Transmission);
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonSearchObject;
+	}
+
 	// ======================================================
 	// DATE AND TIME PICKER
 	// ======================================================
@@ -472,22 +625,22 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		public void onDateSet(DatePicker view, int year, int month, int day) {
 			int rightMonth = month + 1;
 			if (flagTimeDateChoose == 1) {
-				fromDate = day + "/" + rightMonth + "/" + year;
-				btnFromDate.setText(fromDate);
+				post_fromDate = day + "/" + rightMonth + "/" + year;
+				btnFromDate.setText(post_fromDate);
 
 			} else {
-				toDate = day + "/" + rightMonth + "/" + year;
+				post_toDate = day + "/" + rightMonth + "/" + year;
 				try {
-					if (!checkValidDate(fromDate, toDate)) {
+					if (!checkValidDate(post_fromDate, post_toDate)) {
 						Toast.makeText(ConfigureData.activityMain,
 								"Ngày trả xe phải sau ngày thuê xe", 0).show();
-						toDate = fromDate;
-						btnToDate.setText(toDate);
+						post_toDate = post_fromDate;
+						btnToDate.setText(post_toDate);
 					} else {
-						btnToDate.setText(toDate);
+						btnToDate.setText(post_toDate);
 					}
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 
@@ -525,7 +678,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 		@Override
 		public void onDismiss(DialogInterface dialog) {
-			// TODO Auto-generated method stub
+
 			super.onDismiss(dialog);
 
 		}
@@ -581,45 +734,322 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		switch (parent.getId()) {
 		case R.id.spinnerBrandCar:
 
+			if (pos != 0) {
+				try {
+					post_id_Brand = ConfigureData.hashMapBrand.get(
+							ConfigureData.brands[pos]).getInt(KEY_JSON.TAG_ID);
+					ServiceGetModels serviceGetModels = new ServiceGetModels();
+					serviceGetModels.getModels(post_id_Brand);
+					serviceGetModels
+							.addOnGetJsonListener(new OnGetJsonListener() {
+
+								@Override
+								public void onGetJsonFail(String response) {
+
+								}
+
+								@Override
+								public void onGetJsonCompleted(String response) {
+									JSONObject responseJson;
+									try {
+										responseJson = new JSONObject(response);
+										if (responseJson.getBoolean("status")) {
+											JSONArray jsonArrayModels = responseJson
+													.getJSONArray("data");
+											ConfigureData.models = new String[jsonArrayModels
+													.length()];
+											// fill to hashMap
+											for (int i = 0; i < jsonArrayModels
+													.length(); i++) {
+												JSONObject c = jsonArrayModels
+														.getJSONObject(i);
+
+												// Storing each json item in
+												// variable
+												String text = c
+														.getString(KEY_JSON.TAG_TEXT);
+												ConfigureData.models[i] = text;
+												ConfigureData.hashMapModel.put(
+														text, c);
+											}
+										}
+
+									} catch (JSONException e) {
+
+										e.printStackTrace();
+									}
+
+									if (ConfigureData.hashMapModel.size() > 1) {
+										spinnerModelCar
+												.setVisibility(View.VISIBLE);
+										// own car
+										ArrayAdapter<String> ModelsAdapter = new ArrayAdapter<String>(
+												ConfigureData.activityMain,
+												android.R.layout.simple_spinner_item,
+												ConfigureData.models);
+										ModelsAdapter
+												.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+										spinnerModelCar
+												.setAdapter(ModelsAdapter);
+									}
+								}
+							});
+
+				} catch (JSONException e) {
+
+					e.printStackTrace();
+				}
+			}
+
 			break;
 		case R.id.spinnerFromCity:
 			if (pos != 0) {
-				spinnerFromDistric.setVisibility(View.VISIBLE);
+				try {
+					post_id_FromCity = ConfigureData.hashMapCities.get(
+							ConfigureData.cities[pos]).getInt(KEY_JSON.TAG_ID);
+					ServiceGetDistrics serviceGetDistrics = new ServiceGetDistrics();
+					serviceGetDistrics.getDistrics(post_id_FromCity);
+					serviceGetDistrics
+							.addOnGetJsonListener(new OnGetJsonListener() {
+
+								@Override
+								public void onGetJsonFail(String response) {
+
+								}
+
+								@Override
+								public void onGetJsonCompleted(String response) {
+									JSONObject responseJson;
+									try {
+										responseJson = new JSONObject(response);
+										if (responseJson.getBoolean("status")) {
+											JSONArray jsonArrayDistrics = responseJson
+													.getJSONArray("data");
+											ConfigureData.districsFrom = new String[jsonArrayDistrics
+													.length()];
+											// fill to hashMap
+											for (int i = 0; i < jsonArrayDistrics
+													.length(); i++) {
+												JSONObject c = jsonArrayDistrics
+														.getJSONObject(i);
+
+												// Storing each json item in
+												// variable
+												String text = c
+														.getString(KEY_JSON.TAG_NAME_DISTRICS);
+												ConfigureData.districsFrom[i] = text;
+												ConfigureData.hashMapDistricsFrom
+														.put(text, c);
+											}
+										}
+
+									} catch (JSONException e) {
+
+										e.printStackTrace();
+									}
+
+									if (ConfigureData.hashMapDistricsFrom
+											.size() > 1) {
+										spinnerFromDistric
+												.setVisibility(View.VISIBLE);
+										// own car
+										ArrayAdapter<String> DistricsFromAdapter = new ArrayAdapter<String>(
+												ConfigureData.activityMain,
+												android.R.layout.simple_spinner_item,
+												ConfigureData.districsFrom);
+										DistricsFromAdapter
+												.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+										spinnerFromDistric
+												.setAdapter(DistricsFromAdapter);
+									}
+								}
+							});
+
+				} catch (JSONException e) {
+
+					e.printStackTrace();
+				}
 			}
 
 			break;
 		case R.id.spinnerFromDistric:
+			if (pos != 0) {
+				try {
+					post_id_FromDistric = ConfigureData.hashMapDistricsFrom
+							.get(ConfigureData.districsFrom[pos]).getInt(
+									KEY_JSON.TAG_ID_DISTRICS);
+				} catch (JSONException e) {
+
+					e.printStackTrace();
+				}
+			}
 
 			break;
 		case R.id.spinnerFromPrice:
 			if (pos != 0) {
 				spinnerToPrice.setVisibility(View.VISIBLE);
+				try {
+					post_id_FromPrice = ConfigureData.hashMapPriceFrom.get(
+							ConfigureData.pricesFrom[pos]).getInt(
+							KEY_JSON.TAG_ID);
+
+				} catch (JSONException e) {
+
+					e.printStackTrace();
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
 			}
 
 			break;
-		case R.id.spinnerLoaiSo:
+		case R.id.spinnerTransmission:
+			if (pos != 0) {
+				try {
+					post_id_Transmission = ConfigureData.hashMapTransmission
+							.get(ConfigureData.transmissions[pos]).getInt(
+									KEY_JSON.TAG_ID);
+				} catch (JSONException e1) {
+					//
+					e1.printStackTrace();
+				}
+			}
 
 			break;
 		case R.id.spinnerNumberSeat:
+			if (pos != 0) {
+				try {
+					post_id_numberSeat = ConfigureData.hashMapSeat.get(
+							ConfigureData.seats[pos]).getInt(KEY_JSON.TAG_ID);
+				} catch (JSONException e1) {
+					//
+					e1.printStackTrace();
+				}
+			}
 
 			break;
 		case R.id.spinnerOwnCar:
+			if (pos != 0) {
+				try {
+					post_id_ownerCar = ConfigureData.hashMapCarOwner.get(
+							ConfigureData.carOwners[pos]).getInt(
+							KEY_JSON.TAG_ID);
+				} catch (JSONException e1) {
 
+					e1.printStackTrace();
+				}
+			}
 			break;
 		case R.id.spinnerToCity:
-			if (pos != 0) {
-				spinnerToDictric.setVisibility(View.VISIBLE);
+			try {
+				post_id_ToCity = ConfigureData.hashMapCities.get(
+						ConfigureData.cities[pos]).getInt(KEY_JSON.TAG_ID);
+				ServiceGetDistrics serviceGetDistrics = new ServiceGetDistrics();
+				serviceGetDistrics.getDistrics(post_id_ToCity);
+				serviceGetDistrics
+						.addOnGetJsonListener(new OnGetJsonListener() {
+
+							@Override
+							public void onGetJsonFail(String response) {
+
+							}
+
+							@Override
+							public void onGetJsonCompleted(String response) {
+								JSONObject responseJson;
+								try {
+									responseJson = new JSONObject(response);
+									if (responseJson.getBoolean("status")) {
+										JSONArray jsonArrayDistrics = responseJson
+												.getJSONArray("data");
+										ConfigureData.districsTo = new String[jsonArrayDistrics
+												.length()];
+										// fill to hashMap
+										for (int i = 0; i < jsonArrayDistrics
+												.length(); i++) {
+											JSONObject c = jsonArrayDistrics
+													.getJSONObject(i);
+
+											// Storing each json item in
+											// variable
+											String text = c
+													.getString(KEY_JSON.TAG_NAME_DISTRICS);
+											ConfigureData.districsTo[i] = text;
+											ConfigureData.hashMapDistricsTo
+													.put(text, c);
+										}
+									}
+
+								} catch (JSONException e) {
+									//
+									e.printStackTrace();
+								}
+
+								if (ConfigureData.hashMapDistricsTo.size() > 1) {
+									spinnerToDistric
+											.setVisibility(View.VISIBLE);
+									// own car
+									ArrayAdapter<String> DistricsToAdapter = new ArrayAdapter<String>(
+											ConfigureData.activityMain,
+											android.R.layout.simple_spinner_item,
+											ConfigureData.districsTo);
+									DistricsToAdapter
+											.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+									spinnerToDistric
+											.setAdapter(DistricsToAdapter);
+								}
+							}
+						});
+
+			} catch (JSONException e) {
+				//
+				e.printStackTrace();
 			}
 
 			break;
 		case R.id.spinnerToDistric:
-
+			if (pos != 0) {
+				try {
+					post_id_ToDistric = ConfigureData.hashMapDistricsTo.get(
+							ConfigureData.districsTo[pos]).getInt(
+							KEY_JSON.TAG_ID_DISTRICS);
+				} catch (JSONException e) {
+					//
+					e.printStackTrace();
+				}
+			}
 			break;
 		case R.id.spinnerToPrice:
+			if (pos != 0) {
+				try {
+
+					post_id_ToPrice = ConfigureData.hashMapPriceTo.get(
+							ConfigureData.pricesTo[pos])
+							.getInt(KEY_JSON.TAG_ID);
+					if (post_id_ToPrice < post_id_FromPrice) {
+						Toast.makeText(ConfigureData.activityMain,
+								getString(R.string.gia_sai), 0).show();
+						spinnerToPrice.setSelection(0);
+					}
+
+				} catch (JSONException e) {
+					//
+					e.printStackTrace();
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+			}
 
 			break;
-		case R.id.spinnerTypeCar:
-
+		case R.id.spinnerModelCar:
+			if (pos != 0) {
+				try {
+					post_id_Model = ConfigureData.hashMapModel.get(
+							ConfigureData.models[pos]).getInt(KEY_JSON.TAG_ID);
+				} catch (JSONException e1) {
+					//
+					e1.printStackTrace();
+				}
+			}
 			break;
 
 		default:
@@ -630,7 +1060,6 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
