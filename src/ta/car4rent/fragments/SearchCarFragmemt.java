@@ -625,15 +625,17 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					post_id_FromDistric);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_DISTRIC_ID_TO,
 					post_id_ToDistric);
-			jsonSearchObject.put(KEY_JSON.KEY_POST_END_DATE, post_toDate + "-"
-					+ toTime);
+			/*jsonSearchObject.put(KEY_JSON.KEY_POST_END_DATE, post_toDate + "-"
+					+ toTime);*/
+			jsonSearchObject.put(KEY_JSON.KEY_POST_END_DATE, "30-12-2013 11:26:00 AM‏");
 			jsonSearchObject.put(KEY_JSON.KEY_POST_FROM_PRICE,
 					post_id_FromPrice);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_HAS_DRIVER, post_hasDriver);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_MODEL_ID, post_id_Model);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_SEAT_ID, post_id_numberSeat);
-			jsonSearchObject.put(KEY_JSON.KEY_POST_STAR_TDATE, post_fromDate
-					+ "-" + fromTime);
+			/*jsonSearchObject.put(KEY_JSON.KEY_POST_STAR_TDATE, post_fromDate
+					+ "-" + fromTime);*/
+			jsonSearchObject.put(KEY_JSON.KEY_POST_STAR_TDATE, "30-12-2013 11:26:00 AM‏");
 			jsonSearchObject.put(KEY_JSON.KEY_POST_TO_PRICE, post_id_ToPrice);
 			jsonSearchObject.put(KEY_JSON.KEY_POST_TRANSMISSION_ID,
 					post_id_Transmission);
