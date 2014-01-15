@@ -1,0 +1,30 @@
+1. Phan gioi thieu, tui em lay noi dung tai day cho mobile: https://docs.google.com/document/d/1tsj2ZUN0cdmsrZ-88PyATe0GJrdjVWT098nJjM3L9Ts/edit
+Phien ban: tui em tang tu dong sau moi build de kiem soat
+
+2. Tat ca deu su dung tieng Viet, khong dung tieng Anh
+
+3. Dinh dang gia cho thue: 700.000 VND hoac 700.000 VND/Ngày
+Khong hien thi dang "700 ngàn"
+Gia thu co the hien thi lon hon cac thong so cua xe
+
+4. Man hinh ket qua tim kiem:
+"Title here": tui em thay bang: doi Hang xe dong xe (bien so), giong nhu man hinh xem chi tiet xe
+
+5. Man hinh xem chi tiet xe:
+Khong co hinh cua xe
+Thong tin cua chu xe: 
+email: khi click vao, mo app email de user co the gui email
+phone: user click vao, call so nay luon
+dia chi: click vao thi mo qua man hinh map, hien thi vi tri cua dia diem nay
+Dang o man hinh chi tiet xe, quay ngang man hinh thi no lai quay lai man hinh ket qua tim kiem
+hoac dang mo man hinh ngang, quay dung lai cung quay ve man hinh ket qua tim kiem
+
+6. Man hinh tim kiem
+Cac caption cua tieu chi tim kiem: de lower case, chi upper case 1 ky tu dau tin (vd: "Thoi gian"), hien tai dang chu upper case het
+Thoi gian: Phut: em chi can de 2 item: 00 va 30 la duoc, khong can nhay tung phut nhu hien gio
+
+7. Khi mo 1 man hinh khac, nen hide ban phime, hien gio ban phim giu nguyen khi chuyen qua man hinh khac
+
+8. Tien ich
+khi chon huc nang dang canh bao thi hien thi 4 loai canh bao: cong an, giao thong, tai nan va trang thai
+Khi user chon thi moi hien thi chi tiet cua tung loai canh bao nay

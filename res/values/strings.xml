@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">4cars</string>
+    <string name="action_settings">Settings</string>
+    <string name="version">version 2.0</string>
+    <string name="label_application_session">ỨNG DỤNG</string>
+    <string name="label_search_car">Tìm xe</string>
+    <string name="label_convenient">Tiện ích</string>
+    <string name="label_newsfeed">Duyệt tin</string>
+    <string name="label_post_car_request">Đăng tin</string>
+    <string name="label_setting">Cài đặt</string>
+    <string name="label_warning_radius">Bán kính cảnh báo</string>
+    <string name="label_4cars">4CARS</string>
+    <string name="label_account">Tài khoản</string>
+    <string name="label_logout">Đăng xuất</string>
+    <string name="label_login">Đăng nhập</string>
+    <string name="label_introduce">Giới thiệu</string>
+    <string name="label_contact">Liên hệ</string>
+    <string name="label_post_warning">Đăng Cảnh Báo</string>
+    <string name="post">Gửi</string>
+    <string name="post_title">Tiêu đề cảnh báo</string>
+    <string name="post_description">Mô tả thêm cảnh báo</string>
+    <string name="attach_photo">Kèm ảnh</string>
+    <string name="post_preview">Xem Trước</string>
+    <string name="post_addess">Địa chỉ xảy ra sự cố</string>
+    <string name="edit">Chỉnh Sửa</string>
+    <string name="preview">Xem Trước</string>
+    <string name="warning_fill_full_text">Vui lòng điền đầy đủ thông tin trước khi gửi</string>
+    <string name="label_driver">Có Tài Xế</string>
+    <string name="label_from_date">Từ Ngày</string>
+    <string name="label_to_date">Đến Ngày</string>
+    <string name="label_hour">Thời Gian</string>
+    <string name="label_minute">Phút</string>
+    <string name="so_cho">Chọn Số Chỗ</string>
+    <string name="gia_tu">Chọn Giá Từ</string>
+    <string name="gia_den">Chọn Giá Đến</string>
+    <string name="tu_tp">Từ Thành Phố</string>
+    <string name="den_tp">Đến Thành Phố</string>
+    <string name="tu_quan">Từ Quận/ Huyện</string>
+    <string name="den_quan">Đến Quận/ Huyện</string>
+    <string name="hang_xe">Chọn Hãng Xe</string>
+    <string name="loai_xe">Chọn Loại Xe</string>
+    <string name="loai_so">Chọn Loại Số</string>
+    <string name="chu_xe">Chọn Chủ Xe</string>
+    <string name="label_prices">Giá</string>
+    <string name="place">Chọn Địa Điểm</string>
+    <string name="price">Chọn Khoảng Giá</string>
+    <string name="specification">Chọn Thông Số Xe</string>
+    <string name="can_null">Các Tùy Chọn Phía Dưới Có Thể Bổ Trống</string>
+    <string name="own_car_info">Thông Tin Chủ Xe</string>
+    <string name="dai_dien">Đại Diện:</string>
+    <string name="email">Email:</string>
+    <string name="phone">Điện Thoại:</string>
+    <string name="car_owner_address">Địa Chỉ:</string>
+    <string name="introduce">Giới Thiệu</string>
+    <string name="condition">Điều Kiện Cho Thuê</string>
+    <string name="main_key_choose">Thông Tin Tìm Kiếm * </string>
+    <string name="time_choose">Thời Gian *</string>
+    <string name="place_choose">Địa Điểm *</string>
+    <string name="more">Mở Rộng</string>
+    <string name="price_choose">Giá</string>
+    <string name="loading">Đang cập nhật dữ liệu !!!</string>
+    <string name="pull_to_refresh_pull_label">Kéo xuống để làm mới...</string>
+    <string name="pull_to_refresh_release_label">Thả ra để làm mới...</string>
+    <string name="pull_to_refresh_refreshing_label">Đang Tải dữ liệu...</string>
+    <string name="pull_to_refresh_tap_label">Nhấn để làm mới...</string>
+    <string name="load_more_post">Tải Thêm Dữ Liệu...</string>
+    <string name="info4car">"Thông tin về 4cars.vn"</string>
+    <string name="content_4car">"- 4cars.vn là website cung cấp dịch vụ thuê xe trực tuyến tốt nhất, kết nối nhà cung cấo dịch vụ thuê xe (tự lái và chạy tour) và khách hàng đầu tiên và hàng đầu tại Việt Nam."</string>
+    <string name="with_4car">"Với 4cars.vn bạn có thể:"</string>
+    <string name="with4car_content">"- Sử dụng dịch vụ của 4cars.vn ở bất cứ thời gian và địa điểm nào chỉ cần kết nối thông qua internet. 
+- Lựa chọn xe phù hợp với nhu cầu và khả năng tài chính của mình.
+- Lựa chọn nhà cung cấp uy tín, dịch vụ hoàn hảo.
+- Đánh giá nhà cung cấp về chất lượng dịch vụ, giá cả và chất lượng xe.
+- Đăng thông tin nhu cầu thuê xe nếu kết quả tìm kiếm không đúng yêu cầu.
+- Phiên bản mobile còn hỗ trợ các bạn cập nhật và chia sẻ thông tin về tình hình giao thông, các thông tin khác trên từng cây số, hoặc nhờ trợ giúp của những người khác trên cùng lộ trình."\n\n
+“Thuê xe tốt nhất tại 4cars.vn“ là mục tiêu của chúng tôi mong muốn mang lại cho các bạn."
+</string>
+    <string name="choose_post_warning">Chọn Loại Cảnh Báo</string>
+    <string name="chot_cong_an">Chốt Công An</string>
+    <string name="giao_thong">Giao Thông</string>
+    <string name="tai_nan">Tai Nạn</string>
+    <string name="trang_thai">Trạng Thái</string>
+    <string name="cong_khai">Công Khai</string>
+    <string name="nup_lum">Núp Lùm</string>
+    <string name="ket_cung">Kẹt Cứng</string>
+    <string name="dong_duc">Đông Đúc</string>
+    <string name="nhe_nhang">Nhẹ Nhàng</string>
+    <string name="nghiem_trong">Nghiêm Trọng</string>
+    <string name="giup_do">Giúp Đỡ</string>
+    <string name="successful">Thành Công</string>
+    <string name="price_wrong">Giá Đến Phải Lớn Hơn Giá Từ</string>
+    <string name="number_seat_null">Bạn chưa chọn xe bao nhiêu chỗ ngồi !!!</string>
+    <string name="from_city_null">Bạn chưa chọn địa điểm khởi hành !!!</string>
+    <string name="todate_wrong">Ngày trả xe phải sau ngày thuê xe !!!</string>
+    <string name="fromdate_wrong">Ngày thuê xe phải sau ngày hiện tại !!!</string>
+    <string name="str_select_citiy">Chọn Tỉnh/Thành phố</string>
+    <string name="str_select_districts">Chọn Quận/Huyện</string>
+    <string name="str_login_successfully">Đăng nhập thành công</string>
+    <string name="str_login_fail">Tên đăng nhập hoặc mật khẩu không đúng</string>
+
+    
+    <string name="str_get_image_from">Lấy ảnh từ...</string>
+    <string name="not_camera">Xin lỗi, máy bạn không có camera !!!</string>
+    <string name="rotation_camera">Xoay ngang camera cho hiển thị tốt nhất!!!</string>
+    <string name="str_error_conection">Cập nhật thông tin thất bại, hãy kiểm tra kết nối mạng của bạn</string>
+    <string name="uploading">Đang gửi dữ liệu....</string>
+    
+    <string name="your_citiy">Tỉnh/TP của bạn</string>
+    <string name="your_districts">Quận/Huyện của bạn</string>
+    <string name="fb_app_id">290791664337326</string>
+    <string name="username">Tài Khoản (*)</string>
+    <string name="password">Mật Khẩu (*)</string>
+    <string name="confirm">Xác Nhận</string>
+    <string name="register">Đăng Ký</string>
+    <string name="username_not_null">Tên đăng nhập hoặc email không được để trống</string>
+    <string name="wrong_pass">Vui lòng kiểm tra lại mật khẩu.</string>
+    <string name="wrong_email">Email sai định dạng !!!</string>
+    <string name="city_not_null">Thành Phố và Quận Huyện không được để trống</string>
+    <string name="upload_bitmap_fail">Đăng hình thất bại !!!</string>
+    <string name="register_successful">Đăng Ký Tài Khoản Mới Thành Công !!!</string>
+    <string name="active_mail">Vui lòng kích hoạt tài khoản qua Email !!!</string>
+    
+    <string name="your_citiy">Tỉnh/TP của bạn</string>
+    <string name="your_districts">Quận/Huyện của bạn</string>
+    
+    <string name="action_logout">Đăng xuất</string>    
+    <string name="label_update_info">Cập nhật</string>
+    
+    <string name="label_change_password">Đổi mật khẩu</string>
+    <string name="str_change_password_success">Đổi mật khẩu thành công</string>
+    <string name="str_change_password_fail">Đổi mật khẩu thất bại</string>
+    <string name="str_confirm_password_not_match">Xác nhận lại mật khẩu mới không đúng</string>
+    <string name="cancel">Huỷ</string>
+    <string name="deleteImage">Đã xóa hình đính kèm.</string>
+    <string name="refesh">Cập Nhật</string>
+    <string name="coment_here">Ghi bình luận....</string>
+    <string name="sub_type">Loại:  </string>
+    <string name="distance">Cách đó:  </string>
+    <string name="address">Vị trí:  </string>
+    <string name="time">Vào lúc:  </string>
+    <string name="coment">Bình luận:  </string>
+    <string name="login_to_coment">Đăng nhập để bình luận</string>
+    <string name="ban_kinh_canh_bao">Bán kính:  km</string>
+    
+    <string name="str_expiration_date">Ngày hết hạn</string>    
+    <string name="post_car_request_screen_name">Đăng tin tìm xe</string>    
+    <string name="search_car_screen_name">Tìm Kiếm Nâng Cao </string>
+    <string name="vnd_day">VNĐ/Ngày</string>
+    <string name="subject_mail">[4car] Về Thông Tin Cho Thuê Xe </string>
+</resources>
