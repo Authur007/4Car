@@ -56,16 +56,19 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 	public LoadMoreListView(Context context) {
 		super(context);
 		init(context);
+		onLoadMoreComplete();
 	}
 
 	public LoadMoreListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
+		onLoadMoreComplete();
 	}
 
 	public LoadMoreListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
+		onLoadMoreComplete();
 	}
 
 	private void init(Context context) {
