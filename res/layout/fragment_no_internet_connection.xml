@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:src="@drawable/img_internet" />
+
+    <TextView
+        android:id="@+id/tvRequestConnectionFail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="14dp"
+        android:padding="16dp"
+        android:gravity="center"
+        android:text="Vui lòng kiểm tra lại kết nối mạng của bạn."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#ff8800" />
+
+    <Button
+        android:id="@+id/btnRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_height"
+        android:layout_below="@+id/tvRequestConnectionFail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/list_selector"
+        android:padding="8dp"
+        android:text="Thử lại"
+        android:textColor="#fff"
+        android:textStyle="bold" />
+
+</RelativeLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type_warning">
+        <item>Chốt Công An</item>
+        <item>Giao Thông</item>
+        <item>Tai Nạn</item>
+        <item>Trạng Thái</item>
+    </string-array>
+</resources>

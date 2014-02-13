@@ -1,0 +1,213 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/maps_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".GoogleMapsActivity" >
+
+    <ta.car4rent.slidingup.SlidingUpPanelLayout
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/layoutContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/mArchorListPopup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageButton
+                    android:id="@+id/btnWarning"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/warning" />
+
+                <LinearLayout
+                    android:id="@+id/layoutDragArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/btnPostWarning"
+                    android:layout_toRightOf="@+id/btnWarning"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/txtTypeWarning"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/txtSubtype"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/btnPostWarning"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/upload" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mArchorListPopup"
+                android:paddingBottom="5dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="5dp" >
+
+                <ImageView
+                    android:id="@+id/imageWarning"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/noimage" />
+
+                <LinearLayout
+                    android:id="@+id/RelativeInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageWarning"
+                    android:layout_alignLeft="@+id/imageWarning"
+                    android:background="@anim/transparent_bg"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/txt_detail_Time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Text"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:id="@+id/txt_detail_Distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Text"
+                        android:visibility="gone"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:id="@+id/txt_detail_Address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Text"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#ffffff" />
+
+                    <TextView
+                        android:id="@+id/txt_detail_Note"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Text"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#ffffff" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnShowInMap"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignRight="@+id/imageWarning"
+                    android:layout_alignTop="@+id/imageWarning"
+                    android:background="@drawable/gps" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/listComent"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_above="@+id/form"
+                android:layout_below="@+id/RelativeImage" >
+            </ListView>
+
+            <RelativeLayout
+                android:id="@+id/form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp" >
+
+                    <EditText
+                        android:id="@+id/edtComent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/border2"
+                        android:ems="10"
+                        android:hint="@string/coment_here"
+                        android:padding="2dp" />
+
+                    <TextView
+                        android:id="@+id/tvTimeRent"
+                        android:layout_width="4dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <Button
+                        android:id="@+id/btnSendComent"
+                        android:layout_width="54dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/list_selector"
+                        android:text="@string/post"
+                        android:textColor="#ffffff" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnGoToLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/list_selector"
+                    android:text="@string/login_to_coment"
+                    android:textColor="#ffffff"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ta.car4rent.slidingup.SlidingUpPanelLayout>
+
+    <ImageButton
+        android:id="@+id/btnGetGPS"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/list_selector"
+        android:src="@drawable/get_gps"
+        android:scaleType="centerInside"
+         />
+
+</RelativeLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <ListView
+        android:id="@+id/listComentRequest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/layoutComment" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/layoutComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="15dp" >
+
+        <EditText
+            android:id="@+id/edtComentRequest"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_weight="1"
+            android:background="@drawable/border2"
+            android:ems="10"
+            android:hint="@string/coment_here"
+            android:padding="2dp" />
+
+        <TextView
+            android:layout_width="4dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnSendComentRequest"
+            android:layout_width="54dp"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/list_selector"
+            android:text="@string/post"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+</RelativeLayout>
