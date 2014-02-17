@@ -3,7 +3,7 @@
 
     <string name="app_name">4cars</string>
     <string name="action_settings">Settings</string>
-    <string name="version">version 2.4 (Ngày 13/02/2014)</string>
+    <string name="version">version 2.7 (Ngày 17/02/2014)</string>
     <string name="label_application_session">ỨNG DỤNG</string>
     <string name="label_search_car">Tìm xe</string>
     <string name="label_convenient">Tiện ích</string>
@@ -165,9 +165,9 @@
     <string name="logout">Đăng Xuất</string>
     <string name="failed">Thất Bại</string>
     <string name="day">Ngày</string>
-    <string name="dialog_title_success">Chúc mừng</string>
+    <string name="dialog_title_success">Đăng tin thành công</string>
     <string name="dialog_title_fail">Thông báo</string>
-    <string name="post_car_request_success">Bạn đã đăng tin tìm xe thành công</string>
+    <string name="post_car_request_success">Bạn có thể xem lại tin đã đăng trong phần duyệt tin.</string>
     <string name="post_car_request_fail">Đăng tin tìm xe thất bại</string>
     <string name="err_place_from_equal_place_to">Địa điểm từ và đến phải khác nhau</string>
     <string name="err_connection">Lỗi kết nối</string>

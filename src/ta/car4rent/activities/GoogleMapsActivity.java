@@ -13,6 +13,7 @@ import ta.car4rent.adapters.NewsFeedWarningListAdapter;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.fragments.LoginFragmemt;
 import ta.car4rent.fragments.PostWarningFragment;
+import ta.car4rent.fragments.SettingWarnningRadiusFragmemt;
 import ta.car4rent.gps_service.GPSTracker;
 import ta.car4rent.objects.ComentArrayAdapter;
 import ta.car4rent.objects.WarningsManager;
@@ -111,6 +112,9 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 
 	ImageButton btnGetGPS;
 
+	// change warning radius
+	ImageButton btnSettingMaps;
+
 	// ==============================================
 	// popup window warning newsfeed
 	// ==============================================
@@ -208,6 +212,8 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 		// gmaps
 		btnGetGPS = (ImageButton) findViewById(R.id.btnGetGPS);
 
+		btnSettingMaps = (ImageButton) findViewById(R.id.btnSettingMaps);
+
 		// main view
 		btnWarning = (ImageButton) findViewById(R.id.btnWarning);
 		btnPostWarning = (ImageButton) findViewById(R.id.btnPostWarning);
@@ -269,6 +275,8 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 		btnPostWarning.setOnClickListener(this);
 		btnShowInMap.setOnClickListener(this);
 		imageWarning.setOnClickListener(this);
+
+		btnSettingMaps.setOnClickListener(this);
 		// ==========================================
 		// SLIDING UP PANEL
 		// ==========================================
@@ -530,9 +538,12 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 		// showing / hiding your current location
 		googleMap.setMyLocationEnabled(false);
 
+		// set straffic enable
+		googleMap.setTrafficEnabled(true);
+
 		// Enable / Disable zooming controls
 		googleMap.getUiSettings().setZoomControlsEnabled(false);
-		
+
 		// handle btnGetGps
 		btnGetGPS.setOnClickListener(new OnClickListener() {
 
@@ -802,6 +813,15 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 			} catch (NullPointerException e) {
 				getWarningFromServer(null);
 			}
+			break;
+
+		case R.id.btnSettingMaps:
+			Fragment settingFragment = new SettingWarnningRadiusFragmemt();
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.maps_content, settingFragment)
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+					.addToBackStack("GoogleMaps").commit();
+
 			break;
 		default:
 			break;
@@ -1190,9 +1210,23 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onResume() {
-		super.onResume();
-		initilizeMap();
 
+		initilizeMap();
+		/*
+		 * try { timerRefreshNews = new Timer(); timerResfreshComent = new
+		 * Timer(); startTimerRefreshNewsWarning(); startTimerRefreshComent(); }
+		 * catch (Exception e) { e.printStackTrace(); }
+		 */
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		/*
+		 * try { timerRefreshNews.cancel(); timerResfreshComent.cancel(); }
+		 * catch (Exception e) { e.printStackTrace(); }
+		 */
+		super.onPause();
 	}
 
 	@Override

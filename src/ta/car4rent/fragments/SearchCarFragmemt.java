@@ -70,7 +70,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	public final static int SCREEN_MODE_POST_CAR_REQUEST = 1;
 	private static int CURRENT_SCREEN_MODE = SCREEN_MODE_ADVANCE_SEARCH;
 	private static boolean isLayoutMoreVisible = false;
-	
+
 	// =========================[PICKER_MODE]==============================
 	public final static int PICKER_TYPE_START_DATE = 0;
 	public final static int PICKER_TYPE_END_DATE = 1;
@@ -94,7 +94,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	public static SpinnerDataList driversSpinnerDataList;
 	public static SpinnerDataList carOwnersSpinnerDataList;
 	public static String strNoteInfo;
-	
+
 	// ====================[UI COMPONENT VARIABLE]========================
 	boolean mNeedToReset;
 	private ScrollView scrollView;
@@ -103,7 +103,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	private CheckBox checkBoxDriver;
 	private DatePickerFragment mDatePickerFragment;
 	private TimePickerFragment mTimePickerFragment;
-	
+
 	private Spinner spinnerCity;
 	private Spinner spinnerCityFrom;
 	private Spinner spinnerCityTo;
@@ -129,7 +129,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	private Button btnExpirationDate;
 	private TextView txtNothing1;
 	private TextView txtNothing2;
-	
+
 	private LinearLayout layoutPlaceTo;
 	private LinearLayout layoutMore;
 	private LinearLayout layoutExpirationDate;
@@ -161,14 +161,15 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-		View rootView = null;		
+
+		View rootView = null;
 		if (!ConfigureData.isOnline()) {
 			// Show error Internet connectivity and button retry
-			rootView = inflater.inflate(R.layout.fragment_no_internet_connection, container, false);
+			rootView = inflater.inflate(
+					R.layout.fragment_no_internet_connection, container, false);
 			Button btnRetry = (Button) rootView.findViewById(R.id.btnRetry);
 			btnRetry.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					// Create a new fragment and specify the planet to show
@@ -176,16 +177,21 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					SearchCarFragmemt fragment = new SearchCarFragmemt();
 					// Insert the fragment by replacing any existing
 					// fragment
-					FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-					fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-					((MainActivity) getActivity()).setActionBarTitle(ConfigureData.activityMain.getString(R.string.label_search_car));
+					FragmentManager fragmentManager = getActivity()
+							.getSupportFragmentManager();
+					fragmentManager.beginTransaction()
+							.replace(R.id.content_frame, fragment).commit();
+					((MainActivity) getActivity())
+							.setActionBarTitle(ConfigureData.activityMain
+									.getString(R.string.label_search_car));
 				}
 			});
 			return rootView;
 		}
-		
+
 		ConfigureData.currentScreen = 1;
-		rootView = inflater.inflate(R.layout.fragment_search_car, container, false);
+		rootView = inflater.inflate(R.layout.fragment_search_car, container,
+				false);
 		// Show waiting progress dialog
 		progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 		progressBar.setVisibility(View.VISIBLE);
@@ -195,11 +201,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 		if (!ConfigureData.isOnline()) {
 			return;
 		}
-		
+
 		// Init components and setOnClickListener
 		findViewById();
 
@@ -213,17 +219,17 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			mNeedToReset = false;
 
 			fillDataToComponent();
-			
+
 			switch (CURRENT_SCREEN_MODE) {
 			case SCREEN_MODE_ADVANCE_SEARCH:
 				chooseScreenMode(SCREEN_MODE_ADVANCE_SEARCH);
 				break;
-				
+
 			case SCREEN_MODE_POST_CAR_REQUEST:
 				chooseScreenMode(SCREEN_MODE_POST_CAR_REQUEST);
 				edtNoteInfo.setText(strNoteInfo);
 				break;
-					
+
 			}
 			/**
 			 * Set visible or gone for ui mode
@@ -244,7 +250,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					spinnerDistrictsTo.setVisibility(View.VISIBLE);
 				}
 			}
-			
+
 			if (isLayoutMoreVisible) {
 				layoutMore.setVisibility(View.VISIBLE);
 			}
@@ -252,7 +258,6 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			// After resume completee we have need reset when checked change
 			mNeedToReset = true;
 		}
-		
 
 	}
 
@@ -275,7 +280,12 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 						 * Get Advance search completed
 						 */
 						progressBar.setVisibility(View.GONE);
-						showDialog(ConfigureData.activityMain.getString(R.string.err_connection), ConfigureData.activityMain.getString(R.string.please_check_your_conection), R.drawable.ic_error);
+						showDialog(
+								ConfigureData.activityMain
+										.getString(R.string.err_connection),
+								ConfigureData.activityMain
+										.getString(R.string.please_check_your_conection),
+								R.drawable.ic_error);
 						showFregmentNoInternetConnection();
 					}
 
@@ -363,30 +373,37 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 							chooseScreenMode(SCREEN_MODE_ADVANCE_SEARCH);
 							checkBoxDriver.setChecked(true);
 							checkBoxDriver.setChecked(false);
-							
+
 							return;
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						
-						showDialog(ConfigureData.activityMain.getString(R.string.err_connection), ConfigureData.activityMain.getString(R.string.please_check_your_conection), R.drawable.ic_error);
+
+						showDialog(
+								ConfigureData.activityMain
+										.getString(R.string.err_connection),
+								ConfigureData.activityMain
+										.getString(R.string.please_check_your_conection),
+								R.drawable.ic_error);
 						progressBar.setVisibility(View.GONE);
 						showFregmentNoInternetConnection();
-						
+
 					}
 				});
 
 		serviceGetAdvanceSearchConditions.getAdvanceSearchConditions();
 
 	}
-	
+
 	private void showFregmentNoInternetConnection() {
 		NoInternetConnectionFragmemt fragment = new NoInternetConnectionFragmemt();
 
 		// Insert the fragment by replacing any existing
 		// fragment
-		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+		FragmentManager fragmentManager = getActivity()
+				.getSupportFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.content_frame, fragment).commit();
 
 	}
 
@@ -453,8 +470,10 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		});
 
 		btnSearchCar = (Button) getView().findViewById(R.id.btnSearch);
-		btnPostCarRequest = (Button) getView().findViewById(R.id.btnPostCarRequest);
-		btnCancelPostCarRequest = (Button) getView().findViewById(R.id.btnCancelPostCarRequest);
+		btnPostCarRequest = (Button) getView().findViewById(
+				R.id.btnPostCarRequest);
+		btnCancelPostCarRequest = (Button) getView().findViewById(
+				R.id.btnCancelPostCarRequest);
 		txtNothing1 = (TextView) getView().findViewById(R.id.txtNothing1);
 		txtNothing2 = (TextView) getView().findViewById(R.id.txtNothing2);
 	}
@@ -468,7 +487,19 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		if (mode == SCREEN_MODE_POST_CAR_REQUEST) {
 			if (ConfigureData.isLogged == false) {
 				CURRENT_SCREEN_MODE = SCREEN_MODE_ADVANCE_SEARCH;
-				Toast.makeText(getActivity(), ConfigureData.activityMain.getString(R.string.err_you_need_login_first), Toast.LENGTH_SHORT).show();
+				Toast.makeText(
+						getActivity(),
+						ConfigureData.activityMain
+								.getString(R.string.err_you_need_login_first),
+						Toast.LENGTH_SHORT).show();
+
+				ConfigureData.isCalledFromSearchCar = true;
+				Fragment fragment = new LoginFragmemt();
+				// Insert the fragment by replacing any existing
+				// fragment
+				FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+				fragmentManager.beginTransaction()
+						.replace(R.id.content_frame, fragment).commit();
 				return;
 			}
 		}
@@ -488,16 +519,19 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 			try {
 				// Change label in UI
-				((MainActivity) getActivity()).setActionBarTitle(ConfigureData.activityMain.getString(R.string.label_search_car));
-				tvScreenName.setText(ConfigureData.activityMain.getString(R.string.search_car_screen_name));
+				((MainActivity) getActivity())
+						.setActionBarTitle(ConfigureData.activityMain
+								.getString(R.string.label_search_car));
+				tvScreenName.setText(ConfigureData.activityMain
+						.getString(R.string.search_car_screen_name));
 			} catch (Exception e) {
 				if (BuildConfig.DEBUG) {
 					e.printStackTrace();
 				}
 			}
-			
+
 			break;
-			
+
 		case SCREEN_MODE_POST_CAR_REQUEST:
 
 			btnCancelPostCarRequest.setVisibility(View.VISIBLE);
@@ -509,8 +543,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			edtNoteInfo.setVisibility(View.VISIBLE);
 
 			// Change label in UI
-			((MainActivity) getActivity()).setActionBarTitle(ConfigureData.activityMain.getString(R.string.label_post_car_request));
-			tvScreenName.setText(ConfigureData.activityMain.getString(R.string.post_car_request_screen_name));
+			((MainActivity) getActivity())
+					.setActionBarTitle(ConfigureData.activityMain
+							.getString(R.string.label_post_car_request));
+			tvScreenName.setText(ConfigureData.activityMain
+					.getString(R.string.post_car_request_screen_name));
 
 			break;
 		}
@@ -555,7 +592,8 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.animator.zoom_in));
+				v.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+						R.animator.zoom_in));
 				if (layoutMore.isShown()) {
 					layoutMore.setVisibility(View.GONE);
 					isLayoutMoreVisible = false;
@@ -582,7 +620,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	}
 
 	private void fillDataToComponent() {
-		
+
 		// Fill default value
 		strStartDate = addStringDateFormated(getCurrenttDateFormated(), 1);
 		strEndDate = addStringDateFormated(strStartDate, 1);
@@ -603,9 +641,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				ConfigureData.activityMain,
 				android.R.layout.simple_spinner_item,
 				citiesSpinnerDataList.getArraySpinnerText());
-		citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		citiesAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerCity.setAdapter(citiesAdapter);
-		spinnerCity.setSelection(citiesSpinnerDataList.getSelectedIndex(), false);
+		spinnerCity.setSelection(citiesSpinnerDataList.getSelectedIndex(),
+				false);
 
 		// districts
 		if (districtsSpinnerDataList != null) {
@@ -613,20 +653,24 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					ConfigureData.activityMain,
 					android.R.layout.simple_spinner_item,
 					districtsSpinnerDataList.getArraySpinnerText());
-			districtsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			districtsAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			spinnerDistricts.setVisibility(View.VISIBLE);
 			spinnerDistricts.setAdapter(districtsAdapter);
-			spinnerDistricts.setSelection(districtsSpinnerDataList.getSelectedIndex());
+			spinnerDistricts.setSelection(districtsSpinnerDataList
+					.getSelectedIndex());
 		}
-		
+
 		// citiesFrom
 		ArrayAdapter<String> citiesFromAdapter = new ArrayAdapter<String>(
 				ConfigureData.activityMain,
 				android.R.layout.simple_spinner_item,
 				citiesFromSpinnerDataList.getArraySpinnerText());
-		citiesFromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		citiesFromAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerCityFrom.setAdapter(citiesFromAdapter);
-		spinnerCityFrom.setSelection(citiesFromSpinnerDataList.getSelectedIndex(), false);
+		spinnerCityFrom.setSelection(
+				citiesFromSpinnerDataList.getSelectedIndex(), false);
 
 		// districtsFrom
 		if (districtsFromSpinnerDataList != null) {
@@ -634,31 +678,37 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					ConfigureData.activityMain,
 					android.R.layout.simple_spinner_item,
 					districtsFromSpinnerDataList.getArraySpinnerText());
-			districtsFromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			districtsFromAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			spinnerDistrictsFrom.setVisibility(View.VISIBLE);
 			spinnerDistrictsFrom.setAdapter(districtsFromAdapter);
-			spinnerDistrictsFrom.setSelection(districtsFromSpinnerDataList.getSelectedIndex());
+			spinnerDistrictsFrom.setSelection(districtsFromSpinnerDataList
+					.getSelectedIndex());
 		}
-		
+
 		// citiesTo
 		ArrayAdapter<String> citiesToAdapter = new ArrayAdapter<String>(
 				ConfigureData.activityMain,
 				android.R.layout.simple_spinner_item,
 				citiesToSpinnerDataList.getArraySpinnerText());
-		citiesToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		citiesToAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerCityTo.setAdapter(citiesToAdapter);
-		spinnerCityTo.setSelection(citiesToSpinnerDataList.getSelectedIndex(), false);
-		
+		spinnerCityTo.setSelection(citiesToSpinnerDataList.getSelectedIndex(),
+				false);
+
 		// districtsTo
 		if (districtsToSpinnerDataList != null) {
 			ArrayAdapter<String> districtsToAdapter = new ArrayAdapter<String>(
 					ConfigureData.activityMain,
 					android.R.layout.simple_spinner_item,
 					districtsToSpinnerDataList.getArraySpinnerText());
-			districtsToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			districtsToAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			spinnerDistrictsTo.setVisibility(View.VISIBLE);
 			spinnerDistrictsTo.setAdapter(districtsToAdapter);
-			spinnerDistrictsTo.setSelection(districtsToSpinnerDataList.getSelectedIndex());
+			spinnerDistrictsTo.setSelection(districtsToSpinnerDataList
+					.getSelectedIndex());
 		}
 
 		// price from
@@ -669,8 +719,9 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		priceFromAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerPriceFrom.setAdapter(priceFromAdapter);
-		spinnerPriceFrom.setSelection(pricesFromSpinnerDataList.getSelectedIndex());
-		
+		spinnerPriceFrom.setSelection(pricesFromSpinnerDataList
+				.getSelectedIndex());
+
 		// price To
 		ArrayAdapter<String> priceToAdapter = new ArrayAdapter<String>(
 				ConfigureData.activityMain,
@@ -728,11 +779,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				ConfigureData.activityMain,
 				android.R.layout.simple_spinner_item,
 				carOwnersSpinnerDataList.getArraySpinnerText());
-		carOwnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		carOwnerAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerCarOwner.setAdapter(carOwnerAdapter);
 		spinnerCarOwner.setSelection(carOwnersSpinnerDataList
 				.getSelectedIndex());
-
 
 		setUiComponentEventListener();
 	}
@@ -804,14 +855,18 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	}
 
 	private boolean checkSearchValueVaild() {
-		
+
 		try {
 			// If has car driver: cityTo & sityFrom must be exist
 			if (checkBoxDriver.isChecked()) {
 				if (citiesFromSpinnerDataList.getSelectedIndex() == 0
 						|| citiesToSpinnerDataList.getSelectedIndex() == 0) {
-					
-					showDialog(ConfigureData.activityMain.getString(R.string.err), ConfigureData.activityMain.getString(R.string.err_lackof_city), R.drawable.ic_error);
+
+					showDialog(
+							ConfigureData.activityMain.getString(R.string.err),
+							ConfigureData.activityMain
+									.getString(R.string.err_lackof_city),
+							R.drawable.ic_error);
 					return false;
 				}
 			}
@@ -867,9 +922,15 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 								@Override
 								public void onPostJsonFail(String response) {
-									showDialog(ConfigureData.activityMain.getString(R.string.dialog_title_fail), ConfigureData.activityMain.getString(R.string.post_car_request_fail), R.drawable.ic_error);
+									showDialog(
+											ConfigureData.activityMain
+													.getString(R.string.dialog_title_fail),
+											ConfigureData.activityMain
+													.getString(R.string.post_car_request_fail),
+											R.drawable.ic_error);
 									progressBar.setVisibility(View.GONE);
-									btnPostCarRequest.setOnClickListener(SearchCarFragmemt.this);
+									btnPostCarRequest
+											.setOnClickListener(SearchCarFragmemt.this);
 								}
 
 								@Override
@@ -879,7 +940,12 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 										if (jo.getBoolean("status") == true) {
 											// Show dialog Post car request
 											// complete
-											showDialog(ConfigureData.activityMain.getString(R.string.dialog_title_success), ConfigureData.activityMain.getString(R.string.post_car_request_success), R.drawable.ic_launcher);
+											showDialog(
+													ConfigureData.activityMain
+															.getString(R.string.dialog_title_success),
+													ConfigureData.activityMain
+															.getString(R.string.post_car_request_success),
+													R.drawable.ic_launcher);
 											// Reset to default search
 											chooseScreenMode(SCREEN_MODE_ADVANCE_SEARCH);
 											checkBoxDriver.setChecked(true);
@@ -887,7 +953,12 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 											edtNoteInfo.setText("");
 											strNoteInfo = "";
 										} else {
-											showDialog(ConfigureData.activityMain.getString(R.string.dialog_title_fail), ConfigureData.activityMain.getString(R.string.post_car_request_fail), R.drawable.ic_error);
+											showDialog(
+													ConfigureData.activityMain
+															.getString(R.string.dialog_title_fail),
+													ConfigureData.activityMain
+															.getString(R.string.post_car_request_fail),
+													R.drawable.ic_error);
 										}
 									} catch (JSONException e) {
 										if (BuildConfig.DEBUG) {
@@ -896,23 +967,25 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 									}
 
 									progressBar.setVisibility(View.GONE);
-									btnPostCarRequest.setOnClickListener(SearchCarFragmemt.this);
+									btnPostCarRequest
+											.setOnClickListener(SearchCarFragmemt.this);
 								}
 							});
-					
+
 					btnPostCarRequest.setOnClickListener(null);
-					servicePostCarRequest.postCarRequest(createCarRequestInfo());
+					servicePostCarRequest
+							.postCarRequest(createCarRequestInfo());
 				}
 
 			}
 
 			break;
-			
+
 		case R.id.btnCancelPostCarRequest:
 			chooseScreenMode(SCREEN_MODE_ADVANCE_SEARCH);
 
 			break;
-			
+
 		case R.id.btnStartTime:
 			flagChoosePickerType = PICKER_TYPE_START_TIME;
 			showTimePickerDialog(strStartTime);
@@ -935,7 +1008,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			DatePickerFragment.pickerType = PICKER_TYPE_END_DATE;
 			showDatePickerDialog(strEndDate);
 			break;
-			
+
 		case R.id.btnExpirationDate:
 			DatePickerFragment.pickerType = PICKER_TYPE_EXPIRATION_DATE;
 			showDatePickerDialog(strExpirationDate);
@@ -948,79 +1021,96 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 	private JSONObject createCarRequestInfo() {
 		JSONObject carRequestInfo = new JSONObject();
-		
+
 		try {
-			carRequestInfo.put("createBy",ConfigureData.userAccount.getInt("id"));
+			carRequestInfo.put("createBy",
+					ConfigureData.userAccount.getInt("id"));
 			carRequestInfo.put("information", edtNoteInfo.getText().toString());
 			carRequestInfo.put("endDate", strEndDate);
 			carRequestInfo.put("expirationDate", strExpirationDate);
-			
+
 			if (driversSpinnerDataList != null) {
-				driversSpinnerDataList.getSelectedItem().setValue(checkBoxDriver.isChecked() ? 1 : 0);
+				driversSpinnerDataList.getSelectedItem().setValue(
+						checkBoxDriver.isChecked() ? 1 : 0);
 			}
-			
+
 			if (driversSpinnerDataList != null) {
-				carRequestInfo.put("hasCarDriver", driversSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("hasCarDriver", driversSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (strStartDate != null) {
 				carRequestInfo.put("startDate", strStartDate);
 			}
-			
+
 			if (citiesSpinnerDataList != null) {
-				carRequestInfo.put("cityId", citiesSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("cityId", citiesSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (pricesFromSpinnerDataList != null) {
-				carRequestInfo.put("fromPrice", pricesFromSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("fromPrice", pricesFromSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (pricesToSpinnerDataList != null) {
-				carRequestInfo.put("toPrice", pricesToSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("toPrice", pricesToSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (districtsSpinnerDataList != null) {
-				carRequestInfo.put("districtId", districtsSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("districtId", districtsSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (citiesFromSpinnerDataList != null) {
-				carRequestInfo.put("cityIdFrom", citiesFromSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("cityIdFrom", citiesFromSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (districtsFromSpinnerDataList != null) {
-				carRequestInfo.put("districtIdFrom", districtsFromSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("districtIdFrom",
+						districtsFromSpinnerDataList.getSelectedItem()
+								.getValue());
 			}
-			
+
 			if (citiesToSpinnerDataList != null) {
-				carRequestInfo.put("cityIdTo", citiesToSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("cityIdTo", citiesToSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (districtsToSpinnerDataList != null) {
-				carRequestInfo.put("districtIdTo", districtsToSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("districtIdTo", districtsToSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (makesSpinnerDataList != null) {
-				carRequestInfo.put("makeId", makesSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("makeId", makesSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (modelsSpinnerDataList != null) {
-				carRequestInfo.put("modelId", modelsSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("modelId", modelsSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (seatNumberSpinnerDataList != null) {
-				carRequestInfo.put("styleId", seatNumberSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("styleId", seatNumberSpinnerDataList
+						.getSelectedItem().getValue());
 			}
-			
+
 			if (transmissionsSpinnerDataList != null) {
-				carRequestInfo.put("transmissionId", transmissionsSpinnerDataList.getSelectedItem().getValue());
+				carRequestInfo.put("transmissionId",
+						transmissionsSpinnerDataList.getSelectedItem()
+								.getValue());
 			}
-			
+
 		} catch (JSONException e) {
 			if (BuildConfig.DEBUG) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return carRequestInfo;
 	}
 
@@ -1029,34 +1119,52 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		if (!checkBoxDriver.isChecked()) {
 			if (citiesSpinnerDataList.getSelectedIndex() == 0) {
 				// Show error dialog
-				showDialog(ConfigureData.activityMain.getString(R.string.err), ConfigureData.activityMain.getString(R.string.err_lackof_city), R.drawable.ic_error);
+				showDialog(ConfigureData.activityMain.getString(R.string.err),
+						ConfigureData.activityMain
+								.getString(R.string.err_lackof_city),
+						R.drawable.ic_error);
 				return false;
 			}
 		} else {
 			if (citiesFromSpinnerDataList.getSelectedIndex() == 0
 					|| citiesToSpinnerDataList.getSelectedIndex() == 0) {
 				// Show error dialog
-				showDialog(ConfigureData.activityMain.getString(R.string.err), ConfigureData.activityMain.getString(R.string.err_lackof_city), R.drawable.ic_error);
+				showDialog(ConfigureData.activityMain.getString(R.string.err),
+						ConfigureData.activityMain
+								.getString(R.string.err_lackof_city),
+						R.drawable.ic_error);
 				return false;
 			}
 		}
 
 		// check price
-		if (pricesFromSpinnerDataList.getSelectedIndex() == 2 && pricesToSpinnerDataList.getSelectedIndex() == 0) {
-			showDialog(ConfigureData.activityMain.getString(R.string.err), ConfigureData.activityMain.getString(R.string.err_price_to_constraint), R.drawable.ic_error);
+		if (pricesFromSpinnerDataList.getSelectedIndex() == 2
+				&& pricesToSpinnerDataList.getSelectedIndex() == 0) {
+			showDialog(ConfigureData.activityMain.getString(R.string.err),
+					ConfigureData.activityMain
+							.getString(R.string.err_price_to_constraint),
+					R.drawable.ic_error);
 			return false;
 		}
-		if (pricesFromSpinnerDataList.getSelectedIndex() > 2 && pricesFromSpinnerDataList.getSelectedIndex() < pricesFromSpinnerDataList.getSize() - 1) {
-			if (pricesFromSpinnerDataList.getSelectedIndex() - pricesToSpinnerDataList.getSelectedIndex() >= 3) {
-				showDialog(ConfigureData.activityMain.getString(R.string.err), ConfigureData.activityMain.getString(R.string.err_price_to_constraint), R.drawable.ic_error);
+		if (pricesFromSpinnerDataList.getSelectedIndex() > 2
+				&& pricesFromSpinnerDataList.getSelectedIndex() < pricesFromSpinnerDataList
+						.getSize() - 1) {
+			if (pricesFromSpinnerDataList.getSelectedIndex()
+					- pricesToSpinnerDataList.getSelectedIndex() >= 3) {
+				showDialog(ConfigureData.activityMain.getString(R.string.err),
+						ConfigureData.activityMain
+								.getString(R.string.err_price_to_constraint),
+						R.drawable.ic_error);
 				return false;
 			}
 		}
-		
-		
+
 		if ("".equals(edtNoteInfo.getText().toString())) {
 			// Show error dialog
-			showDialog(ConfigureData.activityMain.getString(R.string.err), ConfigureData.activityMain.getString(R.string.err_note_must_not_null), R.drawable.ic_error);
+			showDialog(ConfigureData.activityMain.getString(R.string.err),
+					ConfigureData.activityMain
+							.getString(R.string.err_note_must_not_null),
+					R.drawable.ic_error);
 			return false;
 		}
 		return true;
@@ -1108,10 +1216,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			mTimePickerFragment.dismiss();
 			mTimePickerFragment = new TimePickerFragment();
 		}
-		
+
 		mTimePickerFragment.setDefaultTime(strDefaultTime);
 		mTimePickerFragment.setOnTimeSetListener(this);
-		mTimePickerFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+		mTimePickerFragment.show(getActivity().getSupportFragmentManager(),
+				"timePicker");
 
 	}
 
@@ -1125,19 +1234,21 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 		mDatePickerFragment.setDefaultStringDate(strDefaultDate);
 		mDatePickerFragment.setOnDatasetListener(this);
-		mDatePickerFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+		mDatePickerFragment.show(getActivity().getSupportFragmentManager(),
+				"datePicker");
 	}
 
 	/**
 	 * call when item on spinner selected
 	 */
 	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+	public void onItemSelected(AdapterView<?> parent, View view, int pos,
+			long id) {
 
 		switch (parent.getId()) {
 		case R.id.spinnerCity:
 			Log.d("SPINNER CITY", "SELECTED: " + pos);
-			
+
 			citiesSpinnerDataList.setSelectedItem(pos);
 			if (pos != 0) {
 				// Show spinnerDistricts
@@ -1146,7 +1257,8 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				// Get district list
 				progressBar.setVisibility(View.VISIBLE);
 				ServiceGetDistricts serviceGetDistricts = new ServiceGetDistricts();
-				serviceGetDistricts.addOnGetJsonListener(new OnGetJsonListener() {
+				serviceGetDistricts
+						.addOnGetJsonListener(new OnGetJsonListener() {
 
 							@Override
 							public void onGetJsonFail(String response) {
@@ -1159,7 +1271,8 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 									JSONObject responseJson = new JSONObject(
 											response);
 									if (responseJson.getBoolean("status")) {
-										JSONArray jsonArrayDistrics = responseJson.getJSONArray("data");
+										JSONArray jsonArrayDistrics = responseJson
+												.getJSONArray("data");
 										// [{
 										// "id":2147483647,
 										// "cityId":2147483647,
@@ -1207,7 +1320,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 						.getSelectedItem().getValue());
 			}
 			break;
-		case R.id.spinnerCityFrom:			
+		case R.id.spinnerCityFrom:
 			citiesFromSpinnerDataList.setSelectedItem(pos);
 			if (pos != 0) {
 				// Show spinnerDistricts
@@ -1322,13 +1435,17 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 															id, name));
 										}
 
-										districtsToSpinnerDataList = new SpinnerDataList(districtsItems, 0);
+										districtsToSpinnerDataList = new SpinnerDataList(
+												districtsItems, 0);
 										ArrayAdapter<String> districtsToAdapter = new ArrayAdapter<String>(
 												ConfigureData.activityMain,
 												android.R.layout.simple_spinner_item,
-												districtsToSpinnerDataList.getArraySpinnerText());
-										districtsToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-										spinnerDistrictsTo.setAdapter(districtsToAdapter);
+												districtsToSpinnerDataList
+														.getArraySpinnerText());
+										districtsToAdapter
+												.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+										spinnerDistrictsTo
+												.setAdapter(districtsToAdapter);
 									}
 								} catch (JSONException e) {
 									if (BuildConfig.DEBUG) {
@@ -1359,31 +1476,48 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			break;
 		case R.id.spinnerPriceFrom:
 			if (pos > 1 && pos < pricesFromSpinnerDataList.getSize() - 1) {
-				if (pos - pricesToSpinnerDataList.getSelectedIndex() >= 3 && pricesToSpinnerDataList.getSelectedIndex() > 0) {
-					Toast.makeText(getActivity(), ConfigureData.activityMain.getString(R.string.err_price_to_constraint), Toast.LENGTH_SHORT).show();
-					spinnerPriceFrom.setSelection(pricesFromSpinnerDataList.getSelectedIndex());
+				if (pos - pricesToSpinnerDataList.getSelectedIndex() >= 3
+						&& pricesToSpinnerDataList.getSelectedIndex() > 0) {
+					Toast.makeText(
+							getActivity(),
+							ConfigureData.activityMain
+									.getString(R.string.err_price_to_constraint),
+							Toast.LENGTH_SHORT).show();
+					spinnerPriceFrom.setSelection(pricesFromSpinnerDataList
+							.getSelectedIndex());
 				} else {
 					pricesFromSpinnerDataList.setSelectedItem(pos);
-					spinnerPriceFrom.setSelection(pricesFromSpinnerDataList.getSelectedIndex());
+					spinnerPriceFrom.setSelection(pricesFromSpinnerDataList
+							.getSelectedIndex());
 					spinnerPriceTo.setVisibility(View.VISIBLE);
 				}
-				
+
 			} else {
 				spinnerPriceTo.setVisibility(View.GONE);
 				pricesToSpinnerDataList.setSelectedItem(0);
 				pricesFromSpinnerDataList.setSelectedItem(pos);
-				spinnerPriceFrom.setSelection(pricesFromSpinnerDataList.getSelectedIndex());
+				spinnerPriceFrom.setSelection(pricesFromSpinnerDataList
+						.getSelectedIndex());
 			}
 
 			break;
 		case R.id.spinnerPriceTo:
-			if (pos > 0 && pricesFromSpinnerDataList.getSelectedIndex() > 0 && pricesFromSpinnerDataList.getSelectedIndex() <= pricesFromSpinnerDataList.getSize() - 1) {
+			if (pos > 0
+					&& pricesFromSpinnerDataList.getSelectedIndex() > 0
+					&& pricesFromSpinnerDataList.getSelectedIndex() <= pricesFromSpinnerDataList
+							.getSize() - 1) {
 				if (pos <= pricesFromSpinnerDataList.getSelectedIndex() - 3) {
-					Toast.makeText(getActivity(), ConfigureData.activityMain.getString(R.string.err_price_to_constraint), Toast.LENGTH_SHORT).show();
-					spinnerPriceTo.setSelection(pricesToSpinnerDataList.getSelectedIndex());
+					Toast.makeText(
+							getActivity(),
+							ConfigureData.activityMain
+									.getString(R.string.err_price_to_constraint),
+							Toast.LENGTH_SHORT).show();
+					spinnerPriceTo.setSelection(pricesToSpinnerDataList
+							.getSelectedIndex());
 				} else {
 					pricesToSpinnerDataList.setSelectedItem(pos);
-					spinnerPriceTo.setSelection(pricesToSpinnerDataList.getSelectedIndex());
+					spinnerPriceTo.setSelection(pricesToSpinnerDataList
+							.getSelectedIndex());
 				}
 			}
 			break;
@@ -1424,7 +1558,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		ConfigureData.isPostNewsScreen = false;
 		super.onDestroy();
 	}
-	
+
 	@Override
 	public void onDestroyView() {
 		ConfigureData.currentScreen = 0;
@@ -1452,14 +1586,14 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 		String selectedDate = formatStringDate(day + "/" + (month + 1) + "/"
 				+ year);
-		
+
 		switch (DatePickerFragment.pickerType) {
 		case PICKER_TYPE_START_DATE:
 			// The selected date must be after the current day
 			if (compareStringDate(getCurrenttDateFormated(), selectedDate) == -1) {
 				strStartDate = selectedDate;
 				btnStartDate.setText(strStartDate);
-				
+
 				if (!(compareStringDate(strStartDate, strEndDate) == -1)) {
 					strEndDate = addStringDateFormated(selectedDate, 1);
 					btnEndDate.setText(strEndDate);
@@ -1467,7 +1601,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				strExpirationDate = strStartDate;
 				btnExpirationDate.setText(strExpirationDate);
 			} else {
-				Toast.makeText(getActivity(), ConfigureData.activityMain.getString(R.string.err_start_date_constraint), Toast.LENGTH_SHORT).show();
+				Toast.makeText(
+						getActivity(),
+						ConfigureData.activityMain
+								.getString(R.string.err_start_date_constraint),
+						Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case PICKER_TYPE_END_DATE:
@@ -1475,7 +1613,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				strEndDate = selectedDate;
 				btnEndDate.setText(strEndDate);
 			} else {
-				Toast.makeText(getActivity(), ConfigureData.activityMain.getString(R.string.err_end_date_constraint), Toast.LENGTH_SHORT).show();
+				Toast.makeText(
+						getActivity(),
+						ConfigureData.activityMain
+								.getString(R.string.err_end_date_constraint),
+						Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case PICKER_TYPE_EXPIRATION_DATE:
@@ -1486,7 +1628,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				strExpirationDate = selectedDate;
 				btnExpirationDate.setText(strExpirationDate);
 			} else {
-				Toast.makeText(getActivity(), ConfigureData.activityMain.getString(R.string.err_expiration_date_constraint), Toast.LENGTH_SHORT).show();
+				Toast.makeText(
+						getActivity(),
+						ConfigureData.activityMain
+								.getString(R.string.err_expiration_date_constraint),
+						Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -1507,12 +1653,12 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			hour = hourOfDay + "";
 		}
 
-		switch(flagChoosePickerType) {
-		case PICKER_TYPE_START_TIME :
+		switch (flagChoosePickerType) {
+		case PICKER_TYPE_START_TIME:
 			strStartTime = hour + ":" + minutes;
 			btnStartTime.setText(strStartTime);
 			break;
-		case PICKER_TYPE_END_TIME :
+		case PICKER_TYPE_END_TIME:
 			strEndTime = hour + ":" + minutes;
 			btnEndTime.setText(strEndTime);
 			break;
@@ -1524,10 +1670,12 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		searchRequestJSONObject = new JSONObject();
 		try {
 			// "startDate":"String content",
-			searchRequestJSONObject.put("startDate", strStartDate + " " + strStartTime + ":00");
+			searchRequestJSONObject.put("startDate", strStartDate + " "
+					+ strStartTime + ":00");
 
 			// "endDate":"String content",
-			searchRequestJSONObject.put("endDate", strEndDate + " " + strEndTime + ":00");
+			searchRequestJSONObject.put("endDate", strEndDate + " "
+					+ strEndTime + ":00");
 
 			// "fromPrice":2147483647,
 			searchRequestJSONObject.put("fromPrice", pricesFromSpinnerDataList
@@ -1543,8 +1691,8 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 			// "districtId":2147483647,
 			if (districtsSpinnerDataList != null) {
-				searchRequestJSONObject.put("districtId", districtsSpinnerDataList
-					.getSelectedItem().getValue());
+				searchRequestJSONObject.put("districtId",
+						districtsSpinnerDataList.getSelectedItem().getValue());
 			}
 
 			// "hasCarDriver":2147483647,
@@ -1558,7 +1706,8 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			// "districtIdFrom":2147483647,
 			if (districtsFromSpinnerDataList != null) {
 				searchRequestJSONObject.put("districtIdFrom",
-					districtsFromSpinnerDataList.getSelectedItem().getValue());
+						districtsFromSpinnerDataList.getSelectedItem()
+								.getValue());
 			}
 
 			// "cityIdTo":2147483647,
@@ -1567,8 +1716,9 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 			// "districtIdTo":2147483647,
 			if (districtsToSpinnerDataList != null) {
-				searchRequestJSONObject.put("districtIdTo",
-					districtsToSpinnerDataList.getSelectedItem().getValue());
+				searchRequestJSONObject
+						.put("districtIdTo", districtsToSpinnerDataList
+								.getSelectedItem().getValue());
 			}
 
 			// "makeId":2147483647,
@@ -1578,7 +1728,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			// "modelId":2147483647,
 			searchRequestJSONObject.put("modelId", modelsSpinnerDataList
 					.getSelectedItem().getValue());
-			
+
 			// "styleId":2147483647,
 			searchRequestJSONObject.put("styleId", seatNumberSpinnerDataList
 					.getSelectedItem().getValue());
@@ -1627,7 +1777,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 			layoutPlaceTo.setVisibility(View.VISIBLE);
 			layoutMore.setVisibility(View.GONE);
-			
+
 		} else {
 			driversSpinnerDataList.setSelectedItem(0);
 			// Has no driver
@@ -1651,11 +1801,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		}
 
 	}
-	
+
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		switchCarDriverMode(isChecked);
-		
+
 		// Reset value
 		if (mNeedToReset) {
 			strStartDate = addStringDateFormated(getCurrenttDateFormated(), 1);
@@ -1669,67 +1819,67 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			btnExpirationDate.setText(strExpirationDate);
 			btnStartTime.setText(strStartTime);
 			btnEndTime.setText(strEndTime);
-			
+
 			if (citiesSpinnerDataList != null) {
 				citiesSpinnerDataList.setSelectedItem(0);
 				spinnerCity.setSelection(0);
 			}
-			
+
 			if (citiesFromSpinnerDataList != null) {
 				citiesFromSpinnerDataList.setSelectedItem(0);
 				spinnerCityFrom.setSelection(0);
 			}
-			
+
 			if (citiesToSpinnerDataList != null) {
 				citiesToSpinnerDataList.setSelectedItem(0);
 				spinnerCityTo.setSelection(0);
 			}
-			
+
 			if (districtsSpinnerDataList != null) {
 				districtsSpinnerDataList.setSelectedItem(0);
 				spinnerDistricts.setSelection(0);
 			}
-			
+
 			if (districtsFromSpinnerDataList != null) {
 				districtsFromSpinnerDataList.setSelectedItem(0);
 				spinnerDistrictsFrom.setSelection(0);
 			}
-			
+
 			if (districtsToSpinnerDataList != null) {
 				districtsToSpinnerDataList.setSelectedItem(0);
 				spinnerDistrictsTo.setSelection(0);
 			}
-			
+
 			if (pricesFromSpinnerDataList != null) {
 				pricesFromSpinnerDataList.setSelectedItem(0);
 				spinnerPriceFrom.setSelection(0);
 			}
-			
+
 			if (pricesToSpinnerDataList != null) {
 				pricesToSpinnerDataList.setSelectedItem(0);
 				spinnerPriceTo.setSelection(0);
 			}
-			
+
 			if (makesSpinnerDataList != null) {
 				makesSpinnerDataList.setSelectedItem(0);
 				spinnerMakeCar.setSelection(0);
 			}
-			
+
 			if (modelsSpinnerDataList != null) {
 				modelsSpinnerDataList.setSelectedItem(0);
 				spinnerModelCar.setSelection(0);
 			}
-			
+
 			if (transmissionsSpinnerDataList != null) {
 				transmissionsSpinnerDataList.setSelectedItem(0);
 				spinnerTransmission.setSelection(0);
 			}
-			
+
 			if (seatNumberSpinnerDataList != null) {
 				seatNumberSpinnerDataList.setSelectedItem(0);
 				spinnerSeatNumber.setSelection(0);
 			}
-			
+
 			if (carOwnersSpinnerDataList != null) {
 				carOwnersSpinnerDataList.setSelectedItem(0);
 				spinnerCarOwner.setSelection(0);
@@ -1742,8 +1892,8 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	public void showDialog(String title, String content, int icon) {
 		// Creating alert Dialog with one Button
 
-		AlertDialog alertDialog = new AlertDialog.Builder(ConfigureData.activityMain)
-				.create();
+		AlertDialog alertDialog = new AlertDialog.Builder(
+				ConfigureData.activityMain).create();
 
 		// Setting Dialog Title
 		alertDialog.setTitle(title);
@@ -1755,7 +1905,8 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		alertDialog.setIcon(icon);
 
 		// Setting OK Button
-		alertDialog.setButton(ConfigureData.activityMain.getString(R.string.str_ok),
+		alertDialog.setButton(
+				ConfigureData.activityMain.getString(R.string.str_ok),
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {

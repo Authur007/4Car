@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/ta/car4rent/activities/GoogleMapsActivity.java=UTF-8
 encoding//src/ta/car4rent/activities/MainActivity.java=UTF-8
+encoding//src/ta/car4rent/adapters/CarRequestsListAdapter.java=UTF-8
 encoding//src/ta/car4rent/fragments/AccountFragmemt.java=UTF-8
 encoding//src/ta/car4rent/fragments/LoginFragmemt.java=UTF-8
 encoding//src/ta/car4rent/fragments/PostWarningFragment.java=UTF-8

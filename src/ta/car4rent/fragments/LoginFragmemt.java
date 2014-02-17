@@ -176,9 +176,9 @@ public class LoginFragmemt extends DialogFragment implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		StaticFunction.hideKeyboard(ConfigureData.activityMain);
-		try{
+		try {
 			StaticFunction.hideKeyboard(ConfigureData.activityGoogleMaps);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		switch (v.getId()) {
@@ -352,21 +352,40 @@ public class LoginFragmemt extends DialogFragment implements OnClickListener,
 					}
 				} else if (ConfigureData.isCalledFromCarRequested) {
 					ConfigureData.isCalledFromCarRequested = false;
-					StaticFunction
-							.hideKeyboard(ConfigureData.activityMain);
+					StaticFunction.hideKeyboard(ConfigureData.activityMain);
 					try {
 						// Show the Account info Fragment
 						Fragment fragment = new ManageCarRequestesFragment();
-						// Insert the fragment by replacing any existing fragment
+						// Insert the fragment by replacing any existing
+						// fragment
 						FragmentManager fragmentManager = ConfigureData.activityMain
 								.getSupportFragmentManager();
-						FragmentTransaction fm = fragmentManager.beginTransaction();
+						FragmentTransaction fm = fragmentManager
+								.beginTransaction();
 						fm.replace(R.id.content_frame, fragment).commit();
-						
+
 					} catch (RuntimeException e) {
 						e.printStackTrace();
 					}
 
+				} else if (ConfigureData.isCalledFromSearchCar) {
+					ConfigureData.isCalledFromSearchCar = false;
+					StaticFunction.hideKeyboard(ConfigureData.activityMain);
+					try {
+						// Show the Account info Fragment
+						Fragment fragment = new SearchCarFragmemt();
+						// Insert the fragment by replacing any existing
+						// fragment
+						FragmentManager fragmentManager = ConfigureData.activityMain
+								.getSupportFragmentManager();
+						FragmentTransaction fm = fragmentManager
+								.beginTransaction();
+						fm.replace(R.id.content_frame, fragment).commit();
+
+					} catch (RuntimeException e) {
+						e.printStackTrace();
+					}
+					
 				} else {
 					// Show the Account info Fragment
 					Fragment fragment = new AccountFragmemt();

@@ -209,5 +209,18 @@
         android:src="@drawable/get_gps"
         android:scaleType="centerInside"
          />
+    
+      <ImageButton
+        android:id="@+id/btnSettingMaps"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/list_selector"
+        android:src="@drawable/ic_nd_settings"
+        android:scaleType="centerInside"
+         />
 
 </RelativeLayout>

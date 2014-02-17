@@ -165,7 +165,7 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 			(new AlertDialog.Builder(mContext))
 			.setIcon(R.drawable.ic_launcher)
 			.setTitle("Xác nhận !")
-			.setMessage("Bạn có chắc chắn muốn đóng tin này không.")
+			.setMessage("Bạn có chắc muốn đóng tin này không.")
 			.setNegativeButton("Không", null)
 			.setPositiveButton("Có", changeStatus)
 			.create()
@@ -186,9 +186,9 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 					// show error
 					AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
 					alertDialog.setIcon(R.drawable.ic_error);
-					alertDialog.setTitle("Rất tiếc !");
+					alertDialog.setTitle("Rất tiếc!");
 					alertDialog.setMessage("Đóng tin không thành công.");
-					alertDialog.setButton("Đồng ý",
+					alertDialog.setButton("Kết thúc",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog, int which) {
 								}
@@ -206,9 +206,9 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 							// success
 							AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
 							alertDialog.setIcon(R.drawable.ic_launcher);
-							alertDialog.setTitle("Chúc mừng !");
-							alertDialog.setMessage("Bạn đã đóng tin thành công.");
-							alertDialog.setButton("Đồng ý",
+							alertDialog.setTitle("Đóng tin thành công !");
+							alertDialog.setMessage("Nhấn kết thúc để tải lại dữ liệu.");
+							alertDialog.setButton("Kết thúc",
 									new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dialog, int which) {
 											// Insert the fragment by replacing any existing
@@ -225,9 +225,9 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 						// show error
 						AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
 						alertDialog.setIcon(R.drawable.ic_error);
-						alertDialog.setTitle("Rất tiếc !");
-						alertDialog.setMessage("Đóng tin không thành công.");
-						alertDialog.setButton("Đồng ý",
+						alertDialog.setTitle("Ráº¥t tiáº¿c !");
+						alertDialog.setMessage("Ä�Ã³ng tin khÃ´ng thÃ nh cÃ´ng.");
+						alertDialog.setButton("Ä�á»“ng Ã½",
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int which) {
 									}

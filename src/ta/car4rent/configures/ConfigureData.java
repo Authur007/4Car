@@ -54,6 +54,7 @@ public class ConfigureData {
 	public static int currentScreen = 0;
 	public static int randomLocationInMap =1;
 	public static JSONObject carRequestDetailObject = new JSONObject();
+	public static boolean isCalledFromSearchCar = false;
 	
 	public static boolean isOnline() {
 		boolean connected = false;
