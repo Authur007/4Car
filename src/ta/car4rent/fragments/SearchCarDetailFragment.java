@@ -102,7 +102,7 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 					.getString("carOwnerPhone"));
 			String carOwnerPhoneAdd = ResultSeachFragmemt.selectedCarJSONObject
 					.getString("carOwnerAdditionalPhone").toString();
-			if (carOwnerPhoneAdd != null) {
+			if (!carOwnerPhoneAdd.equalsIgnoreCase("null")) {
 				tvCarOwnerAdditionalPhone.setVisibility(View.VISIBLE);
 				tvCarOwnerAdditionalPhone.setText(carOwnerPhoneAdd);
 			} else {
@@ -184,6 +184,9 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 				((TextView) getView().findViewById(R.id.tvVAT)).setText(ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasVAT")?getString(R.string.has):getString(R.string.no));
 				((TextView) getView().findViewById(R.id.tvPhiCauDuong)).setText(ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasParkingFee")?getString(R.string.has):getString(R.string.no));
 				((TextView) getView().findViewById(R.id.tvPhiXangDau)).setText(ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasGasFee")?getString(R.string.has):getString(R.string.no));
+				((TextView) getView().findViewById(R.id.tvPlaceStartDetail)).setText(ResultSeachFragmemt.selectedCarJSONObject.getString("cityFrom"));
+				((TextView) getView().findViewById(R.id.tvPlaceEndDetail)).setText(ResultSeachFragmemt.selectedCarJSONObject.getString("cityTo"));
+
 			}else{
 				((TextView) getView().findViewById(R.id.tvPrice)).setText(s + "\n"
 						+ ConfigureData.activityMain.getString(R.string.vnd_day));

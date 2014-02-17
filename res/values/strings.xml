@@ -201,11 +201,11 @@
     <string name="str_price">Giá: </string>
     <string name="str_price_above">Giá trên: </string>
     <string name="str_price_below">Giá dưới: </string>
-    <string name="str_start_place">Xuất phát: </string>
+    <string name="str_start_place">Điểm xuất phát: </string>
     <string name="str_destination_place">Điểm đến: </string>
     <string name="request_car_time">Một vài giây trước. </string>
     <string name="hours">Giờ</string>
-    <string name="info_car_detail">Thông tin xe chi tiết</string>
+    <string name="info_car_detail">Thông tin chi tiết</string>
     <string name="price_per_hour">Giá phát sinh theo giờ: </string>
     <string name="price_per_km">Giá phát sinh theo km: </string>
     
