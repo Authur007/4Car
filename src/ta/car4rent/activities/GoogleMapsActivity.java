@@ -111,10 +111,6 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 	ImageButton btnPostWarning;
 
 	ImageButton btnGetGPS;
-
-	// change warning radius
-	ImageButton btnSettingMaps;
-
 	// ==============================================
 	// popup window warning newsfeed
 	// ==============================================
@@ -274,7 +270,6 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 		btnShowInMap.setOnClickListener(this);
 		imageWarning.setOnClickListener(this);
 
-		btnSettingMaps.setOnClickListener(this);
 		// ==========================================
 		// SLIDING UP PANEL
 		// ==========================================
