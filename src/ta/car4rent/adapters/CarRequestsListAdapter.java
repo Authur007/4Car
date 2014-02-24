@@ -108,13 +108,13 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 			((TextView)vi.findViewById(R.id.tvStartDate)).setText(strStartDate);
 			
 			String strStatus = data.get(position).getString("status");
-			((TextView)vi.findViewById(R.id.tvStatus)).setText(strStatus);
 			if (strStatus.charAt(0) == 'M') {
+				((TextView)vi.findViewById(R.id.tvStatus)).setText(strStatus);
 				((ImageButton)vi.findViewById(R.id.ivStatus)).setImageResource(R.drawable.btn_open);
-
 				((ImageButton)vi.findViewById(R.id.ivStatus)).setOnClickListener(this);
 				((ImageButton)vi.findViewById(R.id.ivStatus)).setTag(requestId);
 			} else {
+				((TextView)vi.findViewById(R.id.tvStatus)).setText("Đã\nđóng");
 				((ImageButton)vi.findViewById(R.id.ivStatus)).setImageResource(R.drawable.ic_close_default);
 				((ImageButton)vi.findViewById(R.id.ivStatus)).setOnClickListener(null);
 			}

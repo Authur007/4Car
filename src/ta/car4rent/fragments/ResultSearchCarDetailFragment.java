@@ -6,6 +6,7 @@ import ta.car4rent.R;
 import ta.car4rent.activities.FullScreenImageActivity;
 import ta.car4rent.adapters.GalleryImageAdapter;
 import ta.car4rent.configures.ConfigureData;
+import ta.car4rent.utils.StaticFunction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,13 +25,25 @@ import android.widget.TextView;
 import com.facebook.android.BuildConfig;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class SearchCarDetailFragment extends Fragment implements OnClickListener {
+public class ResultSearchCarDetailFragment extends Fragment implements OnClickListener {
 	View view = null;
 
 	GalleryImageAdapter galImageAdapter;
 	String[] imageURIs;
 	Gallery galleryImageNewsFeedItem;
 
+	TextView tvStartDate;
+	TextView tvPlaceStart;
+	TextView tvPlaceDestintion;
+	TextView tvPriceForRent;
+	TextView tvTimeForRent;
+	TextView tvKmLimited;
+	TextView tvExtraPricePerHour;
+	TextView tvExtraPricePerKm;
+	TextView tvVAT;
+	TextView tvPhiXangDau;
+	TextView tvPhiCauDuong;
+	
 	TextView tvEmail;
 	TextView tvCarOwnerPhone;
 	TextView tvCarOwnerAdditionalPhone;
@@ -82,6 +95,54 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 		fillFullInfoData();
 	}
 
+	private void findViewByID() {
+		galleryImageNewsFeedItem = (Gallery) getView().findViewById(
+				R.id.imageAttach);
+		
+		tvStartDate = (TextView) getView().findViewById(R.id.tvStartDate);
+		tvPlaceStart = (TextView) getView().findViewById(R.id.tvPlaceStart);
+		tvPlaceDestintion = (TextView) getView().findViewById(R.id.tvPlaceDestintion);
+		tvPriceForRent = (TextView) getView().findViewById(R.id.tvPriceForRent);
+		tvTimeForRent = (TextView) getView().findViewById(R.id.tvTimeForRent);
+		tvKmLimited = (TextView) getView().findViewById(R.id.tvKmLimited);
+		tvExtraPricePerHour = (TextView) getView().findViewById(R.id.tvExtraPricePerHour);
+		tvExtraPricePerKm = (TextView) getView().findViewById(R.id.tvExtraPricePerKm);
+		tvVAT = (TextView) getView().findViewById(R.id.tvVAT);
+		tvPhiXangDau = (TextView) getView().findViewById(R.id.tvPhiXangDau);
+		tvPhiCauDuong = (TextView) getView().findViewById(R.id.tvPhiCauDuong);
+		
+
+		tvNumberOfImage = (TextView) getView().findViewById(
+				R.id.txtRowNumberImage);
+		tvNumberOfImage.setVisibility(View.VISIBLE);
+
+		tvEmail = (TextView) getView().findViewById(R.id.tvEmail);
+		tvCarOwnerPhone = (TextView) getView().findViewById(
+				R.id.tvCarOwnerPhone);
+
+		tvCarOwnerAdditionalPhone = (TextView) getView().findViewById(
+				R.id.tvCarOwnerAdditionalPhone);
+
+		tvCarOwnerAddress = (TextView) getView().findViewById(
+				R.id.tvCarOwnerAddress);
+		tvCarOwnerName = (TextView) getView().findViewById(R.id.tvCarOwnerName);
+		tvCarOwnerInformation = (TextView) getView().findViewById(
+				R.id.tvCarOwnerInformation);
+		tvRentalCondition = (TextView) getView().findViewById(
+				R.id.tvRentalCondition);
+
+		tvAirCondional = (TextView) getView().findViewById(
+				R.id.tvAirConditional);
+		tvNumberSeat = (TextView) getView().findViewById(R.id.tvNumberSeat);
+
+		tvCarName = (TextView) getView().findViewById(R.id.tvCarName);
+		tvColor = (TextView) getView().findViewById(R.id.tvColor);
+		tvFuel = (TextView) getView().findViewById(R.id.tvFuel);
+		tvTransmission = (TextView) getView().findViewById(R.id.tvTransmission);
+		tvNumberSeat = (TextView) getView().findViewById(R.id.tvNumberSeat);
+		tvPrice = (TextView) getView().findViewById(R.id.tvPrice);
+	}
+	
 	private void fillFullInfoData() {
 		try {
 			// Load Image for Gallery
@@ -94,7 +155,11 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 			galleryImageNewsFeedItem.setAdapter(galImageAdapter);
 			galleryImageNewsFeedItem.setAnimationDuration(500);
 			galleryImageNewsFeedItem.setSpacing(0);
-
+			
+			// Detail info when has Car Driver
+			
+			
+			// Detail Car Owner
 			tvEmail.setText(ResultSeachFragmemt.selectedCarJSONObject
 					.getString("carOwnerEmail"));
 
@@ -111,10 +176,10 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 
 			tvCarOwnerAddress.setText(ResultSeachFragmemt.selectedCarJSONObject
 					.getString("carOwnerAddress")
-					+ " - "
+					+ ", "
 					+ ResultSeachFragmemt.selectedCarJSONObject
 							.getString("carOwnerDistrict")
-					+ " - "
+					+ ", "
 					+ ResultSeachFragmemt.selectedCarJSONObject
 							.getString("carOwnerCity"));
 
@@ -142,30 +207,22 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 			tvFuel.setText(ResultSeachFragmemt.selectedCarJSONObject
 					.getString("fuel"));
 
-			
+
 			String price = ResultSeachFragmemt.selectedCarJSONObject.getString("price");
-			String s = "";
-			for (int i = price.length() - 1; i >= 0; i--) {
-				if ((price.length() - i) % 3 == 0 && i != 0) {
-					s = "." + price.charAt(i) + s;
-				} else {
-					s = price.charAt(i) + s;
-				}
-			}
-			
 			if (ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasCarDriver")) {
 				// price of hasdriver
-				tvPrice.setText(s + "\n"
-						+ "VND");
+				tvPrice.setText(StaticFunction.formatVnMoney(price) + "\nVNĐ");
 				
 				// get timerent and distent rent
-				int timeRent = ResultSeachFragmemt.selectedCarJSONObject.getInt("day");
-				int hoursRent = ResultSeachFragmemt.selectedCarJSONObject.getInt("hours");
-				((TextView) getView().findViewById(R.id.tvTimeRent)).setText(timeRent
-						+ " "
-						+ ConfigureData.activityMain.getString(R.string.day)+ " "+ hoursRent +" "+ ConfigureData.activityMain.getString(R.string.hours));
-				((LinearLayout) getView().findViewById(R.id.layoutTimeRent))
-						.setVisibility(View.VISIBLE);
+				String timeForRent = ResultSeachFragmemt.selectedCarJSONObject.getInt("day") + "";
+				if ("0".equals(timeForRent)) {
+					timeForRent = ResultSeachFragmemt.selectedCarJSONObject.getInt("hours") + " giờ";
+				} else {
+					timeForRent = timeForRent + " ngày " + ResultSeachFragmemt.selectedCarJSONObject.getString("hours") + " giờ"; 
+				}
+				((TextView) getView().findViewById(R.id.tvTimeRent)).setText(timeForRent);
+				
+				((LinearLayout) getView().findViewById(R.id.layoutTimeRent)).setVisibility(View.VISIBLE);
 
 				int kmRent = ResultSeachFragmemt.selectedCarJSONObject.getInt("km");
 
@@ -176,21 +233,48 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 				
 				
 				// show layout info car detail
-				((LinearLayout)getView().findViewById(R.id.layoutInfoCarDetail)).setVisibility(View.VISIBLE);
+				((LinearLayout)getView().findViewById(R.id.layoutInfoCarDetail)).setVisibility(View.VISIBLE);				
 				
+				// Fill detail rent car info
+				tvStartDate.setText(ResultSeachFragmemt.selectedCarJSONObject.getString("startDate"));
 				
-				//((TextView) getView().findViewById(R.id.tvPricePerHours)).setText(ResultSeachFragmemt.selectedCarJSONObject.getInt("km"));
-				//((TextView) getView().findViewById(R.id.tvPricePerKm)).setText(ResultSeachFragmemt.selectedCarJSONObject.getInt("km"));
-				((TextView) getView().findViewById(R.id.tvVAT)).setText(ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasVAT")?getString(R.string.has):getString(R.string.no));
-				((TextView) getView().findViewById(R.id.tvPhiCauDuong)).setText(ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasParkingFee")?getString(R.string.has):getString(R.string.no));
-				((TextView) getView().findViewById(R.id.tvPhiXangDau)).setText(ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasGasFee")?getString(R.string.has):getString(R.string.no));
-				((TextView) getView().findViewById(R.id.tvPlaceStartDetail)).setText(ResultSeachFragmemt.selectedCarJSONObject.getString("cityFrom"));
-				((TextView) getView().findViewById(R.id.tvPlaceEndDetail)).setText(ResultSeachFragmemt.selectedCarJSONObject.getString("cityTo"));
+				String placeStart = ResultSeachFragmemt.selectedCarJSONObject.getString("districtFrom");
+				if (!"".equals(placeStart)) {
+					placeStart = placeStart + ", " + ResultSeachFragmemt.selectedCarJSONObject.getString("cityFrom");
+				} else {
+					placeStart = ResultSeachFragmemt.selectedCarJSONObject.getString("cityFrom");
+				}
+				tvPlaceStart.setText(placeStart);
+				
+				String placeDestintion = ResultSeachFragmemt.selectedCarJSONObject.getString("districtTo");
+				if (!"".equals(placeDestintion)) {
+					placeDestintion = placeDestintion + ", " + ResultSeachFragmemt.selectedCarJSONObject.getString("cityTo");
+				} else {
+					placeDestintion = ResultSeachFragmemt.selectedCarJSONObject.getString("cityTo");
+				}
+				tvPlaceDestintion.setText(placeDestintion);
+				
+				tvPriceForRent.setText(StaticFunction.formatVnMoney(ResultSeachFragmemt.selectedCarJSONObject.getString("price")));
+				
+				tvTimeForRent.setText(timeForRent);
+				
+				tvKmLimited.setText(ResultSeachFragmemt.selectedCarJSONObject.getString("km"));
+				
+				tvExtraPricePerHour.setText(StaticFunction.formatVnMoney(ResultSeachFragmemt.selectedCarJSONObject.getString("extraPricePerHour")));
+				
+				tvExtraPricePerKm.setText(StaticFunction.formatVnMoney(ResultSeachFragmemt.selectedCarJSONObject.getString("extraPricePerKm")));
+				
+				tvVAT.setText(ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasVAT")?getString(R.string.has):getString(R.string.no));
+				
+				tvPhiXangDau.setText(ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasGasFee")?getString(R.string.has):getString(R.string.no));
+				
+				tvPhiCauDuong.setText(ResultSeachFragmemt.selectedCarJSONObject.getBoolean("hasParkingFee")?getString(R.string.has):getString(R.string.no));
 
 			}else{
-				((TextView) getView().findViewById(R.id.tvPrice)).setText(s + "\n"
+				((TextView) getView().findViewById(R.id.tvPrice)).setText(StaticFunction.formatVnMoney(price) + "\n"
 						+ ConfigureData.activityMain.getString(R.string.vnd_day));
 			}
+			
 			tvCarOwnerInformation.setText(Html
 					.fromHtml(ResultSeachFragmemt.selectedCarJSONObject
 							.getString("carOwnerInformation")));
@@ -224,40 +308,7 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 
 	}
 
-	private void findViewByID() {
-		galleryImageNewsFeedItem = (Gallery) getView().findViewById(
-				R.id.imageAttach);
-
-		tvNumberOfImage = (TextView) getView().findViewById(
-				R.id.txtRowNumberImage);
-		tvNumberOfImage.setVisibility(View.VISIBLE);
-
-		tvEmail = (TextView) getView().findViewById(R.id.tvEmail);
-		tvCarOwnerPhone = (TextView) getView().findViewById(
-				R.id.tvCarOwnerPhone);
-
-		tvCarOwnerAdditionalPhone = (TextView) getView().findViewById(
-				R.id.tvCarOwnerAdditionalPhone);
-
-		tvCarOwnerAddress = (TextView) getView().findViewById(
-				R.id.tvCarOwnerAddress);
-		tvCarOwnerName = (TextView) getView().findViewById(R.id.tvCarOwnerName);
-		tvCarOwnerInformation = (TextView) getView().findViewById(
-				R.id.tvCarOwnerInformation);
-		tvRentalCondition = (TextView) getView().findViewById(
-				R.id.tvRentalCondition);
-
-		tvAirCondional = (TextView) getView().findViewById(
-				R.id.tvAirConditional);
-		tvNumberSeat = (TextView) getView().findViewById(R.id.tvNumberSeat);
-
-		tvCarName = (TextView) getView().findViewById(R.id.tvCarName);
-		tvColor = (TextView) getView().findViewById(R.id.tvColor);
-		tvFuel = (TextView) getView().findViewById(R.id.tvFuel);
-		tvTransmission = (TextView) getView().findViewById(R.id.tvTransmission);
-		tvNumberSeat = (TextView) getView().findViewById(R.id.tvNumberSeat);
-		tvPrice = (TextView) getView().findViewById(R.id.tvPrice);
-	}
+	
 
 	@Override
 	public void onDestroy() {
@@ -329,5 +380,4 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 		EasyTracker.getInstance(this.getActivity()).activityStop(
 				this.getActivity()); // Add this method.
 	}
-
 }

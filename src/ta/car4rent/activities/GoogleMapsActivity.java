@@ -212,8 +212,6 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 		// gmaps
 		btnGetGPS = (ImageButton) findViewById(R.id.btnGetGPS);
 
-		btnSettingMaps = (ImageButton) findViewById(R.id.btnSettingMaps);
-
 		// main view
 		btnWarning = (ImageButton) findViewById(R.id.btnWarning);
 		btnPostWarning = (ImageButton) findViewById(R.id.btnPostWarning);
@@ -228,7 +226,7 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 		txtDetailDistance = (TextView) findViewById(R.id.txt_detail_Distance);
 
 		btnShowInMap = (Button) findViewById(R.id.btnShowInMap);
-		// coment
+		// comment
 		listComent = (ListView) findViewById(R.id.listComent);
 		// set adapter for list
 		commentAdapter = new ComentArrayAdapter(GoogleMapsActivity.this,
@@ -813,15 +811,6 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 			} catch (NullPointerException e) {
 				getWarningFromServer(null);
 			}
-			break;
-
-		case R.id.btnSettingMaps:
-			Fragment settingFragment = new SettingWarnningRadiusFragmemt();
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.maps_content, settingFragment)
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-					.addToBackStack("GoogleMaps").commit();
-
 			break;
 		default:
 			break;

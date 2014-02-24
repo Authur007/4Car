@@ -6,6 +6,7 @@ import ta.car4rent.R;
 import ta.car4rent.adapters.NavigationDrawerAdapter;
 import ta.car4rent.adapters.NavigationDrawerListItem;
 import ta.car4rent.adapters.OnNavigationDrawerItemClickHandler;
+import ta.car4rent.adapters.TitleNavigationAdapter;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.fragments.AccountFragmemt;
 import ta.car4rent.fragments.ContactFragmemt;
@@ -14,7 +15,9 @@ import ta.car4rent.fragments.LoginFragmemt;
 import ta.car4rent.fragments.ManageCarRequestesFragment;
 import ta.car4rent.fragments.SearchCarFragmemt;
 import ta.car4rent.fragments.SettingWarnningRadiusFragmemt;
+import ta.car4rent.objects.SpinnerNavItem;
 import ta.car4rent.utils.StaticFunction;
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -25,6 +28,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.OnNavigationListener;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,7 +47,7 @@ import com.google.analytics.tracking.android.EasyTracker;
  * 
  */
 public class MainActivity extends ActionBarActivity implements
-		OnItemClickListener, OnClickListener {
+		OnItemClickListener, OnClickListener, OnNavigationListener {
 
 	private ArrayList<NavigationDrawerListItem> mNavigationDrawerListItems;
 	private NavigationDrawerAdapter mNavigationDrawerAdapter;
@@ -50,6 +55,8 @@ public class MainActivity extends ActionBarActivity implements
 	private ListView mDrawerList;
 	private String mTitle;
 
+	public static MainActivity Instance;
+	
 	// Navigation drawer list item Application category
 	NavigationDrawerListItem ndlAppCategory;
 	NavigationDrawerListItem ndlSearchCar;
@@ -62,7 +69,13 @@ public class MainActivity extends ActionBarActivity implements
 	NavigationDrawerListItem ndlAccounnt;
 	NavigationDrawerListItem ndlIntroduce;
 	NavigationDrawerListItem ndlContact;
-
+	
+	// Title navigation Spinner data
+    private ArrayList<SpinnerNavItem> navSpinner;
+     
+    // Navigation adapter
+    private TitleNavigationAdapter titleNavigationAdapter;
+	
 	// For listen to Open & Close NavigationDrawer menu
 	private ActionBarDrawerToggle mDrawerToggle;
 
@@ -74,11 +87,28 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Instance = this;
+		
 		setContentView(R.layout.activity_main);
 		// set activity for all fragment reference
 		ConfigureData.activityMain = this;
 		ConfigureData.loadSharedPreference();
 
+
+		// Navigation menu for Filter
+		// Spinner title navigation data
+        navSpinner = new ArrayList<SpinnerNavItem>();
+        navSpinner.add(new SpinnerNavItem("Tin đang mở", R.drawable.ic_open_default));
+        navSpinner.add(new SpinnerNavItem("Tin đã đóng", R.drawable.ic_close_default));
+        navSpinner.add(new SpinnerNavItem("Tất cả tin đăng", R.drawable.ic_car_request_default));
+         
+        // title drop down adapter
+        titleNavigationAdapter = new TitleNavigationAdapter(getApplicationContext(), navSpinner);
+ 
+        // assigning the spinner navigation     
+        getSupportActionBar().setListNavigationCallbacks(titleNavigationAdapter, this);
+		
 		/**
 		 * 1. Initial for NavigationDrawer
 		 */
@@ -120,6 +150,8 @@ public class MainActivity extends ActionBarActivity implements
 								mNavigationDrawerListItems.size(), true);
 						mTitle = getString(R.string.label_search_car);
 						mDrawerLayout.closeDrawer(mDrawerList);
+						
+						showActionFilterSpinner(false);
 					}
 				});
 		mNavigationDrawerListItems.add(ndlSearchCar);
@@ -140,6 +172,8 @@ public class MainActivity extends ActionBarActivity implements
 						mDrawerList.setItemChecked(
 								mNavigationDrawerListItems.size(), true);
 						mDrawerLayout.closeDrawer(mDrawerList);
+						
+						showActionFilterSpinner(false);
 					}
 				});
 		mNavigationDrawerListItems.add(ndlConvenient);
@@ -158,6 +192,7 @@ public class MainActivity extends ActionBarActivity implements
 							// Create a new fragment and specify the Account
 							// Info to show based on position						
 							fragment = new ManageCarRequestesFragment();
+							showActionFilterSpinner(true);
 						} else {
 							Toast.makeText(getApplicationContext(),
 									getString(R.string.need_login_to_view), 0)
@@ -167,7 +202,7 @@ public class MainActivity extends ActionBarActivity implements
 						}
 
 						mTitle = getString(R.string.label_newsfeed);
-
+						
 						// Insert the fragment by replacing any existing
 						// fragment
 						FragmentManager fragmentManager = getSupportFragmentManager();
@@ -179,6 +214,8 @@ public class MainActivity extends ActionBarActivity implements
 						mDrawerList.setItemChecked(
 								mNavigationDrawerListItems.size(), true);
 						mDrawerLayout.closeDrawer(mDrawerList);
+						
+
 					}
 				});
 		mNavigationDrawerListItems.add(ndlCarRequested);
@@ -209,6 +246,8 @@ public class MainActivity extends ActionBarActivity implements
 								mNavigationDrawerListItems.size(), true);
 						mTitle = getString(R.string.label_setting);
 						mDrawerLayout.closeDrawer(mDrawerList);
+						
+						showActionFilterSpinner(false);
 					}
 				});
 		mNavigationDrawerListItems.add(ndlSetting);
@@ -252,6 +291,8 @@ public class MainActivity extends ActionBarActivity implements
 						mDrawerList.setItemChecked(
 								mNavigationDrawerListItems.size(), true);
 						mDrawerLayout.closeDrawer(mDrawerList);
+						
+						showActionFilterSpinner(false);
 					}
 				});
 		mNavigationDrawerListItems.add(ndlAccounnt);
@@ -281,6 +322,8 @@ public class MainActivity extends ActionBarActivity implements
 								mNavigationDrawerListItems.size(), true);
 						mTitle = getString(R.string.label_introduce);
 						mDrawerLayout.closeDrawer(mDrawerList);
+						
+						showActionFilterSpinner(false);
 					}
 				});
 		mNavigationDrawerListItems.add(ndlIntroduce);
@@ -310,6 +353,8 @@ public class MainActivity extends ActionBarActivity implements
 								mNavigationDrawerListItems.size(), true);
 						mTitle = getString(R.string.label_contact);
 						mDrawerLayout.closeDrawer(mDrawerList);
+						
+						showActionFilterSpinner(false);
 					}
 				});
 		mNavigationDrawerListItems.add(ndlContact);
@@ -469,5 +514,38 @@ public class MainActivity extends ActionBarActivity implements
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	public void showActionFilterSpinner(boolean isShow) {
+		if (isShow) {
+			getSupportActionBar().setDisplayShowTitleEnabled(false);
+			getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		} else {
+			getSupportActionBar().setDisplayShowTitleEnabled(true);
+			getSupportActionBar().setNavigationMode(ActionBar.DISPLAY_SHOW_TITLE);
+		}
+	}
+	
+	@Override
+	public boolean onNavigationItemSelected(int pos, long arg1) {
+		ManageCarRequestesFragment fragment = new ManageCarRequestesFragment();
+		// Insert the fragment by replacing any existing
+		// fragment
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		
+		switch (pos) {
+		case 0:
+			fragment.setFilterMode(ManageCarRequestesFragment.FILTER_MODE_OPEN);
+			break;
+		case 1:
+			fragment.setFilterMode(ManageCarRequestesFragment.FILTER_MODE_CLOSED);
+			break;
+		case 2:
+			fragment.setFilterMode(ManageCarRequestesFragment.FILTER_MODE_ALL);
+			break;
+		}
+		
+		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+		return false;
 	}
 }

@@ -1,23 +1,15 @@
 package ta.car4rent.fragments;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import ta.car4rent.R;
-import ta.car4rent.activities.GoogleMapsActivity;
+import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
-import ta.car4rent.objects.ComentArrayAdapter;
-import ta.car4rent.objects.ComentArrayRequestCarAdapter;
 import ta.car4rent.utils.StaticFunction;
 import ta.car4rent.webservices.OnGetJsonListener;
-import ta.car4rent.webservices.OnPostJsonListener;
 import ta.car4rent.webservices.ServiceManagerGetCarRequested;
-import ta.car4rent.webservices.ServiceManagerPostCarRequestComment;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -25,10 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -57,7 +48,7 @@ public class CarRequestDetailFragment extends Fragment implements
 	TextView tvHasDriver;
 	TextView tvCarMake;
 	TextView tvCarModel;
-	TextView tvCarstyle;
+	TextView tvCarStyle;
 	TextView tvCarTransmission;
 
 	// layout
@@ -66,6 +57,7 @@ public class CarRequestDetailFragment extends Fragment implements
 	LinearLayout layoutCarMake;
 	LinearLayout layoutCarModel;
 	LinearLayout layoutCarStyle;
+	LinearLayout layoutRequestCarInfoCar;
 	// Comment button
 	Button btnShowCommentRequest;
 
@@ -81,6 +73,8 @@ public class CarRequestDetailFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		//if (view == null) {
 			view = inflater.inflate(R.layout.fragment_car_request_detail,
 					container, false);
@@ -96,23 +90,20 @@ public class CarRequestDetailFragment extends Fragment implements
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
 		// findViewById
-		tvCarMake = (TextView) view.findViewById(R.id.tvCarMakeRequest);
-		tvCarModel = (TextView) view.findViewById(R.id.tvCarModelRequest);
-		tvCarstyle = (TextView) view.findViewById(R.id.tvCarStyleRequest);
-		tvCarTransmission = (TextView) view
-				.findViewById(R.id.tvCarTransmissionRequest);
-		tvCityFrom = (TextView) view.findViewById(R.id.tvPlaceCityFromRequest);
-		tvCityTo = (TextView) view.findViewById(R.id.tvPlaceCityToRequest);
+		tvCarMake = (TextView) view.findViewById(R.id.tvCarMake);
+		tvCarModel = (TextView) view.findViewById(R.id.tvCarMake);
+		tvCarStyle = (TextView) view.findViewById(R.id.tvCarStyle);
+		tvCarTransmission = (TextView) view.findViewById(R.id.tvCarTransmission);
+		tvCityFrom = (TextView) view.findViewById(R.id.tvCityFrom);
+		tvCityTo = (TextView) view.findViewById(R.id.tvCityTo);
 		tvDateExpiration = (TextView) view.findViewById(R.id.tvDateExpiration);
 		tvDateFrom = (TextView) view.findViewById(R.id.tvDateFromRequest);
 		tvDateTo = (TextView) view.findViewById(R.id.tvDateToRequest);
 		tvDatePosted = (TextView) view.findViewById(R.id.tvDatePosted);
-		tvDistricFrom = (TextView) view
-				.findViewById(R.id.tvPlaceDistricFromRequest);
-		tvDistricTo = (TextView) view
-				.findViewById(R.id.tvPlaceDistricToRequest);
+		tvDistricFrom = (TextView) view.findViewById(R.id.tvDistricFrom);
+		tvDistricTo = (TextView) view.findViewById(R.id.tvDistricTo);
 		tvHasDriver = (TextView) view.findViewById(R.id.tvDriverRequest);
-		tvPosterEmail = (TextView) view.findViewById(R.id.tvEmailPoster);
+		tvPosterEmail = (TextView) view.findViewById(R.id.tvPosterEmail);
 		tvPosterName = (TextView) view.findViewById(R.id.tvPosterName);
 		tvPosterPhone = (TextView) view.findViewById(R.id.tvPosterPhone);
 		tvPosterRequirement = (TextView) view
@@ -121,17 +112,15 @@ public class CarRequestDetailFragment extends Fragment implements
 		tvPriceTo = (TextView) view.findViewById(R.id.tvPriceToRequest);
 
 		// layout
-		layoutPlaceTo = (LinearLayout) view
-				.findViewById(R.id.layoutPlaceToRequest);
-		layoutTransmission = (LinearLayout) view
-				.findViewById(R.id.layoutTransmission);
-
+		layoutPlaceTo = (LinearLayout) view.findViewById(R.id.layoutPlaceToRequest);
+		
+		layoutTransmission = (LinearLayout) view.findViewById(R.id.layoutTransmission);
 		layoutCarMake = (LinearLayout) view.findViewById(R.id.layoutCarMake);
 		layoutCarModel = (LinearLayout) view.findViewById(R.id.layoutCarModel);
 		layoutCarStyle = (LinearLayout) view.findViewById(R.id.layoutCarStyle);
+		layoutRequestCarInfoCar = (LinearLayout) view.findViewById(R.id.layout_request_car_info_car);
 
-		btnShowCommentRequest = (Button) view
-				.findViewById(R.id.btnShowCommentRequest);
+		btnShowCommentRequest = (Button) view.findViewById(R.id.btnShowCommentRequest);
 		btnShowCommentRequest.setOnClickListener(this);
 		return view;
 	}
@@ -193,72 +182,102 @@ public class CarRequestDetailFragment extends Fragment implements
 	private void fillData() {
 		try {
 			String temp = "";
-			tvPosterName.setText(ConfigureData.carRequestDetailObject
-					.getString("createdBy"));
-			tvDatePosted.setText(ConfigureData.carRequestDetailObject
-					.getString("createDate"));
-			tvDateExpiration.setText(ConfigureData.carRequestDetailObject
-					.getString("expirationDate"));
-
-			temp = ConfigureData.carRequestDetailObject
-					.getString("information");
-			tvPosterRequirement.setText((temp.equals("null")) ? "" : temp);
-
-			tvDateFrom.setText(ConfigureData.carRequestDetailObject
-					.getString("startDate"));
-			tvDateTo.setText(ConfigureData.carRequestDetailObject
-					.getString("endDate"));
-			tvHasDriver
-					.setText((hasDriver == 0) ? getString(R.string.request_car_driver_no)
-							: getString(R.string.request_car_driver_has));
-
-			temp = ConfigureData.carRequestDetailObject.getString("fromPrice");
-			tvPriceFrom.setText((temp.equals("null")) ? "" : temp);
-
-			temp = ConfigureData.carRequestDetailObject.getString("toPrice");
-			tvPriceTo.setText((temp.equals("null")) ? "" : temp);
-			tvCityFrom.setText(ConfigureData.carRequestDetailObject
-					.getString("city"));
-			tvDistricFrom.setText(ConfigureData.carRequestDetailObject
-					.getString("district"));
-			tvCityTo.setText(ConfigureData.carRequestDetailObject
-					.getString("cityTo"));
-			tvDistricTo.setText(ConfigureData.carRequestDetailObject
-					.getString("districtTo"));
-
-			temp = ConfigureData.carRequestDetailObject.getString("make");
-			if ((temp.equals("null"))) {
-				layoutCarMake.setVisibility(View.GONE);
-			} else {
-				tvCarMake.setText(temp);
-			}
-
-			temp = ConfigureData.carRequestDetailObject.getString("model");
-			if ((temp.equals("null"))) {
-				layoutCarModel.setVisibility(View.GONE);
-			} else {
-				tvCarModel.setText(temp);
-			}
-
-			temp = ConfigureData.carRequestDetailObject.getString("style");
-			if ((temp.equals("null"))) {
-				layoutCarStyle.setVisibility(View.GONE);
-			} else {
-				tvCarstyle.setText(temp);
-			}
-			temp = ConfigureData.carRequestDetailObject
-					.getString("transmission");
-			if ((temp.equals("null"))) {
-				tvCarTransmission.setVisibility(View.GONE);
-			} else {
-				tvCarTransmission.setText(temp);
-			}
-
-			tvPosterEmail.setText(ConfigureData.carRequestDetailObject
-					.getString("email"));
+			
+			temp = ConfigureData.carRequestDetailObject.getString("createdBy");
+			tvPosterName.setText(temp.equals("null") ? "" : temp);
+						
+			temp = ConfigureData.carRequestDetailObject.getString("email");
+			tvPosterEmail.setText((temp.equals("null")) ? "" : temp);
 
 			temp = ConfigureData.carRequestDetailObject.getString("phone");
 			tvPosterPhone.setText((temp.equals("null")) ? "" : temp);
+			
+			temp = ConfigureData.carRequestDetailObject.getString("createDate");
+			tvDatePosted.setText(temp.equals("null") ? "" : temp);
+			
+			temp = ConfigureData.carRequestDetailObject.getString("expirationDate");
+			tvDateExpiration.setText(temp.equals("null") ? "" : temp);
+
+			temp = ConfigureData.carRequestDetailObject.getString("information");
+			tvPosterRequirement.setText((temp.equals("null")) ? "" : temp);
+
+			temp = ConfigureData.carRequestDetailObject.getString("startDate");
+			tvDateFrom.setText((temp.equals("null")) ? "" : temp);
+			
+			temp = ConfigureData.carRequestDetailObject.getString("endDate");
+			tvDateTo.setText((temp.equals("null")) ? "" : temp);
+			
+			tvHasDriver.setText((hasDriver == 0) ? getString(R.string.request_car_driver_no)
+							: getString(R.string.request_car_driver_has));
+
+			temp = ConfigureData.carRequestDetailObject.getString("fromPrice");
+			tvPriceFrom.setText((temp.equals("null")) ? "" : StaticFunction.formatVnMoney(temp));
+
+			temp = ConfigureData.carRequestDetailObject.getString("toPrice");
+			tvPriceTo.setText((temp.equals("null")) ? "" : StaticFunction.formatVnMoney(temp));
+			
+			temp = ConfigureData.carRequestDetailObject.getString("cityFrom");
+			tvCityFrom.setText((temp.equals("null")) ? "" : temp);
+			
+			temp = ConfigureData.carRequestDetailObject.getString("districtFrom");
+			tvDistricFrom.setText((temp.equals("null")) ? "" : temp);
+			
+			if (hasDriver == 1) {
+				temp = ConfigureData.carRequestDetailObject.getString("cityTo");
+				tvCityTo.setText((temp.equals("null")) ? "" : temp);
+
+				temp = ConfigureData.carRequestDetailObject.getString("districtTo");
+				tvDistricTo.setText((temp.equals("null")) ? "" : temp);
+				
+				temp = ConfigureData.carRequestDetailObject.getString("cityFrom");
+				tvCityFrom.setText((temp.equals("null")) ? "" : temp);
+				
+				temp = ConfigureData.carRequestDetailObject.getString("districtFrom");
+				tvDistricFrom.setText((temp.equals("null")) ? "" : temp);
+				
+			} else {
+				temp = ConfigureData.carRequestDetailObject.getString("city");
+				tvCityFrom.setText((temp.equals("null")) ? "" : temp);
+				
+				temp = ConfigureData.carRequestDetailObject.getString("district");
+				tvDistricFrom.setText((temp.equals("null")) ? "" : temp);
+				
+			}
+
+			layoutRequestCarInfoCar.setVisibility(View.GONE);
+			int showCount = 4;
+			temp = ConfigureData.carRequestDetailObject.getString("make");
+			tvCarMake.setText(temp);
+			if (temp.equals("null")) {
+				layoutCarMake.setVisibility(View.GONE);
+				showCount--;
+			}
+
+			temp = ConfigureData.carRequestDetailObject.getString("model");
+			tvCarModel.setText(temp);
+			if (temp.equals("null")) {
+				layoutCarModel.setVisibility(View.GONE);
+				showCount--;
+			}
+
+			temp = ConfigureData.carRequestDetailObject.getString("style");
+			tvCarStyle.setText(temp);
+			if (temp.equals("null")) {
+				layoutCarStyle.setVisibility(View.GONE);
+				showCount--;
+			}
+			
+			temp = ConfigureData.carRequestDetailObject.getString("transmission");
+			tvCarTransmission.setText(temp);
+			if (temp.equals("null")) {
+				layoutTransmission.setVisibility(View.GONE);
+				showCount--;
+			}
+
+			if (showCount > 0) {				
+				layoutRequestCarInfoCar.setVisibility(View.VISIBLE);
+			}
+
 
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

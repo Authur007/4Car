@@ -68,7 +68,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	// =========================[SCREEN MODE]==============================
 	public final static int SCREEN_MODE_ADVANCE_SEARCH = 0;
 	public final static int SCREEN_MODE_POST_CAR_REQUEST = 1;
-	private static int CURRENT_SCREEN_MODE = SCREEN_MODE_ADVANCE_SEARCH;
+	private int CURRENT_SCREEN_MODE = SCREEN_MODE_ADVANCE_SEARCH;
 	private static boolean isLayoutMoreVisible = false;
 
 	// =========================[PICKER_MODE]==============================
@@ -486,7 +486,6 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		// Check logined when switch to Post car request screen
 		if (mode == SCREEN_MODE_POST_CAR_REQUEST) {
 			if (ConfigureData.isLogged == false) {
-				CURRENT_SCREEN_MODE = SCREEN_MODE_ADVANCE_SEARCH;
 				Toast.makeText(
 						getActivity(),
 						ConfigureData.activityMain
@@ -500,6 +499,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 				fragmentManager.beginTransaction()
 						.replace(R.id.content_frame, fragment).commit();
+				
 				return;
 			}
 		}
@@ -507,7 +507,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		// Everything is OK we will switch screen mode
 		CURRENT_SCREEN_MODE = mode;
 
-		switch (CURRENT_SCREEN_MODE) {
+		switch (mode) {
 		case SCREEN_MODE_ADVANCE_SEARCH:
 			btnCancelPostCarRequest.setVisibility(View.GONE);
 			txtNothing1.setVisibility(View.GONE);
@@ -549,6 +549,15 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			tvScreenName.setText(ConfigureData.activityMain
 					.getString(R.string.post_car_request_screen_name));
 
+			// Change the default start date in Post car request
+			if (compareStringDate(strStartDate, addStringDateFormated(getCurrenttDateFormated(), 1)) == 0) {
+				strStartDate = addStringDateFormated(getCurrenttDateFormated(), 2);
+				btnStartDate.setText(strStartDate);
+				
+				strEndDate = addStringDateFormated(getCurrenttDateFormated(), 3);				
+				btnEndDate.setText(strEndDate);
+			}
+			
 			break;
 		}
 	}
@@ -1589,23 +1598,45 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 		switch (DatePickerFragment.pickerType) {
 		case PICKER_TYPE_START_DATE:
-			// The selected date must be after the current day
-			if (compareStringDate(getCurrenttDateFormated(), selectedDate) == -1) {
-				strStartDate = selectedDate;
-				btnStartDate.setText(strStartDate);
+			if (CURRENT_SCREEN_MODE == SCREEN_MODE_ADVANCE_SEARCH) {
+				// The selected date must be after the current date
+				if (compareStringDate(getCurrenttDateFormated(), selectedDate) == -1) {
+					strStartDate = selectedDate;
+					btnStartDate.setText(strStartDate);
 
-				if (!(compareStringDate(strStartDate, strEndDate) == -1)) {
-					strEndDate = addStringDateFormated(selectedDate, 1);
-					btnEndDate.setText(strEndDate);
-				}
-				strExpirationDate = strStartDate;
-				btnExpirationDate.setText(strExpirationDate);
-			} else {
-				Toast.makeText(
+					if (!(compareStringDate(strStartDate, strEndDate) == -1)) {
+						strEndDate = addStringDateFormated(selectedDate, 1);
+						btnEndDate.setText(strEndDate);
+					}
+					strExpirationDate = strStartDate;
+					btnExpirationDate.setText(strExpirationDate);
+				} else {
+					Toast.makeText(
 						getActivity(),
 						ConfigureData.activityMain
 								.getString(R.string.err_start_date_constraint),
 						Toast.LENGTH_SHORT).show();
+				}
+			} else if (CURRENT_SCREEN_MODE == SCREEN_MODE_POST_CAR_REQUEST) {
+				// The selected date must be after the current day 2 days
+				if (compareStringDate(addStringDateFormated(getCurrenttDateFormated(), 1), selectedDate) == -1) {
+					strStartDate = selectedDate;
+					btnStartDate.setText(strStartDate);
+
+					if (!(compareStringDate(strStartDate, strEndDate) == -1)) {
+						strEndDate = addStringDateFormated(selectedDate, 1);
+						btnEndDate.setText(strEndDate);
+					}
+					strExpirationDate = strStartDate;
+					btnExpirationDate.setText(strExpirationDate);
+				} else {
+					Toast.makeText(
+						getActivity(),
+						ConfigureData.activityMain
+								.getString(R.string.err_start_date_constraint_when_post_car_request),
+						Toast.LENGTH_SHORT).show();
+				}
+				
 			}
 			break;
 		case PICKER_TYPE_END_DATE:
@@ -1624,7 +1655,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			// The selected date and before the current and not after start
 			// date
 			if ((compareStringDate(selectedDate, getCurrenttDateFormated()) == 1)
-					&& !(compareStringDate(selectedDate, strStartDate) == 1)) {
+					&& (compareStringDate(selectedDate, strStartDate) == -1)) {
 				strExpirationDate = selectedDate;
 				btnExpirationDate.setText(strExpirationDate);
 			} else {

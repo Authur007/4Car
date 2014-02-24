@@ -81,6 +81,8 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 		addFooterView(mFooterView);
 
 		super.setOnScrollListener(this);
+		
+		onLoadMoreComplete();
 	}
 
 	@Override

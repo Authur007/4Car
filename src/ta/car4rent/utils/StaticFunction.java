@@ -1,9 +1,7 @@
 package ta.car4rent.utils;
 
-import ta.car4rent.configures.ConfigureData;
 import android.app.Activity;
 import android.content.Context;
-
 import android.view.inputmethod.InputMethodManager;
 
 public class StaticFunction {
@@ -20,5 +18,24 @@ public class StaticFunction {
 			e.printStackTrace();
 		}
 		
+	}
+	
+
+	/**
+	 * Convert price string 1000000 to 1.000.000
+	 * 
+	 * @param price
+	 * @return
+	 */
+	public static String formatVnMoney(String price) {
+		String s = "";
+		for (int i = price.length() - 1; i >= 0; i--) {
+			if ((price.length() - i) % 3 == 0 && i != 0) {
+				s = "." + price.charAt(i) + s;
+			} else {
+				s = price.charAt(i) + s;
+			}
+		}
+		return s;
 	}
 }

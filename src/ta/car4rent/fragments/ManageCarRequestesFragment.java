@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ta.car4rent.R;
+import ta.car4rent.activities.MainActivity;
 import ta.car4rent.adapters.CarRequestsListAdapter;
 import ta.car4rent.configures.ConfigureData;
 import android.os.AsyncTask;
@@ -39,6 +40,12 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 public class ManageCarRequestesFragment extends Fragment implements
 		OnItemClickListener {
+
+	// Setup for filter
+	public final static int FILTER_MODE_ALL = 0;
+	public final static int FILTER_MODE_OPEN = 1;
+	public final static int FILTER_MODE_CLOSED = 2;
+
 	public static JSONObject selectedCarRequestJSONObject = new JSONObject();
 
 	// =========================[About load
@@ -67,6 +74,12 @@ public class ManageCarRequestesFragment extends Fragment implements
 		}
 	}
 
+	private static int mFilterMode = FILTER_MODE_OPEN;
+
+	public void setFilterMode(int filterMode) {
+		mFilterMode = filterMode;
+	}
+
 	public ManageCarRequestesFragment() {
 		// Empty constructor required for fragment subclasses
 	}
@@ -85,8 +98,11 @@ public class ManageCarRequestesFragment extends Fragment implements
 		ArrayList<JSONObject> carRequestsList = new ArrayList<JSONObject>();
 
 		// URL post request
-		String url = "http://4carsvn.cloudapp.net:4411/Common/GetCarRequests/"
-				+ mEndPageIndex + "/" + PAGE_SIZE;
+		String url = "";
+
+		url = "http://4carsvn.cloudapp.net:4411/Common/GetCarRequests/"
+				+ mEndPageIndex + "/" + PAGE_SIZE + "/" + mFilterMode;
+
 		String response = "[]";
 		try {
 			Log.i("START GET CAR REQUESTS -- GET JSON TASK", url);
@@ -155,6 +171,9 @@ public class ManageCarRequestesFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		MainActivity.Instance.showActionFilterSpinner(true);
+
 		View rootView = inflater.inflate(
 				R.layout.fragment_manage_car_requested, container, false);
 		ConfigureData.currentScreen = 2;
@@ -194,6 +213,13 @@ public class ManageCarRequestesFragment extends Fragment implements
 		});
 
 		return rootView;
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		MainActivity.Instance.showActionFilterSpinner(true);
+		super.onResume();
 	}
 
 	@Override
@@ -292,23 +318,29 @@ public class ManageCarRequestesFragment extends Fragment implements
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-		int requestId = Integer.parseInt(view.getTag().toString());
+		try {
+			int requestId = Integer.parseInt(view.getTag().toString());
 
-		if (requestId != 0) {
-			// Insert the fragment by replacing any existing
-			CarRequestDetailFragment fragment = new CarRequestDetailFragment();
-			fragment.setCarRequestID(requestId);
-			FragmentManager fragmentManager = getActivity()
-					.getSupportFragmentManager();
-			FragmentTransaction ft = fragmentManager.beginTransaction();
-			ft.replace(R.id.content_frame, fragment);
-			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			if (requestId != 0) {
 
-			// add to back track
-			ft.addToBackStack("CarRequest");
-			ft.commit();
+				// Insert the fragment by replacing any existing
+				CarRequestDetailFragment fragment = new CarRequestDetailFragment();
+				fragment.setCarRequestID(requestId);
+				FragmentManager fragmentManager = getActivity()
+						.getSupportFragmentManager();
+				FragmentTransaction ft = fragmentManager.beginTransaction();
+				ft.replace(R.id.content_frame, fragment);
+				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+				// add to back track
+				ft.addToBackStack("CarRequest");
+				ft.commit();
+			}
+		} catch (Exception e) {
+			if (BuildConfig.DEBUG) {
+				e.printStackTrace();
+			}
 		}
-
 	}
 
 	@Override

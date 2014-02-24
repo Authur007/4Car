@@ -22,7 +22,7 @@
         android:layout_marginTop="14dp"
         android:padding="16dp"
         android:gravity="center"
-        android:text="Bạn chưa đăng tin tìm xe."
+        android:text="Không có tin nào."
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#ff8800"
         android:visibility="gone"/>

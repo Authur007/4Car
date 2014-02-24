@@ -373,7 +373,8 @@ public class LoginFragmemt extends DialogFragment implements OnClickListener,
 					StaticFunction.hideKeyboard(ConfigureData.activityMain);
 					try {
 						// Show the Account info Fragment
-						Fragment fragment = new SearchCarFragmemt();
+						SearchCarFragmemt fragment = new SearchCarFragmemt();
+						fragment.setCurrentScreenMode(SearchCarFragmemt.SCREEN_MODE_POST_CAR_REQUEST);
 						// Insert the fragment by replacing any existing
 						// fragment
 						FragmentManager fragmentManager = ConfigureData.activityMain
