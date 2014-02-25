@@ -206,49 +206,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-
-            <LinearLayout
-                android:id="@+id/layoutTimeRent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/check" />
-
-                <TextView
-                    android:id="@+id/tvTimeRent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="1 Ngày"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#ffffff" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutDistanceRent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:visibility="gone" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/check" />
-
-                <TextView
-                    android:id="@+id/tvDistanceRent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:text="5"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#ffffff" />
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

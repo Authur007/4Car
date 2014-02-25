@@ -8,10 +8,9 @@
     android:padding="5dp" >
 
     <ListView
-        android:id="@+id/listComentRequest"
+        android:id="@+id/listCommentRequest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_above="@+id/layoutComment" >
     </ListView>
 
@@ -23,11 +22,11 @@
         android:paddingTop="15dp" >
 
         <EditText
-            android:id="@+id/edtComentRequest"
+            android:id="@+id/edtCommentRequest"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:layout_weight="1"
-            android:background="@drawable/border2"
+            android:background="@drawable/layout_border_nhat"
             android:ems="10"
             android:hint="@string/coment_here"
             android:padding="2dp" />
@@ -37,7 +36,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/btnSendComentRequest"
+            android:id="@+id/btnSendCommentRequest"
             android:layout_width="54dp"
             android:layout_height="@dimen/button_height"
             android:background="@drawable/list_selector"

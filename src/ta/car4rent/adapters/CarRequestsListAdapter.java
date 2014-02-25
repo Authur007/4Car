@@ -120,7 +120,7 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 			}
 			
 			((ImageButton)vi.findViewById(R.id.transparentView)).setOnClickListener(this);
-			((ImageButton)vi.findViewById(R.id.transparentView)).setTag(requestId);
+			((ImageButton)vi.findViewById(R.id.transparentView)).setTag(requestId + "_" + strStatus);
 			
 		} catch (JSONException e) {
 			Log.e("ERROR SHOW CAR REQUEST LIST", e.toString());
@@ -144,8 +144,15 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 
 	@Override
 	public void onClick(View v) {
-		int requestId = Integer.parseInt(v.getTag().toString());
+		int requestId = Integer.parseInt(v.getTag().toString().split("_")[0]);
 		mRequestId = requestId;
+		
+		try {
+			ManageCarRequestesFragment.selectedCarRequestStatus = v.getTag().toString().split("_")[1];
+		} catch (Exception e) {
+			
+		}
+		
 		
 		// TODO Auto-generated method stub
 		if (v.getId() == R.id.transparentView) {
@@ -206,9 +213,9 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 							// success
 							AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
 							alertDialog.setIcon(R.drawable.ic_launcher);
-							alertDialog.setTitle("Đóng tin thành công !");
-							alertDialog.setMessage("Nhấn kết thúc để tải lại dữ liệu.");
-							alertDialog.setButton("Kết thúc",
+							alertDialog.setTitle("Chúc mừng!");
+							alertDialog.setMessage("Đóng tin thành công.");
+							alertDialog.setButton("Đồng ý",
 									new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dialog, int which) {
 											// Insert the fragment by replacing any existing
@@ -225,9 +232,9 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 						// show error
 						AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
 						alertDialog.setIcon(R.drawable.ic_error);
-						alertDialog.setTitle("Ráº¥t tiáº¿c !");
-						alertDialog.setMessage("Ä�Ã³ng tin khÃ´ng thÃ nh cÃ´ng.");
-						alertDialog.setButton("Ä�á»“ng Ã½",
+						alertDialog.setTitle("Rất tiếc !");
+						alertDialog.setMessage("Đóng tin không thành công.");
+						alertDialog.setButton("Đồng ý",
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int which) {
 									}

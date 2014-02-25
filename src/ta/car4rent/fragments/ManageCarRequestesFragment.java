@@ -41,6 +41,8 @@ import com.google.analytics.tracking.android.EasyTracker;
 public class ManageCarRequestesFragment extends Fragment implements
 		OnItemClickListener {
 
+	public static String selectedCarRequestStatus;
+	
 	// Setup for filter
 	public final static int FILTER_MODE_ALL = 0;
 	public final static int FILTER_MODE_OPEN = 1;
@@ -326,8 +328,7 @@ public class ManageCarRequestesFragment extends Fragment implements
 				// Insert the fragment by replacing any existing
 				CarRequestDetailFragment fragment = new CarRequestDetailFragment();
 				fragment.setCarRequestID(requestId);
-				FragmentManager fragmentManager = getActivity()
-						.getSupportFragmentManager();
+				FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 				FragmentTransaction ft = fragmentManager.beginTransaction();
 				ft.replace(R.id.content_frame, fragment);
 				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

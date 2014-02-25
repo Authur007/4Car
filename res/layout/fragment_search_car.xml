@@ -369,8 +369,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:prompt="@string/gia_den"
-                        android:spinnerMode="dialog"
-                        android:visibility="gone" />
+                        android:spinnerMode="dialog"/>
                 </LinearLayout>
             </LinearLayout>
 

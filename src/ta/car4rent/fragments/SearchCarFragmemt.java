@@ -161,9 +161,9 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
 		MainActivity.Instance.showActionFilterSpinner(false);
-		
+
 		View rootView = null;
 		if (!ConfigureData.isOnline()) {
 			// Show error Internet connectivity and button retry
@@ -498,10 +498,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				Fragment fragment = new LoginFragmemt();
 				// Insert the fragment by replacing any existing
 				// fragment
-				FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+				FragmentManager fragmentManager = getActivity()
+						.getSupportFragmentManager();
 				fragmentManager.beginTransaction()
 						.replace(R.id.content_frame, fragment).commit();
-				
+
 				return;
 			}
 		}
@@ -552,14 +553,16 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					.getString(R.string.post_car_request_screen_name));
 
 			// Change the default start date in Post car request
-			if (compareStringDate(strStartDate, addStringDateFormated(getCurrenttDateFormated(), 1)) == 0) {
-				strStartDate = addStringDateFormated(getCurrenttDateFormated(), 2);
+			if (compareStringDate(strStartDate,
+					addStringDateFormated(getCurrenttDateFormated(), 1)) == 0) {
+				strStartDate = addStringDateFormated(getCurrenttDateFormated(),
+						2);
 				btnStartDate.setText(strStartDate);
-				
-				strEndDate = addStringDateFormated(getCurrenttDateFormated(), 3);				
+
+				strEndDate = addStringDateFormated(getCurrenttDateFormated(), 3);
 				btnEndDate.setText(strEndDate);
 			}
-			
+
 			break;
 		}
 	}
@@ -800,15 +803,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	}
 
 	/**
-	 * Get date as String
-	 * 
-	 * @param add
-	 *            = 0
-	 * @return current date
-	 * 
-	 * @param add
-	 *            = 1
-	 * @return the next date
+	 * Get current date as String
 	 */
 	@SuppressLint("SimpleDateFormat")
 	public static String getCurrenttDateFormated() {
@@ -905,9 +900,9 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				exportJsonObjectSearch();
 
 				// Show search result screen
-				Fragment newContent = new ResultSeachFragmemt();
-				ResultSeachFragmemt.mCarArrayList = null;
-				ResultSeachFragmemt.mEndPageIndex = 0;
+				Fragment newContent = new ListResultSeachCarFragmemt();
+				ListResultSeachCarFragmemt.mCarArrayList = null;
+				ListResultSeachCarFragmemt.mEndPageIndex = 0;
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				final FragmentTransaction ft = fm.beginTransaction();
 				ft.replace(R.id.content_frame, newContent);
@@ -1149,24 +1144,28 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		}
 
 		// check price
-		if (pricesFromSpinnerDataList.getSelectedIndex() == 2
-				&& pricesToSpinnerDataList.getSelectedIndex() == 0) {
-			showDialog(ConfigureData.activityMain.getString(R.string.err),
-					ConfigureData.activityMain
-							.getString(R.string.err_price_to_constraint),
-					R.drawable.ic_error);
-			return false;
-		}
-		if (pricesFromSpinnerDataList.getSelectedIndex() > 2
-				&& pricesFromSpinnerDataList.getSelectedIndex() < pricesFromSpinnerDataList
-						.getSize() - 1) {
-			if (pricesFromSpinnerDataList.getSelectedIndex()
-					- pricesToSpinnerDataList.getSelectedIndex() >= 3) {
+		if (pricesFromSpinnerDataList.getSelectedIndex() > 0
+				&& pricesToSpinnerDataList.getSelectedIndex() > 0) {
+			if (pricesFromSpinnerDataList.getSelectedIndex() == 2
+					&& pricesToSpinnerDataList.getSelectedIndex() == 0) {
 				showDialog(ConfigureData.activityMain.getString(R.string.err),
 						ConfigureData.activityMain
 								.getString(R.string.err_price_to_constraint),
 						R.drawable.ic_error);
 				return false;
+			}
+			if (pricesFromSpinnerDataList.getSelectedIndex() > 2
+					&& pricesFromSpinnerDataList.getSelectedIndex() < pricesFromSpinnerDataList
+							.getSize() - 1) {
+				if (pricesFromSpinnerDataList.getSelectedIndex()
+						- pricesToSpinnerDataList.getSelectedIndex() >= 3) {
+					showDialog(
+							ConfigureData.activityMain.getString(R.string.err),
+							ConfigureData.activityMain
+									.getString(R.string.err_price_to_constraint),
+							R.drawable.ic_error);
+					return false;
+				}
 			}
 		}
 
@@ -1500,11 +1499,9 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					pricesFromSpinnerDataList.setSelectedItem(pos);
 					spinnerPriceFrom.setSelection(pricesFromSpinnerDataList
 							.getSelectedIndex());
-					spinnerPriceTo.setVisibility(View.VISIBLE);
 				}
 
 			} else {
-				spinnerPriceTo.setVisibility(View.GONE);
 				pricesToSpinnerDataList.setSelectedItem(0);
 				pricesFromSpinnerDataList.setSelectedItem(pos);
 				spinnerPriceFrom.setSelection(pricesFromSpinnerDataList
@@ -1531,6 +1528,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 							.getSelectedIndex());
 				}
 			}
+
 			break;
 		case R.id.spinnerMakeCar:
 			makesSpinnerDataList.setSelectedItem(pos);
@@ -1614,14 +1612,16 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					btnExpirationDate.setText(strExpirationDate);
 				} else {
 					Toast.makeText(
-						getActivity(),
-						ConfigureData.activityMain
-								.getString(R.string.err_start_date_constraint),
-						Toast.LENGTH_SHORT).show();
+							getActivity(),
+							ConfigureData.activityMain
+									.getString(R.string.err_start_date_constraint),
+							Toast.LENGTH_SHORT).show();
 				}
 			} else if (CURRENT_SCREEN_MODE == SCREEN_MODE_POST_CAR_REQUEST) {
 				// The selected date must be after the current day 2 days
-				if (compareStringDate(addStringDateFormated(getCurrenttDateFormated(), 1), selectedDate) == -1) {
+				if (compareStringDate(
+						addStringDateFormated(getCurrenttDateFormated(), 1),
+						selectedDate) == -1) {
 					strStartDate = selectedDate;
 					btnStartDate.setText(strStartDate);
 
@@ -1633,12 +1633,12 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					btnExpirationDate.setText(strExpirationDate);
 				} else {
 					Toast.makeText(
-						getActivity(),
-						ConfigureData.activityMain
-								.getString(R.string.err_start_date_constraint_when_post_car_request),
-						Toast.LENGTH_SHORT).show();
+							getActivity(),
+							ConfigureData.activityMain
+									.getString(R.string.err_start_date_constraint_when_post_car_request),
+							Toast.LENGTH_SHORT).show();
 				}
-				
+
 			}
 			break;
 		case PICKER_TYPE_END_DATE:
@@ -1799,7 +1799,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			spinnerDistrictsFrom.setVisibility(View.GONE);
 			spinnerDistrictsTo.setVisibility(View.GONE);
 			spinnerPriceFrom.setVisibility(View.VISIBLE);
-			spinnerPriceTo.setVisibility(View.GONE);
+			spinnerPriceTo.setVisibility(View.VISIBLE);
 
 			spinnerMakeCar.setVisibility(View.VISIBLE);
 			spinnerModelCar.setVisibility(View.VISIBLE);
@@ -1821,7 +1821,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			spinnerDistrictsFrom.setVisibility(View.GONE);
 			spinnerDistrictsTo.setVisibility(View.GONE);
 			spinnerPriceFrom.setVisibility(View.VISIBLE);
-			spinnerPriceTo.setVisibility(View.GONE);
+			spinnerPriceTo.setVisibility(View.VISIBLE);
 
 			spinnerMakeCar.setVisibility(View.VISIBLE);
 			spinnerModelCar.setVisibility(View.VISIBLE);

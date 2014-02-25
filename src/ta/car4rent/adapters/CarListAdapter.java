@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import ta.car4rent.R;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.fragments.ResultSearchCarDetailFragment;
-import ta.car4rent.fragments.ResultSeachFragmemt;
+import ta.car4rent.fragments.ListResultSeachCarFragmemt;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -109,24 +109,7 @@ public class CarListAdapter extends BaseAdapter implements OnItemClickListener {
 
 			if (data.get(position).getBoolean("hasCarDriver")) {
 				// price of hasdriver
-				((TextView) vi.findViewById(R.id.tvPrice)).setText(s + "\n"
-						+ "VND");
-				
-				// get timerent and distent rent
-				int timeRent = data.get(position).getInt("day");
-				int hoursRent = data.get(position).getInt("hours");
-				((TextView) vi.findViewById(R.id.tvTimeRent)).setText(timeRent
-						+ " "
-						+ ConfigureData.activityMain.getString(R.string.day)+ " "+ hoursRent +" "+ ConfigureData.activityMain.getString(R.string.hours));
-				((LinearLayout) vi.findViewById(R.id.layoutTimeRent))
-						.setVisibility(View.VISIBLE);
-
-				int kmRent = data.get(position).getInt("km");
-
-				((TextView) vi.findViewById(R.id.tvDistanceRent))
-						.setText(kmRent + " Km");
-				((LinearLayout) vi.findViewById(R.id.layoutDistanceRent))
-						.setVisibility(View.VISIBLE);
+				((TextView) vi.findViewById(R.id.tvPrice)).setText(s + "\n" + "VND");
 
 			}else{
 				((TextView) vi.findViewById(R.id.tvPrice)).setText(s + "\n"
@@ -152,7 +135,7 @@ public class CarListAdapter extends BaseAdapter implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 
 		int positionInList = Integer.parseInt(view.getTag().toString());
-		ResultSeachFragmemt.selectCar(positionInList);
+		ListResultSeachCarFragmemt.selectCar(positionInList);
 
 		Fragment newContent = new ResultSearchCarDetailFragment();
 		ft.replace(R.id.content_frame, newContent);

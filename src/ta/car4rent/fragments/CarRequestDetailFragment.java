@@ -8,9 +8,13 @@ import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.utils.StaticFunction;
 import ta.car4rent.webservices.OnGetJsonListener;
+import ta.car4rent.webservices.ServiceCloseCarRequest;
 import ta.car4rent.webservices.ServiceManagerGetCarRequested;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,6 +64,8 @@ public class CarRequestDetailFragment extends Fragment implements
 	LinearLayout layoutRequestCarInfoCar;
 	// Comment button
 	Button btnShowCommentRequest;
+	Button btnCloseCarRequest;
+	int mRequestId;
 
 	View view = null;
 	int carRequestID = 132;
@@ -91,7 +97,7 @@ public class CarRequestDetailFragment extends Fragment implements
 
 		// findViewById
 		tvCarMake = (TextView) view.findViewById(R.id.tvCarMake);
-		tvCarModel = (TextView) view.findViewById(R.id.tvCarMake);
+		tvCarModel = (TextView) view.findViewById(R.id.tvCarModel);
 		tvCarStyle = (TextView) view.findViewById(R.id.tvCarStyle);
 		tvCarTransmission = (TextView) view.findViewById(R.id.tvCarTransmission);
 		tvCityFrom = (TextView) view.findViewById(R.id.tvCityFrom);
@@ -106,8 +112,7 @@ public class CarRequestDetailFragment extends Fragment implements
 		tvPosterEmail = (TextView) view.findViewById(R.id.tvPosterEmail);
 		tvPosterName = (TextView) view.findViewById(R.id.tvPosterName);
 		tvPosterPhone = (TextView) view.findViewById(R.id.tvPosterPhone);
-		tvPosterRequirement = (TextView) view
-				.findViewById(R.id.tvRequirementPoster);
+		tvPosterRequirement = (TextView) view.findViewById(R.id.tvRequirementPoster);
 		tvPriceFrom = (TextView) view.findViewById(R.id.tvPriceFromRequest);
 		tvPriceTo = (TextView) view.findViewById(R.id.tvPriceToRequest);
 
@@ -122,6 +127,16 @@ public class CarRequestDetailFragment extends Fragment implements
 
 		btnShowCommentRequest = (Button) view.findViewById(R.id.btnShowCommentRequest);
 		btnShowCommentRequest.setOnClickListener(this);
+		
+		btnCloseCarRequest = (Button) view.findViewById(R.id.btnCloseCarRequest);
+		btnCloseCarRequest.setOnClickListener(this);
+		
+		if (ManageCarRequestesFragment.selectedCarRequestStatus.charAt(0) != 'M') {
+			btnCloseCarRequest.setVisibility(View.GONE);
+			view.findViewById(R.id.txtNothing1).setVisibility(View.GONE);
+		}
+		
+		 
 		return view;
 	}
 
@@ -150,10 +165,9 @@ public class CarRequestDetailFragment extends Fragment implements
 				try {
 					JSONObject responeObject = new JSONObject(response);
 					if (responeObject.getBoolean("status")) {
-						ConfigureData.carRequestDetailObject = responeObject
-								.getJSONObject("data");
-						hasDriver = ConfigureData.carRequestDetailObject
-								.getInt("hasCarDriver");
+						ConfigureData.carRequestDetailObject = responeObject.getJSONObject("data");
+						hasDriver = ConfigureData.carRequestDetailObject.getInt("hasCarDriver");
+						
 						if (hasDriver == 1) {
 							showHasDriverUI();
 						} else {
@@ -181,6 +195,9 @@ public class CarRequestDetailFragment extends Fragment implements
 
 	private void fillData() {
 		try {
+			
+			mRequestId = ConfigureData.carRequestDetailObject.getInt("id");
+			
 			String temp = "";
 			
 			temp = ConfigureData.carRequestDetailObject.getString("createdBy");
@@ -310,11 +327,93 @@ public class CarRequestDetailFragment extends Fragment implements
 					.addToBackStack("Comment").commit();
 
 			break;
-
+		case R.id.btnCloseCarRequest:
+			// Show confirm close dialog
+						(new AlertDialog.Builder(getActivity()))
+						.setIcon(R.drawable.ic_launcher)
+						.setTitle("Xác nhận !")
+						.setMessage("Bạn có chắc muốn đóng tin này không.")
+						.setNegativeButton("Không", null)
+						.setPositiveButton("Có", changeStatus)
+						.create()
+						.show();
 		default:
 			break;
 		}
 
 	}
+	
+	// Handle when apply close request
+		private DialogInterface.OnClickListener changeStatus = new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				ServiceCloseCarRequest serviceCloseCarRequest = new ServiceCloseCarRequest();
+				serviceCloseCarRequest.addOnGetJsonListener(new OnGetJsonListener() {
+					
+					@Override
+					public void onGetJsonFail(String response) {
+						// show error
+						AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+						alertDialog.setIcon(R.drawable.ic_error);
+						alertDialog.setTitle("Rất tiếc!");
+						alertDialog.setMessage("Đóng tin không thành công.");
+						alertDialog.setButton("Kết thúc",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int which) {
+									}
+								});
+						alertDialog.show();
+					}
+					
+					@Override
+					public void onGetJsonCompleted(String response) {
+						// TODO Auto-generated method stub
+						try {
+							JSONObject responseObject = new JSONObject(response);
+							if (responseObject.getBoolean("status")) {
+								// Change status now
+								// success
+								AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+								alertDialog.setIcon(R.drawable.ic_launcher);
+								alertDialog.setTitle("Chúc mừng!");
+								alertDialog.setMessage("Đóng tin thành công.");
+								alertDialog.setButton("Đồng ý",
+										new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int which) {
+												FragmentManager fm = getActivity().getSupportFragmentManager();
+												FragmentTransaction ft = fm.beginTransaction();
+												// Insert the fragment by replacing any existing
+												// fragment
+												ManageCarRequestesFragment fragment = new ManageCarRequestesFragment();
+												ft.replace(R.id.content_frame, fragment).commit();
+
+											}
+										});
+								alertDialog.show();
+								
+							}
+						} catch (Exception e) {
+							// show error
+							AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+							alertDialog.setIcon(R.drawable.ic_error);
+							alertDialog.setTitle("Rất tiếc!");
+							alertDialog.setMessage("Đóng tin không thành công.");
+							alertDialog.setButton("Đồng ý",
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int which) {
+										}
+									});
+							alertDialog.show();
+							
+							e.printStackTrace();
+						}
+					}
+				});
+				
+				serviceCloseCarRequest.closeCarRequest(mRequestId);
+				
+			}
+		};
 
 }

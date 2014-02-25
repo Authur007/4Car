@@ -1,15 +1,19 @@
 package ta.car4rent.fragments;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import ta.car4rent.R;
 import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
-import ta.car4rent.objects.ComentArrayRequestCarAdapter;
+import ta.car4rent.objects.CommentArrayRequestCarAdapter;
 import ta.car4rent.utils.StaticFunction;
 import ta.car4rent.webservices.OnPostJsonListener;
 import ta.car4rent.webservices.ServiceManagerPostCarRequestComment;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,8 +32,8 @@ public class CarRequestCommentFragment extends Fragment implements
 	Button btnSendComment;
 	EditText edtContentComment;
 
-	private ComentArrayRequestCarAdapter commentAdapter;
-	private ListView listComent;
+	private CommentArrayRequestCarAdapter commentAdapter;
+	private ListView listComment;
 
 	int carRequestId = 0;
 
@@ -57,6 +61,19 @@ public class CarRequestCommentFragment extends Fragment implements
 			ViewGroup parent = (ViewGroup) view.getParent();
 			parent.removeView(view);
 		}
+		
+
+		// findview and setOnclick
+		edtContentComment = (EditText) view.findViewById(R.id.edtCommentRequest);
+		btnSendComment = (Button) view.findViewById(R.id.btnSendCommentRequest);
+		listComment = (ListView) view.findViewById(R.id.listCommentRequest);
+
+		btnSendComment.setOnClickListener(this);
+
+		// comment adapter
+		commentAdapter = new CommentArrayRequestCarAdapter(ConfigureData.activityMain, R.layout.row_coment_request_car);
+		listComment.setAdapter(commentAdapter);
+		
 		return view;
 	}
 
@@ -65,24 +82,14 @@ public class CarRequestCommentFragment extends Fragment implements
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 
-		// findview and setOnclick
-		edtContentComment = (EditText) view.findViewById(R.id.edtComentRequest);
-		btnSendComment = (Button) view.findViewById(R.id.btnSendComentRequest);
-		listComent = (ListView) view.findViewById(R.id.listComentRequest);
-
-		btnSendComment.setOnClickListener(this);
-
-		// commnent adapter
-		commentAdapter = new ComentArrayRequestCarAdapter(
-				ConfigureData.activityMain, R.layout.row_coment_request_car);
-		listComent.setAdapter(commentAdapter);
+		commentAdapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void onClick(View view) {
 		StaticFunction.hideKeyboard(ConfigureData.activityMain);
 		switch (view.getId()) {
-		case R.id.btnSendComentRequest:
+		case R.id.btnSendCommentRequest:
 			final String contentComent = edtContentComment.getText().toString();
 			final JSONObject commentObject = new JSONObject();
 
@@ -105,7 +112,7 @@ public class CarRequestCommentFragment extends Fragment implements
 							@Override
 							public void onPostJsonCompleted(String response) {
 								try {
-									commentObject.put("date", "null");
+									commentObject.put("date", getCurrenttDateTimeFormated());
 									commentObject.put("comment", contentComent);
 									commentObject.put("user",
 											ConfigureData.userAccount
@@ -118,7 +125,7 @@ public class CarRequestCommentFragment extends Fragment implements
 									e.printStackTrace();
 								}
 								commentAdapter.add(commentObject);
-								listComent.setSelection(commentAdapter
+								listComment.setSelection(commentAdapter
 										.getCount() - 1);
 
 							}
@@ -137,5 +144,16 @@ public class CarRequestCommentFragment extends Fragment implements
 		}
 
 	}
+	
+	/**
+	 * Get current date as String
+	 */
+	@SuppressLint("SimpleDateFormat")
+	public static String getCurrenttDateTimeFormated() {
+		final Calendar c = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
+		return sdf.format(c.getTime());
+	}
+
 
 }

@@ -38,7 +38,7 @@ import com.costum.android.widget.LoadMoreListView.OnLoadMoreListener;
 import com.facebook.android.BuildConfig;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class ResultSeachFragmemt extends Fragment{
+public class ListResultSeachCarFragmemt extends Fragment{
 	public static JSONObject selectedCarJSONObject = new JSONObject();
 	
 	//=========================[About load content]===================================
@@ -65,7 +65,7 @@ public class ResultSeachFragmemt extends Fragment{
 	}
 	
 	
-	public ResultSeachFragmemt() {
+	public ListResultSeachCarFragmemt() {
 		// Empty constructor required for fragment subclasses
 	}
 	
@@ -153,7 +153,7 @@ public class ResultSeachFragmemt extends Fragment{
 		
 		MainActivity.Instance.showActionFilterSpinner(false);
 		
-		View rootView = inflater.inflate(R.layout.fragment_result_search, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_search_car_result, container, false);
 
 		tvHasNoCar = (TextView) rootView.findViewById(R.id.tvHasNoCar);
 		mLoadMoreListView = (LoadMoreListView) rootView.findViewById(R.id.loadMoreListView);

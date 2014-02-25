@@ -108,7 +108,7 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 	private PopupWindow pwindowWarning;
 	ImageButton btnClosePopupWarning;
 
-	// layout canh bao
+	// layout warning
 	RelativeLayout btnAllWarning;
 	RelativeLayout btnChotCongAn;
 	RelativeLayout btnGiaoThong;
@@ -373,6 +373,7 @@ public class GoogleMapsActivity extends ActionBarActivity implements
 	 * timer to refresh newsfeed report
 	 */
 	protected void startTimerRefreshNewsWarning() {
+		
 		timerRefreshNews.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				// if post fragment is show, we don;t need to refresh data

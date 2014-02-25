@@ -18,7 +18,7 @@
     <string name="label_introduce">Giới thiệu</string>
     <string name="label_contact">Liên hệ</string>
     <string name="label_post_warning">Đăng Cảnh Báo</string>
-    <string name="label_cancel_post_car_request">Tìm lại</string>
+    <string name="label_cancel_post_car_request">Tìm xe</string>
     <string name="post">Gửi</string>
     <string name="post_title">Tiêu đề cảnh báo</string>
     <string name="post_description">Mô tả thêm cảnh báo</string>
@@ -195,7 +195,7 @@
     <string name="request_car_style">Số chỗ: </string>
     <string name="request_car_transmission">Loại số: </string>
     <string name="request_car_requirements">Yêu cầu: </string>
-    <string name="request_car_info_feedback">Thông tin phản hồi </string>
+    <string name="str_send_feedback">Gửi phản hồi</string>
     <string name="request_car_driver_has">Có tài xế </string>
     <string name="request_car_driver_no">Không có tài xế </string>
     <string name="request_car_status">Tình trạng tin</string>
@@ -219,5 +219,7 @@
     <string name="phi_cau_duong">Phí cầu đường: </string>
     <string name="has">Có </string>
     <string name="no">Không </string>
+    
+    <string name="str_close_car_request">Đóng tin</string>
 
 </resources>

@@ -256,8 +256,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="3dp" 
-                android:paddingBottom="5dp">
+                android:padding="3dp"
+                android:paddingBottom="5dp" >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -275,8 +275,6 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/orange" />
             </LinearLayout>
-
-            
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -533,7 +531,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/tvCarMake"
+                    android:id="@+id/tvCarModel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -590,25 +588,43 @@
                     android:textColor="@color/orange" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_gravity="bottom"
-                android:background="#FFFF8800"
-                android:orientation="vertical" >
-            </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="5dp" />
 
-            <Button
-                android:id="@+id/btnShowCommentRequest"
+            <LinearLayout
+                android:id="@+id/layoutButton"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:background="@drawable/list_selector"
-                android:text="@string/request_car_info_feedback"
-                android:textColor="#fff" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp" >
+
+                <Button
+                    android:id="@+id/btnCloseCarRequest"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/list_selector"
+                    android:text="@string/str_close_car_request"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtNothing1"
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btnShowCommentRequest"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/list_selector"
+                    android:text="@string/str_send_feedback"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

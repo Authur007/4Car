@@ -27,28 +27,26 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class ComentArrayRequestCarAdapter extends ArrayAdapter<JSONObject> {
+public class CommentArrayRequestCarAdapter extends ArrayAdapter<JSONObject> {
 
-	private TextView comentText;
-	private TextView timeComment;
 	private ImageView avatar;
-	private List<JSONObject> listComent = new ArrayList<JSONObject>();
+	private List<JSONObject> listCommentData = new ArrayList<JSONObject>();
 	ImageLoader imageLoader;
 	Activity activity;
 
-	public ComentArrayRequestCarAdapter(Activity a, int textViewResourceId) {
+	public CommentArrayRequestCarAdapter(Activity a, int textViewResourceId) {
 		super(a, textViewResourceId);
 		activity = a;
 		imageLoader = new ImageLoader(activity);
-		// get json arraycoment
+		// get json array comment
 		try {
-			JSONArray arrayJsonComment = ConfigureData.carRequestDetailObject
-					.getJSONArray("comment");
+			JSONArray arrayJsonComment = ConfigureData.carRequestDetailObject.getJSONArray("comment");
 			if (arrayJsonComment.length() > 0) {
 				for (int i = arrayJsonComment.length() - 1; i > -1; i--) {
-					listComent.add(arrayJsonComment.getJSONObject(i));
-
+					listCommentData.add(arrayJsonComment.getJSONObject(i));
+//					Toast.makeText(a, "arrayJsonComment.length(): " + arrayJsonComment.length() , 2000).show();
 				}
 			}
 		} catch (JSONException e) {
@@ -60,23 +58,23 @@ public class ComentArrayRequestCarAdapter extends ArrayAdapter<JSONObject> {
 
 	@Override
 	public void clear() {
-		listComent.clear();
+		listCommentData.clear();
 		super.clear();
 	}
 
 	@Override
 	public void add(JSONObject object) {
-		listComent.add(object);
+		listCommentData.add(object);
 		super.add(object);
 	}
 
 	public int getCount() {
-		return this.listComent.size();
+		return this.listCommentData.size();
 	}
 
 	public JSONObject getItem(int index) {
 
-		return this.listComent.get(index);
+		return this.listCommentData.get(index);
 
 	}
 
@@ -84,7 +82,7 @@ public class ComentArrayRequestCarAdapter extends ArrayAdapter<JSONObject> {
 
 		View row = convertView;
 		try {
-			JSONObject coment = listComent.get(position);
+			JSONObject coment = listCommentData.get(position);
 			// int userComentID = coment.getInt("userId");
 
 			LayoutInflater inflater = (LayoutInflater) activity
@@ -95,20 +93,22 @@ public class ComentArrayRequestCarAdapter extends ArrayAdapter<JSONObject> {
 			avatar = (ImageView) row.findViewById(R.id.avatarRequest);
 			String avatarURL = coment.getString("image");
 			imageLoader.displayImage(avatarURL, avatar, 50);
+			
 			// username
 			TextView tvUserName = (TextView) row
 					.findViewById(R.id.tvUserNameRequest);
 			tvUserName.setText(coment.getString("user") + "");
 			// comment content
-			comentText = (TextView) row.findViewById(R.id.tvCommentRequest);
-			comentText.setText(coment.getString("comment") + "  ");
+			TextView commentText = (TextView) row.findViewById(R.id.tvCommentRequest);
+			commentText.setText(coment.getString("comment") + "  ");
 
 			// date time;
-			TextView tvTime = (TextView) row
-					.findViewById(R.id.tvTimeRequestComment);
+			TextView tvTime = (TextView) row.findViewById(R.id.tvTimeRequestComment);
 			String strTime = coment.getString("date");
 			if (strTime != "null") {
 				tvTime.setText(strTime);
+			} else {
+				tvTime.setText("");
 			}
 
 		} catch (JSONException e) {
