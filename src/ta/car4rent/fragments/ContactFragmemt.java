@@ -7,6 +7,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 import ta.car4rent.BuildConfig;
 import ta.car4rent.R;
+import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.utils.StaticFunction;
 import ta.car4rent.webservices.ServiceContact;
@@ -40,6 +41,9 @@ public class ContactFragmemt extends Fragment implements OnPostJsonListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		ConfigureData.currentScreen = 2;
 
 		View rootView = inflater.inflate(R.layout.fragment_contact, container,

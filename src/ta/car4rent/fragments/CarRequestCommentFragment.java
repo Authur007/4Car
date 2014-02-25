@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ta.car4rent.R;
+import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.objects.ComentArrayRequestCarAdapter;
 import ta.car4rent.utils.StaticFunction;
@@ -42,7 +43,9 @@ public class CarRequestCommentFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		if (view == null) {
 			view = inflater.inflate(R.layout.fragment_car_request_comment,
 					container, false);

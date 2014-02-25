@@ -4,6 +4,7 @@ import org.json.JSONException;
 
 import ta.car4rent.R;
 import ta.car4rent.activities.FullScreenImageActivity;
+import ta.car4rent.activities.MainActivity;
 import ta.car4rent.adapters.GalleryImageAdapter;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.utils.StaticFunction;
@@ -71,6 +72,9 @@ public class ResultSearchCarDetailFragment extends Fragment implements OnClickLi
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		if (view == null) {
 			view = inflater.inflate(R.layout.fragment_search_car_detail,
 					container, false);

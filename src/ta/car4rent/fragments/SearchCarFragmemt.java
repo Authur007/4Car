@@ -161,7 +161,9 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		View rootView = null;
 		if (!ConfigureData.isOnline()) {
 			// Show error Internet connectivity and button retry

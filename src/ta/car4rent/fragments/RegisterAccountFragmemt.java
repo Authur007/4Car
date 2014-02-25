@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import ta.car4rent.BuildConfig;
 import ta.car4rent.R;
+import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.objects.SpinnerDataItem;
 import ta.car4rent.objects.SpinnerDataList;
@@ -105,6 +106,9 @@ public class RegisterAccountFragmemt extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		ConfigureData.currentScreen = 2;
 
 		View rootView = inflater.inflate(R.layout.fragment_register_account,

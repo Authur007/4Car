@@ -1,6 +1,7 @@
 package ta.car4rent.fragments;
 
 import ta.car4rent.R;
+import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,9 @@ public class NoInternetConnectionFragmemt extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		View rootView = inflater.inflate(R.layout.fragment_no_internet_connection, container, false);
 		Button btnRetry = (Button) rootView.findViewById(R.id.btnRetry);
 		btnRetry.setOnClickListener(new OnClickListener() {

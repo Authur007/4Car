@@ -94,6 +94,9 @@ public class LoginFragmemt extends DialogFragment implements OnClickListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		ConfigureData.currentScreen = 2;
 
 		View rootView = inflater.inflate(R.layout.fragment_login, container,

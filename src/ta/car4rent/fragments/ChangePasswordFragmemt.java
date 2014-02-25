@@ -56,6 +56,9 @@ public class ChangePasswordFragmemt extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+				
 		View rootView = inflater.inflate(R.layout.fragment_change_password,
 				container, false);
 

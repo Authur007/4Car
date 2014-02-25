@@ -3,6 +3,7 @@ package ta.car4rent.fragments;
 import com.google.analytics.tracking.android.EasyTracker;
 
 import ta.car4rent.R;
+import ta.car4rent.activities.MainActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,6 +19,9 @@ public class ConvenientFragmemt extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		View rootView = inflater.inflate(R.layout.fragment_introduce,
 				container, false);
 		return rootView;

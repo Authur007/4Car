@@ -14,6 +14,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 import ta.car4rent.R;
 import ta.car4rent.activities.GoogleMapsActivity;
+import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.utils.StaticFunction;
 import ta.car4rent.webservices.OnPostJsonListener;
@@ -109,6 +110,9 @@ public class PostWarningFragment extends DialogFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		View rootView = inflater.inflate(R.layout.fragment_post_warning,
 				container, false);
 

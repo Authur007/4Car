@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ta.car4rent.R;
+import ta.car4rent.activities.MainActivity;
 import ta.car4rent.adapters.CarListAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -149,6 +150,9 @@ public class ResultSeachFragmemt extends Fragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		
+		MainActivity.Instance.showActionFilterSpinner(false);
+		
 		View rootView = inflater.inflate(R.layout.fragment_result_search, container, false);
 
 		tvHasNoCar = (TextView) rootView.findViewById(R.id.tvHasNoCar);

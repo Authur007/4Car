@@ -141,6 +141,8 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		MainActivity.Instance.showActionFilterSpinner(false);
 		
 		isUserAvatarChange = false;
 		ConfigureData.currentScreen = 2;
