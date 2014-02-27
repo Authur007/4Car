@@ -1599,8 +1599,8 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		switch (DatePickerFragment.pickerType) {
 		case PICKER_TYPE_START_DATE:
 			if (CURRENT_SCREEN_MODE == SCREEN_MODE_ADVANCE_SEARCH) {
-				// The selected date must be after the current date
-				if (compareStringDate(getCurrenttDateFormated(), selectedDate) == -1) {
+				// The selected date must be not before the current date
+				if (!(compareStringDate(selectedDate, getCurrenttDateFormated()) == -1)) {
 					strStartDate = selectedDate;
 					btnStartDate.setText(strStartDate);
 

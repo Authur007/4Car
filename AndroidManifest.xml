@@ -56,17 +56,16 @@
             android:value="@string/fb_app_id" />
 
         
-        <!-- Goolge API Key: Tâm -->
+        <!-- Goolge API Key: Tâm
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCO3su7ISCCGNTJocyHPoqpF0yhBSwS6wk" />
-          
+          -->
          
-         <!-- Goolge API Key: N.Anh
+         <!-- Goolge API Key: N.Anh -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBkx5sDVnn7OJnGWlOM-3wPw2UOuPsiCTk" />
-         -->
          
         <meta-data
             android:name="com.google.android.gms.version"
