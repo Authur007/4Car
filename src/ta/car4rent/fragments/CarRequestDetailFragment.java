@@ -75,6 +75,7 @@ public class CarRequestDetailFragment extends Fragment implements
 		carRequestID = requestId;
 	}
 
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -139,6 +140,17 @@ public class CarRequestDetailFragment extends Fragment implements
 		 
 		return view;
 	}
+	
+	
+	
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		MainActivity.Instance.showActionFilterSpinner(false);
+		super.onResume();
+	}
+
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {

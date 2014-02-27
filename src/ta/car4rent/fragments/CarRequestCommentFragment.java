@@ -77,6 +77,14 @@ public class CarRequestCommentFragment extends Fragment implements
 		return view;
 	}
 
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		MainActivity.Instance.showActionFilterSpinner(false);
+		super.onResume();
+	}
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
