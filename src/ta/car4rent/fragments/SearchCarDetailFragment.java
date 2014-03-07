@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.facebook.android.BuildConfig;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class ResultSearchCarDetailFragment extends Fragment implements OnClickListener {
+public class SearchCarDetailFragment extends Fragment implements OnClickListener {
 	View view = null;
 
 	GalleryImageAdapter galImageAdapter;

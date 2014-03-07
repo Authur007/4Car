@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_newsfeed"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:orientation="vertical"
     android:padding="5dp" >
 
-    
     <com.costum.android.widget.LoadMoreListView
         android:id="@+id/loadMoreListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:divider="#00000000" />
-    
+
     <TextView
         android:id="@+id/tvHasNoCar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="14dp"
-        android:padding="16dp"
         android:gravity="center"
+        android:padding="16dp"
         android:text="Không tìm thấy kết quả nào phù hợp."
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#ff8800"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

@@ -3,19 +3,16 @@ package ta.car4rent.fragments;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ta.car4rent.BuildConfig;
 import ta.car4rent.R;
 import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.utils.StaticFunction;
-import ta.car4rent.webservices.ServiceContact;
 import ta.car4rent.webservices.OnPostJsonListener;
+import ta.car4rent.webservices.ServiceContact;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +23,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class ContactFragmemt extends Fragment implements OnPostJsonListener,
 		OnClickListener {

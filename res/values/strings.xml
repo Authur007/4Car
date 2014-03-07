@@ -3,7 +3,7 @@
 
     <string name="app_name">4cars</string>
     <string name="action_settings">Settings</string>
-    <string name="version">version 3.0 (Ngày 27/02/2014)</string>
+    <string name="version">version 3.3 (Ngày 07/03/2014)</string>
     <string name="label_application_session">ỨNG DỤNG</string>
     <string name="label_search_car">Tìm xe</string>
     <string name="label_convenient">Tiện ích</string>
@@ -153,8 +153,9 @@
     <string name="back">Quay Lại</string>
     <string name="err_start_date_constraint">Để tìm kiếm, ngày đi không được trước ngày hiện tại</string>
     <string name="err_start_date_constraint_when_post_car_request">Để đăng tin, ngày đi phải sau ngày hiện tại ít nhất 2 ngày</string>
-    <string name="err_end_date_constraint">Ngày về phải sau ngày đi</string>
+    <string name="err_end_date_constraint">Ngày về không được phép trước ngày đi</string>
     <string name="err_expiration_date_constraint">Ngày hết hạn phải sau ngày hiện tại và phải trước hoặc bằng ngày đi</string>
+    <string name="err_hour_constraint">Xe đi trong ngày, giờ đi phải trước giờ đến</string>
     <string name="err_price_to_constraint">Giá từ phải nhỏ hơn hặc bằng giá đến</string>
     <string name="err_you_need_login_first">Bạn phải đăng nhập trước khi sử dụng chức năng này</string>
     <string name="err">Lỗi</string>
@@ -189,17 +190,17 @@
     <string name="request_car_place_city_to">Đến Tỉnh/TP: </string>
     <string name="request_car_place_distric">Quận/Huyện: </string>
     <string name="request_car_info_car">Thông tin xe </string>
-    <string name="request_car_driver">Có tài xế: </string>
+    <string name="request_car_driver">Tài xế: </string>
     <string name="request_car_make">Hãng xe: </string>
     <string name="request_car_model">Dòng xe: </string>
     <string name="request_car_style">Số chỗ: </string>
     <string name="request_car_transmission">Loại số: </string>
     <string name="request_car_requirements">Yêu cầu: </string>
-    <string name="str_send_feedback">Gửi phản hồi</string>
+    <string name="str_send_feedback">Phản hồi</string>
     <string name="request_car_driver_has">Có tài xế </string>
     <string name="request_car_driver_no">Không có tài xế </string>
     <string name="request_car_status">Tình trạng tin</string>
-    <string name="str_price">Giá: </string>
+    <string name="str_price">Giá từ: </string>
     <string name="str_price_above">Giá trên: </string>
     <string name="str_price_below">Giá dưới: </string>
     <string name="str_start_date">Ngày đi: </string>

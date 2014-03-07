@@ -11,13 +11,12 @@ import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.fragments.AccountFragmemt;
 import ta.car4rent.fragments.ContactFragmemt;
 import ta.car4rent.fragments.IntroduceFragmemt;
+import ta.car4rent.fragments.ListCarRequestesFragment;
 import ta.car4rent.fragments.LoginFragmemt;
-import ta.car4rent.fragments.ManageCarRequestesFragment;
 import ta.car4rent.fragments.SearchCarFragmemt;
 import ta.car4rent.fragments.SettingWarnningRadiusFragmemt;
 import ta.car4rent.objects.SpinnerNavItem;
 import ta.car4rent.utils.StaticFunction;
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -191,7 +190,7 @@ public class MainActivity extends ActionBarActivity implements
 						if (ConfigureData.isLogged) {
 							// Create a new fragment and specify the Account
 							// Info to show based on position						
-							fragment = new ManageCarRequestesFragment();
+							fragment = new ListCarRequestesFragment();
 							showActionFilterSpinner(true);
 						} else {
 							Toast.makeText(getApplicationContext(),
@@ -528,20 +527,20 @@ public class MainActivity extends ActionBarActivity implements
 	
 	@Override
 	public boolean onNavigationItemSelected(int pos, long arg1) {
-		ManageCarRequestesFragment fragment = new ManageCarRequestesFragment();
+		ListCarRequestesFragment fragment = new ListCarRequestesFragment();
 		// Insert the fragment by replacing any existing
 		// fragment
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		
 		switch (pos) {
 		case 0:
-			fragment.setFilterMode(ManageCarRequestesFragment.FILTER_MODE_OPEN);
+			fragment.setFilterMode(ListCarRequestesFragment.FILTER_MODE_OPEN);
 			break;
 		case 1:
-			fragment.setFilterMode(ManageCarRequestesFragment.FILTER_MODE_CLOSED);
+			fragment.setFilterMode(ListCarRequestesFragment.FILTER_MODE_CLOSED);
 			break;
 		case 2:
-			fragment.setFilterMode(ManageCarRequestesFragment.FILTER_MODE_ALL);
+			fragment.setFilterMode(ListCarRequestesFragment.FILTER_MODE_ALL);
 			break;
 		}
 		

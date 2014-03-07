@@ -8,13 +8,12 @@ import org.json.JSONObject;
 import ta.car4rent.R;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.fragments.CarRequestDetailFragment;
-import ta.car4rent.fragments.ManageCarRequestesFragment;
+import ta.car4rent.fragments.ListCarRequestesFragment;
 import ta.car4rent.webservices.OnGetJsonListener;
 import ta.car4rent.webservices.ServiceCloseCarRequest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class CarRequestsListAdapter extends BaseAdapter implements OnClickListener {
+public class ListCarRequestsAdapter extends BaseAdapter implements OnClickListener {
 
 	private Context mContext;
 	private FragmentTransaction ft;
@@ -33,7 +32,7 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 	private ArrayList<JSONObject> data = new ArrayList<JSONObject>();
 	private int mRequestId;
 
-	public CarRequestsListAdapter(Context ctx, FragmentTransaction ft, ArrayList<JSONObject> listCarResult) {
+	public ListCarRequestsAdapter(Context ctx, FragmentTransaction ft, ArrayList<JSONObject> listCarResult) {
 		mContext = ctx;
 		this.ft = ft;
 		data = listCarResult;
@@ -87,7 +86,14 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 			}
 			
 			String strFromPrice = data.get(position).getString("fromPrice");
+			if ("0".equals(strFromPrice)) {
+				strFromPrice = " ";
+			}
 			String strToPrice = data.get(position).getString("toPrice");
+			if ("0".equals(strToPrice)) {
+				strToPrice = " ";
+			}
+			
 			if ("499999".equals(strFromPrice)) {
 				((TextView)vi.findViewById(R.id.tvPrice)).setText(ConfigureData.activityMain.getString(R.string.str_price_below) + " 500.000 " + ConfigureData.activityMain.getString(R.string.vnd_day));
 			} else if ("5999999".equals(strFromPrice)){
@@ -148,7 +154,7 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 		mRequestId = requestId;
 		
 		try {
-			ManageCarRequestesFragment.selectedCarRequestStatus = v.getTag().toString().split("_")[1];
+			ListCarRequestesFragment.selectedCarRequestStatus = v.getTag().toString().split("_")[1];
 		} catch (Exception e) {
 			
 		}
@@ -220,7 +226,7 @@ public class CarRequestsListAdapter extends BaseAdapter implements OnClickListen
 										public void onClick(DialogInterface dialog, int which) {
 											// Insert the fragment by replacing any existing
 											// fragment
-											ManageCarRequestesFragment fragment = new ManageCarRequestesFragment();
+											ListCarRequestesFragment fragment = new ListCarRequestesFragment();
 											ft.replace(R.id.content_frame, fragment).commit();
 
 										}

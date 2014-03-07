@@ -21,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -43,8 +42,8 @@ public class CarRequestDetailFragment extends Fragment implements
 	TextView tvDateExpiration;
 	TextView tvDateFrom;
 	TextView tvDateTo;
-	TextView tvPriceFrom;
-	TextView tvPriceTo;
+	TextView tvPriceFromRequest;
+	TextView tvPriceToRequest;
 	TextView tvCityFrom;
 	TextView tvDistricFrom;
 	TextView tvCityTo;
@@ -114,8 +113,8 @@ public class CarRequestDetailFragment extends Fragment implements
 		tvPosterName = (TextView) view.findViewById(R.id.tvPosterName);
 		tvPosterPhone = (TextView) view.findViewById(R.id.tvPosterPhone);
 		tvPosterRequirement = (TextView) view.findViewById(R.id.tvRequirementPoster);
-		tvPriceFrom = (TextView) view.findViewById(R.id.tvPriceFromRequest);
-		tvPriceTo = (TextView) view.findViewById(R.id.tvPriceToRequest);
+		tvPriceFromRequest = (TextView) view.findViewById(R.id.tvPriceFromRequest);
+		tvPriceToRequest = (TextView) view.findViewById(R.id.tvPriceToRequest);
 
 		// layout
 		layoutPlaceTo = (LinearLayout) view.findViewById(R.id.layoutPlaceToRequest);
@@ -132,7 +131,7 @@ public class CarRequestDetailFragment extends Fragment implements
 		btnCloseCarRequest = (Button) view.findViewById(R.id.btnCloseCarRequest);
 		btnCloseCarRequest.setOnClickListener(this);
 		
-		if (ManageCarRequestesFragment.selectedCarRequestStatus.charAt(0) != 'M') {
+		if (ListCarRequestesFragment.selectedCarRequestStatus.charAt(0) != 'M') {
 			btnCloseCarRequest.setVisibility(View.GONE);
 			view.findViewById(R.id.txtNothing1).setVisibility(View.GONE);
 		}
@@ -240,10 +239,20 @@ public class CarRequestDetailFragment extends Fragment implements
 							: getString(R.string.request_car_driver_has));
 
 			temp = ConfigureData.carRequestDetailObject.getString("fromPrice");
-			tvPriceFrom.setText((temp.equals("null")) ? "" : StaticFunction.formatVnMoney(temp));
-
+			tvPriceFromRequest.setText((temp.equals("null")) ? "0" : StaticFunction.formatVnMoney(temp));
+			if (tvPriceFromRequest.getText().toString().equals("0")) {
+				tvPriceFromRequest.setText("");
+			} else {
+				tvPriceFromRequest.setText(tvPriceFromRequest.getText() + " VNĐ/Ngày");
+			}
+			
 			temp = ConfigureData.carRequestDetailObject.getString("toPrice");
-			tvPriceTo.setText((temp.equals("null")) ? "" : StaticFunction.formatVnMoney(temp));
+			tvPriceToRequest.setText((temp.equals("null")) ? "0" : StaticFunction.formatVnMoney(temp));
+			if (tvPriceToRequest.getText().toString().equals("0")) {
+				tvPriceToRequest.setText("");
+			} else {
+				tvPriceToRequest.setText(tvPriceToRequest.getText() + " VNĐ/Ngày");
+			}
 			
 			temp = ConfigureData.carRequestDetailObject.getString("cityFrom");
 			tvCityFrom.setText((temp.equals("null")) ? "" : temp);
@@ -397,7 +406,7 @@ public class CarRequestDetailFragment extends Fragment implements
 												FragmentTransaction ft = fm.beginTransaction();
 												// Insert the fragment by replacing any existing
 												// fragment
-												ManageCarRequestesFragment fragment = new ManageCarRequestesFragment();
+												ListCarRequestesFragment fragment = new ListCarRequestesFragment();
 												ft.replace(R.id.content_frame, fragment).commit();
 
 											}

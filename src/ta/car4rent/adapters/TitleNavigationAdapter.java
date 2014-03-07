@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import ta.car4rent.R;
 import ta.car4rent.objects.SpinnerNavItem;
- 
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;

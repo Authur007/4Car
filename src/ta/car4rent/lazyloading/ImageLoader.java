@@ -17,11 +17,10 @@ import java.util.concurrent.Executors;
 
 import ta.car4rent.R;
 import ta.car4rent.utils.Utils;
-
-import android.os.Handler;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.widget.ImageView;
 
 public class ImageLoader {

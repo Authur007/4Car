@@ -3,15 +3,14 @@ package ta.car4rent.activities;
 import ta.car4rent.R;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.lazyloading.ImageLoader;
-
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class FullScreenImageActivity extends Activity {
 	int posImage = 0;

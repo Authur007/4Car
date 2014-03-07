@@ -2,8 +2,6 @@ package ta.car4rent.fragments;
 
 import java.util.Calendar;
 
-import com.facebook.android.BuildConfig;
-
 import ta.car4rent.utils.CustomTimePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -11,7 +9,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.util.Log;
+
+import com.facebook.android.BuildConfig;
 
 public class TimePickerFragment extends DialogFragment{
 

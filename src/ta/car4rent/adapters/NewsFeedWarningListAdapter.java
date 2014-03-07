@@ -8,10 +8,8 @@ import org.json.JSONObject;
 import ta.car4rent.R;
 import ta.car4rent.configures.ConfigureData;
 import ta.car4rent.lazyloading.ImageLoader;
-
 import android.app.Activity;
 import android.content.Context;
-import android.nfc.FormatException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -9,23 +9,17 @@ import org.json.JSONObject;
 
 import ta.car4rent.R;
 import ta.car4rent.activities.GoogleMapsActivity;
-import ta.car4rent.adapters.NewsFeedWarningListAdapter;
 import ta.car4rent.configures.ConfigureData;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
-import android.util.Log;
 
 public class WarningsManager {
 	// ======================================

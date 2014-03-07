@@ -1,7 +1,5 @@
 package ta.car4rent.fragments;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ta.car4rent.R;
 import ta.car4rent.activities.MainActivity;
 import android.os.Bundle;
@@ -9,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class ConvenientFragmemt extends Fragment{
 	

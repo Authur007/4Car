@@ -97,7 +97,7 @@
                         android:shadowDx="+1"
                         android:shadowDy="+1"
                         android:shadowRadius="1"
-                        android:text="Giá: 1.000.000 - 2.000.000 VNĐ/Ngày"
+                        android:text="Giá từ: 1.000.000 - 2.000.000 VNĐ/Ngày"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#ff8800"
                         android:textStyle="bold" />

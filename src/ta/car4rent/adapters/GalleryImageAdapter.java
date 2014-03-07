@@ -1,10 +1,7 @@
 package ta.car4rent.adapters;
 
-import com.facebook.android.BuildConfig;
-
 import ta.car4rent.configures.ConfigureData;
 import android.app.Activity;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,16 +9,16 @@ import android.widget.Gallery;
 import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
 
+import com.facebook.android.BuildConfig;
+
 public class GalleryImageAdapter extends BaseAdapter {
 
-	private Activity activity;
 	private String[] imageURI;
 	private int mPossitionInList;
 
 	public GalleryImageAdapter(Activity context, String[] imageURI,
 			int possitionInList) {
 
-		this.activity = context;
 		this.imageURI = imageURI;
 		mPossitionInList = possitionInList;
 	}

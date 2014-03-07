@@ -30,8 +30,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.costum.android.widget.LoadMoreListView;
 import com.costum.android.widget.LoadMoreListView.OnLoadMoreListener;
@@ -51,6 +51,7 @@ public class ListResultSeachCarFragmemt extends Fragment{
 	public static ArrayList<JSONObject> mCarArrayList = null;
 	private CarListAdapter mCarListAdapter;
 	private LoadMoreListView mLoadMoreListView;
+	private ProgressBar progressBar;
 	private TextView tvHasNoCar;
 	private boolean isLoadNew;
 	
@@ -153,9 +154,10 @@ public class ListResultSeachCarFragmemt extends Fragment{
 		
 		MainActivity.Instance.showActionFilterSpinner(false);
 		
-		View rootView = inflater.inflate(R.layout.fragment_search_car_result, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_list_search_car_result, container, false);
 
 		tvHasNoCar = (TextView) rootView.findViewById(R.id.tvHasNoCar);
+		progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 		mLoadMoreListView = (LoadMoreListView) rootView.findViewById(R.id.loadMoreListView);
 		isLoadNew = true;
 		if (mCarArrayList == null) {
@@ -189,6 +191,18 @@ public class ListResultSeachCarFragmemt extends Fragment{
 		return rootView;
 	}
 	
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		if (mCarArrayList != null) {
+			if (mCarArrayList.size() > 0) {
+				progressBar.setVisibility(View.GONE);
+			}
+		}
+		super.onResume();
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -248,7 +262,7 @@ public class ListResultSeachCarFragmemt extends Fragment{
 			}
 
 			mLoadMoreListView.onLoadMoreComplete();
-
+			progressBar.setVisibility(View.GONE);
 			super.onPostExecute(result);
 		}
 
@@ -256,6 +270,7 @@ public class ListResultSeachCarFragmemt extends Fragment{
 		protected void onCancelled() {
 			// Notify the loading more operation has finished
 			mLoadMoreListView.onLoadMoreComplete();
+			progressBar.setVisibility(View.GONE);
 		}
 	}
 

@@ -37,8 +37,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -140,7 +140,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	private String strStartDate = "30/12/2013";
 	private String strEndDate = "31/12/2013";
 	private String strExpirationDate = "29/12/2013";
-	private String strStartTime = "20:00";
+	private String strStartTime = "08:00";
 	private String strEndTime = "20:00";
 
 	private int flagChoosePickerType = 0;
@@ -553,11 +553,12 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 					.getString(R.string.post_car_request_screen_name));
 
 			// Change the default start date in Post car request
-			if (compareStringDate(strStartDate,
-					addStringDateFormated(getCurrenttDateFormated(), 1)) == 0) {
-				strStartDate = addStringDateFormated(getCurrenttDateFormated(),
-						2);
+			if (compareStringDate(strStartDate, addStringDateFormated(getCurrenttDateFormated(), 2)) == -1) {
+				strStartDate = addStringDateFormated(getCurrenttDateFormated(), 2);
 				btnStartDate.setText(strStartDate);
+				
+				strExpirationDate = strStartDate;
+				btnExpirationDate.setText(strExpirationDate);
 
 				strEndDate = addStringDateFormated(getCurrenttDateFormated(), 3);
 				btnEndDate.setText(strEndDate);
@@ -636,10 +637,10 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	private void fillDataToComponent() {
 
 		// Fill default value
-		strStartDate = addStringDateFormated(getCurrenttDateFormated(), 1);
+		strStartDate = getCurrenttDateFormated();
 		strEndDate = addStringDateFormated(strStartDate, 1);
 		strExpirationDate = strStartDate;
-		strStartTime = "20:00";
+		strStartTime = "08:00";
 		strEndTime = "20:00";
 
 		btnStartDate.setText(strStartDate);
@@ -1029,11 +1030,9 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		JSONObject carRequestInfo = new JSONObject();
 
 		try {
-			carRequestInfo.put("createBy",
-					ConfigureData.userAccount.getInt("id"));
+			carRequestInfo.put("createBy", ConfigureData.userAccount.getInt("id"));
 			carRequestInfo.put("information", edtNoteInfo.getText().toString());
-			carRequestInfo.put("endDate", strEndDate);
-			carRequestInfo.put("expirationDate", strExpirationDate);
+			
 
 			if (driversSpinnerDataList != null) {
 				driversSpinnerDataList.getSelectedItem().setValue(
@@ -1044,11 +1043,19 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				carRequestInfo.put("hasCarDriver", driversSpinnerDataList
 						.getSelectedItem().getValue());
 			}
-
+			
 			if (strStartDate != null) {
-				carRequestInfo.put("startDate", strStartDate);
+				carRequestInfo.put("startDate", strStartDate + " " + strStartTime + ":00");
+			}
+			
+			if (strEndDate != null) {
+				carRequestInfo.put("endDate", strEndDate + " " + strEndTime + ":00");
 			}
 
+			if (strExpirationDate != null) {
+				carRequestInfo.put("expirationDate", strExpirationDate);
+			}
+			
 			if (citiesSpinnerDataList != null) {
 				carRequestInfo.put("cityId", citiesSpinnerDataList
 						.getSelectedItem().getValue());
@@ -1144,7 +1151,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 		}
 
 		// check price
-		if (pricesFromSpinnerDataList.getSelectedIndex() > 0
+		if (pricesFromSpinnerDataList.getSelectedIndex() >= 0
 				&& pricesToSpinnerDataList.getSelectedIndex() > 0) {
 			if (pricesFromSpinnerDataList.getSelectedIndex() == 2
 					&& pricesToSpinnerDataList.getSelectedIndex() == 0) {
@@ -1511,7 +1518,7 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			break;
 		case R.id.spinnerPriceTo:
 			if (pos > 0
-					&& pricesFromSpinnerDataList.getSelectedIndex() > 0
+					&& pricesFromSpinnerDataList.getSelectedIndex() >= 0
 					&& pricesFromSpinnerDataList.getSelectedIndex() <= pricesFromSpinnerDataList
 							.getSize() - 1) {
 				if (pos <= pricesFromSpinnerDataList.getSelectedIndex() - 3) {
@@ -1593,11 +1600,21 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 
-		String selectedDate = formatStringDate(day + "/" + (month + 1) + "/"
-				+ year);
-
+		String selectedDate = formatStringDate(day + "/" + (month + 1) + "/" + year);
+		
+		
 		switch (DatePickerFragment.pickerType) {
 		case PICKER_TYPE_START_DATE:
+			if (compareStringDate(selectedDate, strEndDate) == 0 && compareHourStr(strStartTime, strEndTime) == 0) {
+				Toast.makeText(
+						getActivity(),
+						ConfigureData.activityMain
+								.getString(R.string.err_hour_constraint),
+						Toast.LENGTH_SHORT).show();
+				
+				return;
+			}
+			
 			if (CURRENT_SCREEN_MODE == SCREEN_MODE_ADVANCE_SEARCH) {
 				// The selected date must be not before the current date
 				if (!(compareStringDate(selectedDate, getCurrenttDateFormated()) == -1)) {
@@ -1641,8 +1658,17 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 			}
 			break;
-		case PICKER_TYPE_END_DATE:
-			if (compareStringDate(strStartDate, selectedDate) == -1) {
+		case PICKER_TYPE_END_DATE:			
+			if (compareStringDate(selectedDate, strStartDate) == 0 && compareHourStr(strStartTime, strEndTime) == 0) {
+				Toast.makeText(
+						getActivity(),
+						ConfigureData.activityMain
+								.getString(R.string.err_hour_constraint),
+						Toast.LENGTH_SHORT).show();
+				
+				return;
+			}
+			if (!(compareStringDate(strStartDate, selectedDate) == -1)) {
 				strEndDate = selectedDate;
 				btnEndDate.setText(strEndDate);
 			} else {
@@ -1686,16 +1712,68 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 			hour = hourOfDay + "";
 		}
 
+		String strSelectedHour = hour + ":" + minutes; 
 		switch (flagChoosePickerType) {
 		case PICKER_TYPE_START_TIME:
-			strStartTime = hour + ":" + minutes;
-			btnStartTime.setText(strStartTime);
+			if (strEndDate.equals(strStartDate)) {
+				if (compareHourStr(strSelectedHour, strEndTime) == -1) {
+					strStartTime = strSelectedHour;
+					btnStartTime.setText(strStartTime);					
+				} else {
+					Toast.makeText(
+							getActivity(),
+							ConfigureData.activityMain
+									.getString(R.string.err_hour_constraint),
+							Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				strStartTime = strSelectedHour;
+				btnStartTime.setText(strStartTime);
+			}
 			break;
 		case PICKER_TYPE_END_TIME:
-			strEndTime = hour + ":" + minutes;
-			btnEndTime.setText(strEndTime);
+			if (strEndDate.equals(strStartDate)) {
+				if (compareHourStr(strStartTime, strSelectedHour) == -1) {
+					strEndTime = strSelectedHour;
+					btnEndTime.setText(strEndTime);				
+				} else {
+					Toast.makeText(
+							getActivity(),
+							ConfigureData.activityMain
+									.getString(R.string.err_hour_constraint),
+							Toast.LENGTH_SHORT).show();
+				}
+			} else {
+				strEndTime = strSelectedHour;
+				btnEndTime.setText(strEndTime);
+			}
+			
 			break;
 		}
+		
+	}
+
+	/**
+	 * Compare hour format hh:mm in string
+	 * 
+	 * @param h1
+	 * @param h2
+	 * @return -1 if h1 < h2; 0 if h1 == h2; 2 if h1 > h2
+	 */
+	private int compareHourStr(String h1, String h2) {
+		int hour1 = Integer.parseInt(h1.split(":")[0]);
+		int hour2 = Integer.parseInt(h2.split(":")[0]);
+		int min1 =  Integer.parseInt(h1.split(":")[1]);
+		int min2 =  Integer.parseInt(h2.split(":")[1]);
+		
+		int s1 = hour1*60 + min1;
+		int s2 = hour2*60 + min2;
+			
+		if (s1 < s2) return -1;
+		if (s1 == s2) return 0;
+		
+		return 1;
+		
 	}
 
 	public void exportJsonObjectSearch() {
@@ -1841,10 +1919,10 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 		// Reset value
 		if (mNeedToReset) {
-			strStartDate = addStringDateFormated(getCurrenttDateFormated(), 1);
+			strStartDate = getCurrenttDateFormated();
 			strEndDate = addStringDateFormated(strStartDate, 1);
 			strExpirationDate = strStartDate;
-			strStartTime = "20:00";
+			strStartTime = "08:00";
 			strEndTime = "20:00";
 
 			btnStartDate.setText(strStartDate);

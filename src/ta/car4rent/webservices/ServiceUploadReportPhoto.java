@@ -1,6 +1,5 @@
 package ta.car4rent.webservices;
 
-import ta.car4rent.configures.ConfigureData;
 import android.graphics.Bitmap;
 
 public class ServiceUploadReportPhoto extends WebserviceBaseBitmapUploader {

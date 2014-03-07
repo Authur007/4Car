@@ -7,8 +7,8 @@ import org.json.JSONObject;
 
 import ta.car4rent.R;
 import ta.car4rent.configures.ConfigureData;
-import ta.car4rent.fragments.ResultSearchCarDetailFragment;
 import ta.car4rent.fragments.ListResultSeachCarFragmemt;
+import ta.car4rent.fragments.SearchCarDetailFragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CarListAdapter extends BaseAdapter implements OnItemClickListener {
@@ -137,7 +136,7 @@ public class CarListAdapter extends BaseAdapter implements OnItemClickListener {
 		int positionInList = Integer.parseInt(view.getTag().toString());
 		ListResultSeachCarFragmemt.selectCar(positionInList);
 
-		Fragment newContent = new ResultSearchCarDetailFragment();
+		Fragment newContent = new SearchCarDetailFragment();
 		ft.replace(R.id.content_frame, newContent);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		// add to back track

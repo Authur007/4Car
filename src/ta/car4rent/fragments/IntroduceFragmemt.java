@@ -4,18 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ta.car4rent.R;
 import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class IntroduceFragmemt extends Fragment {
 

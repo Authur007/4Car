@@ -2,11 +2,7 @@ package ta.car4rent.webservices;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Vector;
 
 import org.apache.http.HttpEntity;

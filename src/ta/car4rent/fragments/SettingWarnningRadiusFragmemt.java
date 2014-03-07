@@ -1,20 +1,18 @@
 package ta.car4rent.fragments;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ta.car4rent.R;
 import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * This Fragment Should be change to Diaglog or someting else

@@ -10,8 +10,6 @@ import java.util.Random;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import ta.car4rent.R;
 import ta.car4rent.activities.GoogleMapsActivity;
 import ta.car4rent.activities.MainActivity;
@@ -50,6 +48,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class PostWarningFragment extends DialogFragment implements
 		OnClickListener, android.content.DialogInterface.OnClickListener {

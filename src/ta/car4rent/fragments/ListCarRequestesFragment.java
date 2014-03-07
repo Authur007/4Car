@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 import ta.car4rent.R;
 import ta.car4rent.activities.MainActivity;
-import ta.car4rent.adapters.CarRequestsListAdapter;
+import ta.car4rent.adapters.ListCarRequestsAdapter;
 import ta.car4rent.configures.ConfigureData;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,15 +30,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.costum.android.widget.LoadMoreListView;
 import com.costum.android.widget.LoadMoreListView.OnLoadMoreListener;
 import com.facebook.android.BuildConfig;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class ManageCarRequestesFragment extends Fragment implements
+public class ListCarRequestesFragment extends Fragment implements
 		OnItemClickListener {
 
 	public static String selectedCarRequestStatus;
@@ -57,11 +58,11 @@ public class ManageCarRequestesFragment extends Fragment implements
 	private int numberOfCarRequests = 0;
 	private boolean mustBeWaiting = false;
 
-	// =========================[List view
-	// variables]==================================
+	// =========================[List view variables]==================================
 	public ArrayList<JSONObject> mCarRequestsArrayList = null;
-	private CarRequestsListAdapter mCarRequestsListAdapter;
+	private ListCarRequestsAdapter mCarRequestsListAdapter;
 	private LoadMoreListView mLoadMoreListView;
+	private ProgressBar progressBar;
 	private TextView tvHasNoCarRequest;
 	private boolean isLoadNew = true;
 
@@ -82,7 +83,7 @@ public class ManageCarRequestesFragment extends Fragment implements
 		mFilterMode = filterMode;
 	}
 
-	public ManageCarRequestesFragment() {
+	public ListCarRequestesFragment() {
 		// Empty constructor required for fragment subclasses
 	}
 
@@ -176,14 +177,12 @@ public class ManageCarRequestesFragment extends Fragment implements
 
 		MainActivity.Instance.showActionFilterSpinner(true);
 
-		View rootView = inflater.inflate(
-				R.layout.fragment_manage_car_requested, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_list_car_requested, container, false);
 		ConfigureData.currentScreen = 2;
 
-		tvHasNoCarRequest = (TextView) rootView
-				.findViewById(R.id.tvHasNoCarRequest);
-		mLoadMoreListView = (LoadMoreListView) rootView
-				.findViewById(R.id.loadMoreListView);
+		tvHasNoCarRequest = (TextView) rootView.findViewById(R.id.tvHasNoCarRequest);
+		progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+		mLoadMoreListView = (LoadMoreListView) rootView.findViewById(R.id.loadMoreListView);
 		mLoadMoreListView.setOnItemClickListener(this);
 		isLoadNew = true;
 		if (mCarRequestsArrayList == null) {
@@ -195,8 +194,7 @@ public class ManageCarRequestesFragment extends Fragment implements
 		// create a template fragment manager
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
-		mCarRequestsListAdapter = new CarRequestsListAdapter(getActivity(), ft,
-				mCarRequestsArrayList);
+		mCarRequestsListAdapter = new ListCarRequestsAdapter(getActivity(), ft, mCarRequestsArrayList);
 
 		mLoadMoreListView.setAdapter(mCarRequestsListAdapter);
 
@@ -221,6 +219,7 @@ public class ManageCarRequestesFragment extends Fragment implements
 	public void onResume() {
 		// TODO Auto-generated method stub
 		MainActivity.Instance.showActionFilterSpinner(true);
+		progressBar.setVisibility(View.GONE);
 		super.onResume();
 	}
 
@@ -280,14 +279,11 @@ public class ManageCarRequestesFragment extends Fragment implements
 					// changed
 					mCarRequestsListAdapter.notifyDataSetChanged();
 
-					// Call onLoadMoreComplete when the LoadMore task, has
-					// finished
-					// mLoadMoreListView.setSelection(mCarArrayList.size() -
-					// arrLoadmoreCarPage.size());
 				}
 			}
 
 			mLoadMoreListView.onLoadMoreComplete();
+			progressBar.setVisibility(View.GONE);
 
 			super.onPostExecute(result);
 		}
@@ -296,6 +292,7 @@ public class ManageCarRequestesFragment extends Fragment implements
 		protected void onCancelled() {
 			// Notify the loading more operation has finished
 			mLoadMoreListView.onLoadMoreComplete();
+			progressBar.setVisibility(View.GONE);
 		}
 	}
 

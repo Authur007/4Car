@@ -1,9 +1,5 @@
 package ta.car4rent.utils;
 
-import java.util.Calendar;
-
-import ta.car4rent.R;
-
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.widget.TimePicker;

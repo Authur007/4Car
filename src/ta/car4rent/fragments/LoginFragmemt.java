@@ -1,7 +1,5 @@
 package ta.car4rent.fragments;
 
-import java.util.Arrays;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -358,7 +356,7 @@ public class LoginFragmemt extends DialogFragment implements OnClickListener,
 					StaticFunction.hideKeyboard(ConfigureData.activityMain);
 					try {
 						// Show the Account info Fragment
-						Fragment fragment = new ManageCarRequestesFragment();
+						Fragment fragment = new ListCarRequestesFragment();
 						// Insert the fragment by replacing any existing
 						// fragment
 						FragmentManager fragmentManager = ConfigureData.activityMain
