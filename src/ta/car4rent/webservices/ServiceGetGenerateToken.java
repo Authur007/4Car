@@ -6,7 +6,7 @@ public class ServiceGetGenerateToken extends WebserviceBaseGET{
 	
 	public void getTokenByFBId(String facebookID) {
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/GenerateToken/";		
+		String url = ApiUrl.SERVER_URL + "GenerateToken/";		
 		getJSONObject(url + facebookID);
 	}
 	

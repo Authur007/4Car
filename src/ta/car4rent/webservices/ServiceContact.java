@@ -16,7 +16,7 @@ public class ServiceContact extends WebserviceBasePOST {
 	 */
 	public void sendContact(JSONObject contactInfo) {
 		mToken = ConfigureData.token;
-		String Url = "http://4carsvn.cloudapp.net:4411/Common/Contact";
+		String Url = ApiUrl.SERVER_URL + "Contact";
 		postJSONObject(Url, contactInfo);
 	}
 }

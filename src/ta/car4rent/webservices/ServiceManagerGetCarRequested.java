@@ -6,20 +6,20 @@ public class ServiceManagerGetCarRequested extends WebserviceBaseGET{
 	
 	public void getCarRequesteds(int mPageIndex, int mPageSize) {
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/GetCarRequests/" + mPageIndex + "/" + mPageSize;		
+		String url = ApiUrl.SERVER_URL + "GetCarRequests/" + mPageIndex + "/" + mPageSize;		
 		getJSONObject(url);
 	}
 	
 	public void getCarRequestedDetail(int newsId){
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/GetDetailCarRequest/" + newsId;		
+		String url = ApiUrl.SERVER_URL + "GetDetailCarRequest/" + newsId;		
 		getJSONObject(url);
 		
 	}
 	
 	public void closeCarRequested(int newsId){
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/CloseCarRequest/" + newsId;		
+		String url = ApiUrl.SERVER_URL + "CloseCarRequest/" + newsId;		
 		getJSONObject(url);
 		
 	}

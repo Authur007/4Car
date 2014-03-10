@@ -13,7 +13,7 @@ public class ServiceUploadUserAvatar extends WebserviceBaseBitmapUploader {
 	 * @param bitmap
 	 */
 	public void uploadUserAvatar(Bitmap bitmap, int userId) {
-		String uploadURL = "http://4carsvn.cloudapp.net:4411/Common/UploadUserAvatar/";
+		String uploadURL =  ApiUrl.SERVER_URL + "UploadUserAvatar/";
 		uploadURL += userId;
 		uploadBitmap(bitmap, uploadURL);
 	}

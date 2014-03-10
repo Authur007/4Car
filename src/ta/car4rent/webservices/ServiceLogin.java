@@ -16,7 +16,7 @@ public class ServiceLogin extends WebserviceBasePOST {
 	 */
 	public void logon(JSONObject loginInfo) {
 		mToken = ConfigureData.token;
-		String Url = "http://4carsvn.cloudapp.net:4411/Common/LogOn";
+		String Url = ApiUrl.SERVER_URL + "LogOn";
 		postJSONObject(Url, loginInfo);
 		
 	}

@@ -16,7 +16,7 @@ public class ServiceChangePassword extends WebserviceBasePOST {
 	 */
 	public void change(JSONObject changePasswordInfo) {
 		mToken = ConfigureData.token;
-		String Url = "http://4carsvn.cloudapp.net:4411/Common/ChangePassword";
+		String Url = ApiUrl.SERVER_URL + "ChangePassword";
 		postJSONObject(Url, changePasswordInfo);
 		
 	}

@@ -14,7 +14,7 @@ public class ServiceGetDistricts extends WebserviceBaseGET{
 	 */
 	public void getDistricts(int cityId) {
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/GetDistricts/";		
+		String url = ApiUrl.SERVER_URL + "GetDistricts/";		
 		getJSONObject(url + cityId);
 	}
 	

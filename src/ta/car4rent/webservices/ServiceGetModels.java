@@ -6,7 +6,7 @@ public class ServiceGetModels extends WebserviceBaseGET{
 
 	public void getModels(int id) {
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/GetModels/";		
+		String url = ApiUrl.SERVER_URL + "GetModels/";		
 		getJSONObject(url + id);
 	}
 }

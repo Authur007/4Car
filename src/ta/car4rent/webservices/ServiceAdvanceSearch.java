@@ -16,7 +16,7 @@ public class ServiceAdvanceSearch extends WebserviceBasePOST {
 	 */
 	public void advanceSearch(JSONObject searchInfo) {
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/AdvanceSearch";
+		String url = ApiUrl.SERVER_URL + "AdvanceSearch";
 		postJSONObject(url, searchInfo);		
 	}
 }

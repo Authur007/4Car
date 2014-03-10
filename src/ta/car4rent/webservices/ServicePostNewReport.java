@@ -16,7 +16,7 @@ public class ServicePostNewReport extends WebserviceBasePOST {
 	 */
 	public void postNewReport(JSONObject reportInfo) {
 		mToken = ConfigureData.token;
-		String Url = "http://4carsvn.cloudapp.net:4411/Common/SaveReport";
+		String Url =  ApiUrl.SERVER_URL + "SaveReport";
 		postJSONObject(Url, reportInfo);
 	}
 }

@@ -14,7 +14,7 @@ public class ServiceCloseCarRequest extends WebserviceBaseGET{
 	 */
 	public void closeCarRequest(int requestId) {
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/CloseCarRequest/";		
+		String url = ApiUrl.SERVER_URL + "CloseCarRequest/";		
 		getJSONObject(url + requestId);
 	}
 	

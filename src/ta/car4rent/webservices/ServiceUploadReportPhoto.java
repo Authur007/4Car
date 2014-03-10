@@ -13,7 +13,7 @@ public class ServiceUploadReportPhoto extends WebserviceBaseBitmapUploader {
 	 * @param bitmap
 	 */
 	public void uploadReportPhoto(Bitmap bitmap, int reportId) {
-		String uploadURL = "http://4carsvn.cloudapp.net:4411/Common/UploadReportPhoto/";
+		String uploadURL = ApiUrl.SERVER_URL + "UploadReportPhoto/";
 		uploadURL += reportId;
 		uploadBitmap(bitmap, uploadURL);
 	}

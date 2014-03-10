@@ -14,7 +14,7 @@ public class ServiceGetAdvanceSearchConditions extends WebserviceBaseGET {
 	 */
 	public void getAdvanceSearchConditions() {
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/GetAdvanceSearchConditions";		
+		String url = ApiUrl.SERVER_URL + "GetAdvanceSearchConditions";		
 		getJSONObject(url);
 	}
 }

@@ -16,7 +16,7 @@ public class ServicePostCarRequest extends WebserviceBasePOST {
 	 */
 	public void postCarRequest(JSONObject carRequestInfo) {
 		mToken = ConfigureData.token;
-		String Url = "http://4carsvn.cloudapp.net:4411/Common/PostCarRequest";
+		String Url = ApiUrl.SERVER_URL + "PostCarRequest";
 		postJSONObject(Url, carRequestInfo);
 	}
 }

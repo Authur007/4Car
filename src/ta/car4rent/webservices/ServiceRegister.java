@@ -8,7 +8,7 @@ public class ServiceRegister extends WebserviceBasePOST{
 
 	public void registerUser(JSONObject userInfo) {
 		mToken = ConfigureData.token;
-		String Url = "http://4carsvn.cloudapp.net:4411/Common/Register";
+		String Url = ApiUrl.SERVER_URL + "Register";
 		postJSONObject(Url, userInfo);
 	}
 }

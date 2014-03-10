@@ -14,7 +14,7 @@ public class ServiceGetUserInfo extends WebserviceBaseGET {
 	 */
 	public void get(String userId) {
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/GetUserInfo/";		
+		String url = ApiUrl.SERVER_URL + "GetUserInfo/";		
 		getJSONObject(url + userId);
 	}
 }

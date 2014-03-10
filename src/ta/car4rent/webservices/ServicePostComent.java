@@ -8,7 +8,7 @@ public class ServicePostComent extends WebserviceBasePOST {
 
 	public void postComent(JSONObject objectComent) {
 		mToken = ConfigureData.token;
-		String Url = "http://4carsvn.cloudapp.net:4411/Common/PostComment";
+		String Url = ApiUrl.SERVER_URL + "PostComment";
 		postJSONObject(Url, objectComent);
 	}
 

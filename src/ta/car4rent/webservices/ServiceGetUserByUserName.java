@@ -6,7 +6,7 @@ public class ServiceGetUserByUserName extends WebserviceBaseGET{
 	
 	public void getUserByFBId(String facebookID) {
 		mToken = ConfigureData.token;
-		String url = "http://4carsvn.cloudapp.net:4411/Common/GetUserInfoByUserName/";		
+		String url = ApiUrl.SERVER_URL + "GetUserInfoByUserName/";		
 		getJSONObject(url + facebookID);
 	}
 
