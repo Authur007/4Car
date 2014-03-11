@@ -78,7 +78,8 @@
 - Đăng thông tin nhu cầu thuê xe nếu kết quả tìm kiếm không đúng yêu cầu.
 - Phiên bản mobile còn hỗ trợ các bạn cập nhật và chia sẻ thông tin về tình hình giao thông, các thông tin khác trên từng cây số, hoặc nhờ trợ giúp của những người khác trên cùng lộ trình."\n\n
 “Thuê xe tốt nhất tại 4cars.vn“ là mục tiêu của chúng tôi mong muốn mang lại cho các bạn."</string>
-    <string name="with4car_contact">Hotline: 090 9390 169 (từ 7:00 đến 21:00 thứ 2-CN)\nEmail: 4cars.vn@gmail.com</string>
+    <string name="with4car_phone_contact">Hotline: 090 9390 169 (từ 7:00 đến 21:00 thứ 2-CN)</string>
+    <string name="with4car_email_contact">Email: 4cars.vn@gmail.com</string>
     <string name="choose_post_warning">Chọn Loại Cảnh Báo</string>
     <string name="chot_cong_an">Chốt Công An</string>
     <string name="giao_thong">Giao Thông</string>

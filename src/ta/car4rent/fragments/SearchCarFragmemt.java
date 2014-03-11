@@ -137,11 +137,11 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 	private EditText edtNoteInfo;
 
-	private String strStartDate = "30/12/2013";
-	private String strEndDate = "31/12/2013";
-	private String strExpirationDate = "29/12/2013";
-	private String strStartTime = "08:00";
-	private String strEndTime = "20:00";
+	private static String strStartDate = "30/12/2013";
+	private static String strEndDate = "31/12/2013";
+	private static String strExpirationDate = "29/12/2013";
+	private static String strStartTime = "08:00";
+	private static String strEndTime = "20:00";
 
 	private int flagChoosePickerType = 0;
 
@@ -637,11 +637,13 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 	private void fillDataToComponent() {
 
 		// Fill default value
-		strStartDate = getCurrenttDateFormated();
-		strEndDate = addStringDateFormated(strStartDate, 1);
-		strExpirationDate = strStartDate;
-		strStartTime = "08:00";
-		strEndTime = "20:00";
+		if (mNeedToReset) {
+			strStartDate = getCurrenttDateFormated();
+			strEndDate = addStringDateFormated(strStartDate, 1);
+			strExpirationDate = strStartDate;
+			strStartTime = "08:00";
+			strEndTime = "20:00";
+		}
 
 		btnStartDate.setText(strStartDate);
 		btnEndDate.setText(strEndDate);
@@ -1602,10 +1604,10 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 		String selectedDate = formatStringDate(day + "/" + (month + 1) + "/" + year);
 		
-		
 		switch (DatePickerFragment.pickerType) {
+		
 		case PICKER_TYPE_START_DATE:
-			if (compareStringDate(selectedDate, strEndDate) == 0 && compareHourStr(strStartTime, strEndTime) == 0) {
+			if (compareStringDate(selectedDate, strEndDate) == 0 && (compareHourStr(strStartTime, strEndTime) == 0 || compareHourStr(strStartTime, strEndTime) == 1)) {
 				Toast.makeText(
 						getActivity(),
 						ConfigureData.activityMain
@@ -1658,8 +1660,9 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 
 			}
 			break;
+			
 		case PICKER_TYPE_END_DATE:			
-			if (compareStringDate(selectedDate, strStartDate) == 0 && compareHourStr(strStartTime, strEndTime) == 0) {
+			if (compareStringDate(selectedDate, strStartDate) == 0 && (compareHourStr(strStartTime, strEndTime) == 0 || compareHourStr(strStartTime, strEndTime) == 1)) {
 				Toast.makeText(
 						getActivity(),
 						ConfigureData.activityMain
@@ -1668,16 +1671,18 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				
 				return;
 			}
-			if (!(compareStringDate(strStartDate, selectedDate) == -1)) {
-				strEndDate = selectedDate;
-				btnEndDate.setText(strEndDate);
-			} else {
+			
+			if (compareStringDate(strStartDate, selectedDate) == 1){
 				Toast.makeText(
 						getActivity(),
 						ConfigureData.activityMain
 								.getString(R.string.err_end_date_constraint),
 						Toast.LENGTH_SHORT).show();
+				return;
 			}
+			
+			strEndDate = selectedDate;
+			btnEndDate.setText(strEndDate);
 			break;
 		case PICKER_TYPE_EXPIRATION_DATE:
 			// The selected date and before the current and not after start

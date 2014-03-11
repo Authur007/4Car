@@ -77,11 +77,18 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/txt_row_Note"
+                android:id="@+id/tvPhoneContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
-                android:text="@string/with4car_contact"
+                android:text="@string/with4car_phone_contact"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/tvEmailContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="@string/with4car_email_contact"
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>

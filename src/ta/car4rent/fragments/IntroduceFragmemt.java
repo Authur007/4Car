@@ -7,10 +7,14 @@ import java.util.Scanner;
 import ta.car4rent.R;
 import ta.car4rent.activities.MainActivity;
 import ta.car4rent.configures.ConfigureData;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings.Global;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -19,6 +23,9 @@ import com.google.analytics.tracking.android.EasyTracker;
 public class IntroduceFragmemt extends Fragment {
 
 	private TextView tvIntroduceHTML;
+	private TextView tvPhoneContact;
+	private TextView tvEmailContact;
+	
 
 	public IntroduceFragmemt() {
 		// Empty constructor required for fragment subclasses
@@ -38,6 +45,28 @@ public class IntroduceFragmemt extends Fragment {
 		// tvIntroduceHTML =
 		// (TextView)rootView.findViewById(R.id.tvIntroduceHTML);
 		// tvIntroduceHTML.setText(Html.fromHtml(introHTML));
+		
+		tvPhoneContact = (TextView)rootView.findViewById(R.id.tvPhoneContact);
+		tvPhoneContact.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intentCall = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+ "0909390169"));
+				getActivity().startActivity(intentCall);
+			}
+		});
+		
+		tvEmailContact = (TextView)rootView.findViewById(R.id.tvEmailContact);
+		tvEmailContact.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intentEmail = new Intent(Intent.ACTION_SENDTO,Uri.parse("mailto:" + "4cars.vn@gmail.com"));
+				intentEmail.putExtra("subject", "Liên hệ 4cars [" + SearchCarFragmemt.getCurrenttDateFormated() + "]");
+				getActivity().startActivity(intentEmail);
+			}
+		});
+		
 		return rootView;
 	}
 
