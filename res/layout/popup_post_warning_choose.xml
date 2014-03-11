@@ -11,16 +11,19 @@
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
-        android:background="@color/orange" >
+        android:layout_marginTop="7dp"
+        android:background="@drawable/gradient_bg" >
 
         <TextView
             android:id="@+id/txtID"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/btnClosePopupChoose"
             android:gravity="center"
             android:text="@string/choose_post_warning"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff" >
+            android:textColor="#ffffff"
+            android:textStyle="bold" >
         </TextView>
 
         <ImageButton
@@ -28,9 +31,9 @@
             android:layout_width="@dimen/button_height"
             android:layout_height="@dimen/button_height"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/close" />
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/close" />
     </RelativeLayout>
 
     <LinearLayout

@@ -5,21 +5,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/border2"
     android:orientation="vertical"
-    android:padding="5dp" >
+    android:padding="7dp" >
 
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
-        android:background="@color/orange"
-        android:paddingTop="5dp" >
+        android:background="@drawable/gradient_bg"
+        android:layout_marginTop="7dp" >
 
         <TextView
             android:id="@+id/txtID"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/btnClosePopupChoose"
             android:gravity="center"
-            android:text="CÁC LOẠI CẢNH BÁO"
+            android:textStyle="bold"
+            android:text="Các Loại Cảnh Báo"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffff" >
         </TextView>
@@ -29,16 +31,18 @@
             android:layout_width="@dimen/button_height"
             android:layout_height="@dimen/button_height"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/close" />
+            android:layout_centerVertical="true"
+            android:background="@drawable/close"
+            android:layout_margin="5dp"/>
     </RelativeLayout>
+    
 
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="3dp" >
+        android:layout_marginTop="7dp" 
+        android:layout_marginBottom="7dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
