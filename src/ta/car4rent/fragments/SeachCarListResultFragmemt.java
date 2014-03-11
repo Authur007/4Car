@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import ta.car4rent.R;
 import ta.car4rent.activities.MainActivity;
 import ta.car4rent.adapters.CarListAdapter;
+import ta.car4rent.webservices.ApiUrl;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -38,7 +39,7 @@ import com.costum.android.widget.LoadMoreListView.OnLoadMoreListener;
 import com.facebook.android.BuildConfig;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class ListResultSeachCarFragmemt extends Fragment{
+public class SeachCarListResultFragmemt extends Fragment{
 	public static JSONObject selectedCarJSONObject = new JSONObject();
 	
 	//=========================[About load content]===================================
@@ -66,7 +67,7 @@ public class ListResultSeachCarFragmemt extends Fragment{
 	}
 	
 	
-	public ListResultSeachCarFragmemt() {
+	public SeachCarListResultFragmemt() {
 		// Empty constructor required for fragment subclasses
 	}
 	
@@ -91,7 +92,7 @@ public class ListResultSeachCarFragmemt extends Fragment{
 		}
 		
 		// URL post request
-		String url = "http://4carsvn.cloudapp.net:4411/Common/AdvanceSearch";
+		String url = ApiUrl.SERVER_URL + "AdvanceSearch";
 		String response = "[]";
 		try {
 			Log.i("SEARCH REQUEST -- POST JSON TASK", SearchCarFragmemt.searchRequestJSONObject.toString());

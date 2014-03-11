@@ -19,6 +19,7 @@ import ta.car4rent.R;
 import ta.car4rent.activities.MainActivity;
 import ta.car4rent.adapters.ListCarRequestsAdapter;
 import ta.car4rent.configures.ConfigureData;
+import ta.car4rent.webservices.ApiUrl;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -103,7 +104,7 @@ public class ListCarRequestesFragment extends Fragment implements
 		// URL post request
 		String url = "";
 
-		url = "http://4carsvn.cloudapp.net:4411/Common/GetCarRequests/"
+		url = ApiUrl.SERVER_URL + "GetCarRequests/"
 				+ mEndPageIndex + "/" + PAGE_SIZE + "/" + mFilterMode;
 
 		String response = "[]";

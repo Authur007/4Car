@@ -901,9 +901,9 @@ public class SearchCarFragmemt extends Fragment implements OnClickListener,
 				exportJsonObjectSearch();
 
 				// Show search result screen
-				Fragment newContent = new ListResultSeachCarFragmemt();
-				ListResultSeachCarFragmemt.mCarArrayList = null;
-				ListResultSeachCarFragmemt.mEndPageIndex = 0;
+				Fragment newContent = new SeachCarListResultFragmemt();
+				SeachCarListResultFragmemt.mCarArrayList = null;
+				SeachCarListResultFragmemt.mEndPageIndex = 0;
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				final FragmentTransaction ft = fm.beginTransaction();
 				ft.replace(R.id.content_frame, newContent);

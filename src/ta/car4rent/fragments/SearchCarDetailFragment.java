@@ -148,7 +148,7 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 	private void fillFullInfoData() {
 		try {
 			// Load Image for Gallery
-			imageURIs = ListResultSeachCarFragmemt.selectedCarJSONObject.getString(
+			imageURIs = SeachCarListResultFragmemt.selectedCarJSONObject.getString(
 					"image").split(",");
 			tvNumberOfImage.setText(imageURIs.length + "");
 
@@ -162,12 +162,12 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 			
 			
 			// Detail Car Owner
-			tvEmail.setText(ListResultSeachCarFragmemt.selectedCarJSONObject
+			tvEmail.setText(SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("carOwnerEmail"));
 
-			tvCarOwnerPhone.setText(ListResultSeachCarFragmemt.selectedCarJSONObject
+			tvCarOwnerPhone.setText(SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("carOwnerPhone"));
-			String carOwnerPhoneAdd = ListResultSeachCarFragmemt.selectedCarJSONObject
+			String carOwnerPhoneAdd = SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("carOwnerAdditionalPhone").toString();
 			if (!carOwnerPhoneAdd.equalsIgnoreCase("null")) {
 				tvCarOwnerAdditionalPhone.setVisibility(View.VISIBLE);
@@ -176,88 +176,88 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 				tvCarOwnerAdditionalPhone.setVisibility(View.GONE);
 			}
 
-			tvCarOwnerAddress.setText(ListResultSeachCarFragmemt.selectedCarJSONObject
+			tvCarOwnerAddress.setText(SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("carOwnerAddress")
 					+ ", "
-					+ ListResultSeachCarFragmemt.selectedCarJSONObject
+					+ SeachCarListResultFragmemt.selectedCarJSONObject
 							.getString("carOwnerDistrict")
 					+ ", "
-					+ ListResultSeachCarFragmemt.selectedCarJSONObject
+					+ SeachCarListResultFragmemt.selectedCarJSONObject
 							.getString("carOwnerCity"));
 
-			tvCarOwnerName.setText(ListResultSeachCarFragmemt.selectedCarJSONObject
+			tvCarOwnerName.setText(SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("carOwnerName"));
 
 			// Load car name info
-			int year = ListResultSeachCarFragmemt.selectedCarJSONObject.getInt("year");
-			String make = ListResultSeachCarFragmemt.selectedCarJSONObject
+			int year = SeachCarListResultFragmemt.selectedCarJSONObject.getInt("year");
+			String make = SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("make");
-			String model = ListResultSeachCarFragmemt.selectedCarJSONObject
+			String model = SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("model");
-			String numberPlate = ListResultSeachCarFragmemt.selectedCarJSONObject
+			String numberPlate = SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("numberPlate");
 			tvCarName.setText(year + " " + make + " " + model + " ("
 					+ numberPlate + ")");
 
-			tvColor.setText(ListResultSeachCarFragmemt.selectedCarJSONObject
+			tvColor.setText(SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("color"));
-			tvTransmission.setText(ListResultSeachCarFragmemt.selectedCarJSONObject
+			tvTransmission.setText(SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("transmission"));
-			tvNumberSeat.setText(ListResultSeachCarFragmemt.selectedCarJSONObject
+			tvNumberSeat.setText(SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("style"));
 			// tvAirCondional.setText(ResultSeachFragmemt.selectedCarJSONObject.getString(name));
-			tvFuel.setText(ListResultSeachCarFragmemt.selectedCarJSONObject
+			tvFuel.setText(SeachCarListResultFragmemt.selectedCarJSONObject
 					.getString("fuel"));
 
 
-			String price = ListResultSeachCarFragmemt.selectedCarJSONObject.getString("price");
-			if (ListResultSeachCarFragmemt.selectedCarJSONObject.getBoolean("hasCarDriver")) {
+			String price = SeachCarListResultFragmemt.selectedCarJSONObject.getString("price");
+			if (SeachCarListResultFragmemt.selectedCarJSONObject.getBoolean("hasCarDriver")) {
 				// price of hasdriver
 				tvPrice.setText(StaticFunction.formatVnMoney(price) + "\nVNĐ");
 				
 				// get timerent and distent rent
-				String timeForRent = ListResultSeachCarFragmemt.selectedCarJSONObject.getInt("day") + "";
+				String timeForRent = SeachCarListResultFragmemt.selectedCarJSONObject.getInt("day") + "";
 				if ("0".equals(timeForRent)) {
-					timeForRent = ListResultSeachCarFragmemt.selectedCarJSONObject.getInt("hours") + " giờ";
+					timeForRent = SeachCarListResultFragmemt.selectedCarJSONObject.getInt("hours") + " giờ";
 				} else {
-					timeForRent = timeForRent + " ngày " + ListResultSeachCarFragmemt.selectedCarJSONObject.getString("hours") + " giờ"; 
+					timeForRent = timeForRent + " ngày " + SeachCarListResultFragmemt.selectedCarJSONObject.getString("hours") + " giờ"; 
 				}
 
 				// show layout info car detail
 				((LinearLayout)getView().findViewById(R.id.layoutInfoCarDetail)).setVisibility(View.VISIBLE);				
 				
 				// Fill detail rent car info
-				tvStartDate.setText(ListResultSeachCarFragmemt.selectedCarJSONObject.getString("startDate"));
+				tvStartDate.setText(SeachCarListResultFragmemt.selectedCarJSONObject.getString("startDate"));
 				
-				String placeStart = ListResultSeachCarFragmemt.selectedCarJSONObject.getString("districtFrom");
+				String placeStart = SeachCarListResultFragmemt.selectedCarJSONObject.getString("districtFrom");
 				if (!"".equals(placeStart)) {
-					placeStart = placeStart + ", " + ListResultSeachCarFragmemt.selectedCarJSONObject.getString("cityFrom");
+					placeStart = placeStart + ", " + SeachCarListResultFragmemt.selectedCarJSONObject.getString("cityFrom");
 				} else {
-					placeStart = ListResultSeachCarFragmemt.selectedCarJSONObject.getString("cityFrom");
+					placeStart = SeachCarListResultFragmemt.selectedCarJSONObject.getString("cityFrom");
 				}
 				tvPlaceStart.setText(placeStart);
 				
-				String placeDestintion = ListResultSeachCarFragmemt.selectedCarJSONObject.getString("districtTo");
+				String placeDestintion = SeachCarListResultFragmemt.selectedCarJSONObject.getString("districtTo");
 				if (!"".equals(placeDestintion)) {
-					placeDestintion = placeDestintion + ", " + ListResultSeachCarFragmemt.selectedCarJSONObject.getString("cityTo");
+					placeDestintion = placeDestintion + ", " + SeachCarListResultFragmemt.selectedCarJSONObject.getString("cityTo");
 				} else {
-					placeDestintion = ListResultSeachCarFragmemt.selectedCarJSONObject.getString("cityTo");
+					placeDestintion = SeachCarListResultFragmemt.selectedCarJSONObject.getString("cityTo");
 				}
 				tvPlaceDestintion.setText(placeDestintion);
 				
 				tvTimeForRent.setText(timeForRent);
 				
-				tvKmLimited.setText(ListResultSeachCarFragmemt.selectedCarJSONObject.getString("km"));
+				tvKmLimited.setText(SeachCarListResultFragmemt.selectedCarJSONObject.getString("km"));
 				
-				tvExtraPricePerHour.setText(StaticFunction.formatVnMoney(ListResultSeachCarFragmemt.selectedCarJSONObject.getString("extraPricePerHour")));
+				tvExtraPricePerHour.setText(StaticFunction.formatVnMoney(SeachCarListResultFragmemt.selectedCarJSONObject.getString("extraPricePerHour")));
 				
-				tvExtraPricePerKm.setText(StaticFunction.formatVnMoney(ListResultSeachCarFragmemt.selectedCarJSONObject.getString("extraPricePerKm")));
+				tvExtraPricePerKm.setText(StaticFunction.formatVnMoney(SeachCarListResultFragmemt.selectedCarJSONObject.getString("extraPricePerKm")));
 				
-				tvVAT.setText(ListResultSeachCarFragmemt.selectedCarJSONObject.getBoolean("hasVAT")?getString(R.string.has):getString(R.string.no));
+				tvVAT.setText(SeachCarListResultFragmemt.selectedCarJSONObject.getBoolean("hasVAT")?getString(R.string.has):getString(R.string.no));
 				
-				tvPhiXangDau.setText(ListResultSeachCarFragmemt.selectedCarJSONObject.getBoolean("hasGasFee")?getString(R.string.has):getString(R.string.no));
+				tvPhiXangDau.setText(SeachCarListResultFragmemt.selectedCarJSONObject.getBoolean("hasGasFee")?getString(R.string.has):getString(R.string.no));
 				
-				tvPhiCauDuong.setText(ListResultSeachCarFragmemt.selectedCarJSONObject.getBoolean("hasParkingFee")?getString(R.string.has):getString(R.string.no));
+				tvPhiCauDuong.setText(SeachCarListResultFragmemt.selectedCarJSONObject.getBoolean("hasParkingFee")?getString(R.string.has):getString(R.string.no));
 
 			}else{
 				((TextView) getView().findViewById(R.id.tvPrice)).setText(StaticFunction.formatVnMoney(price) + "\n"
@@ -265,11 +265,11 @@ public class SearchCarDetailFragment extends Fragment implements OnClickListener
 			}
 			
 			tvCarOwnerInformation.setText(Html
-					.fromHtml(ListResultSeachCarFragmemt.selectedCarJSONObject
+					.fromHtml(SeachCarListResultFragmemt.selectedCarJSONObject
 							.getString("carOwnerInformation")));
 			// replaceAll("\\<[^>]*>","")
 			tvRentalCondition.setText(Html
-					.fromHtml(ListResultSeachCarFragmemt.selectedCarJSONObject
+					.fromHtml(SeachCarListResultFragmemt.selectedCarJSONObject
 							.getString("rentalCondition")));
 		} catch (JSONException e) {
 			if (BuildConfig.DEBUG) {

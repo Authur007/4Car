@@ -3,7 +3,7 @@
 
     <string name="app_name">4cars</string>
     <string name="action_settings">Settings</string>
-    <string name="version">version 3.3 (Ngày 07/03/2014)</string>
+    <string name="version">Phiên bản: 1.0.0</string>
     <string name="label_application_session">ỨNG DỤNG</string>
     <string name="label_search_car">Tìm xe</string>
     <string name="label_convenient">Tiện ích</string>
@@ -78,6 +78,7 @@
 - Đăng thông tin nhu cầu thuê xe nếu kết quả tìm kiếm không đúng yêu cầu.
 - Phiên bản mobile còn hỗ trợ các bạn cập nhật và chia sẻ thông tin về tình hình giao thông, các thông tin khác trên từng cây số, hoặc nhờ trợ giúp của những người khác trên cùng lộ trình."\n\n
 “Thuê xe tốt nhất tại 4cars.vn“ là mục tiêu của chúng tôi mong muốn mang lại cho các bạn."</string>
+    <string name="with4car_contact">Hotline: 090 9390 169 (từ 7:00 đến 21:00 thứ 2-CN)\nEmail: 4cars.vn@gmail.com</string>
     <string name="choose_post_warning">Chọn Loại Cảnh Báo</string>
     <string name="chot_cong_an">Chốt Công An</string>
     <string name="giao_thong">Giao Thông</string>
@@ -214,13 +215,11 @@
     <string name="info_car_detail">Thông Tin Chi Tiết</string>
     <string name="price_addition_per_hour">Giá phát sinh\ntheo giờ (VNĐ): </string>
     <string name="price_addition_per_km">Giá phát sinh\ntheo km (VNĐ): </string>
-    
     <string name="vat">Thuế VAT: </string>
     <string name="phi_xang_dau">Phí xăng dầu: </string>
     <string name="phi_cau_duong">Phí cầu đường: </string>
     <string name="has">Có </string>
     <string name="no">Không </string>
-    
     <string name="str_close_car_request">Đóng tin</string>
 
 </resources>

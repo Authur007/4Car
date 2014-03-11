@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import ta.car4rent.R;
 import ta.car4rent.configures.ConfigureData;
-import ta.car4rent.fragments.ListResultSeachCarFragmemt;
+import ta.car4rent.fragments.SeachCarListResultFragmemt;
 import ta.car4rent.fragments.SearchCarDetailFragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -134,7 +134,7 @@ public class CarListAdapter extends BaseAdapter implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 
 		int positionInList = Integer.parseInt(view.getTag().toString());
-		ListResultSeachCarFragmemt.selectCar(positionInList);
+		SeachCarListResultFragmemt.selectCar(positionInList);
 
 		Fragment newContent = new SearchCarDetailFragment();
 		ft.replace(R.id.content_frame, newContent);
