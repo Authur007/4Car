@@ -92,7 +92,6 @@ public class AccountFragmemt extends Fragment implements OnClickListener,
 	private static final String IMAGE_DIRECTORY_NAME = "4cars";
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	private Uri URI = null; // path of image
-	private Bitmap bitmap_image;
 	private int columnIndex;
 	private String photoTakedPath;
 
